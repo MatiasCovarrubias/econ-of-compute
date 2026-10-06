@@ -1,0 +1,134 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{threeparttable}
+\setlist{nosep}
+
+\newcommand{\bn}{\$bn}
+
+\title{Who the building pays}
+\author{}
+\date{September 2026. Working note, P\&P project. Companion to \texttt{dc\_cost\_buildup.tex}.}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent Step~3 set facilities output at \bn22 in 2022. This note fills that sector's column: power \bn8.9, on-site water \bn0.10, plant maintenance \bn1.73 from Construction, hall services \bn1.45 from administrative support. The leftover-input pot stays $10/27$ of the power bill. Water is LBNL liters times our node share times \$10 per thousand gallons. Maintenance versus security and cleaning is KPMG's 2025 US split (54/46). Professional services drop off this column. Power stays on the building. 2022 is the steady state; 2018 is a legacy check; 2023--24 are path years. The builder still codes the old 30/40/30 split.
+\end{abstract}
+
+\section{Object}
+
+The facilities column is the operating bill of the hall. Building the hall is already 100\% Construction in the investment table. Wages and the return on the stock are value added, so they are not cells.
+
+The old 30/40/30 split (water / professional services / admin) sat as raw numbers in the builder. JLL and Van Nieuwerburgh have no operating-cost split. Official hosting's 2017 shopping list is advertising, employment agencies and card processing; electricity is 1\% of that industry's output. We do not copy it.
+
+\section{Recipe}
+
+Keep the leftover-input pot at $10/27$ of electricity (\bn3.29 in 2022). Identify water, then split the rest.
+
+\paragraph{Water.}
+LBNL's 2024 energy report puts US on-site data-center water consumption at 66~billion liters in 2023 (17.4~billion gallons).\footnote{\href{https://eta-publications.lbl.gov/sites/default/files/2024-12/lbnl-2024-united-states-data-center-energy-usage-report_1.pdf}{Shehabi et al.\ (2024), LBNL-2001637}, Fig.~5.9 and p.~56. The 2014 figure is 21.2~billion liters. The \href{https://www.energy.gov/documents/united-states-data-center-energy-usage-report-2025-update}{2025 electricity update} revises TWh, not the water total.} Scale by our TWh (145/176 in 2022) and the node energy share (72\%): 39~billion liters, 10.3~billion gallons. Price at \$10 per thousand gallons, a mid industrial water-plus-sewer rate from PNNL/AWWA.\footnote{\href{https://www.pnnl.gov/main/publications/external/technical_reports/PNNL-34006.pdf}{PNNL-34006} (2023). Industrial water about \$3--6/kgal and wastewater \$3--12, depending on region.} The 2022 bill is \bn0.10. Volume moves with TWh; the price is held.
+
+\paragraph{The rest.}
+KPMG's 2025 US cloud-hall opex, per 30~MW and excluding electricity: plant maintenance \$2.0m, security \$1.3m, cleaning \$0.38m.\footnote{\href{https://assets.kpmg.com/content/dam/kpmgsites/sg/pdf/2026/05/benchmarking-capex-and-opex-in-the-global-data-centre-market.pdf}{KPMG (2026), \emph{Benchmarking CapEx and OpEx in the global data centre market}.} US bars: facilities O\&M, security, cleaning. Labour is a separate line; we already have one.} Maintenance to security-plus-cleaning is 54/46. Map maintenance to Construction (BEA nonresidential repair, 230301). Map security and cleaning to administrative support (561600, 561700). Professional services on this column are zero; Compute still buys them.
+
+\paragraph{Power.}
+Unchanged, on the building. Wholesale space is often quoted as rent plus electricity. That move stays parked.
+
+\section{The number}
+
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\caption{Facilities column, \bn current}
+\label{tab:col}
+\begin{tabular}{lcccc}
+\toprule
+ & 2018 & 2022 & 2023 & 2024 \\
+\midrule
+Electricity & 4.20 & 8.87 & 11.07 & 12.40 \\
+Water & 0.05 & 0.10 & 0.13 & 0.14 \\
+\quad utilities cell & 4.25 & 8.98 & 11.20 & 12.55 \\
+Construction (repairs) & 0.82 & 1.73 & 2.16 & 2.42 \\
+Administrative support & 0.69 & 1.45 & 1.81 & 2.03 \\
+Labour / return on $K$ & 0.78 / 3.25 & 1.64 / 8.49 & 2.05 / 11.04 & 2.30 / 14.57 \\
+Output & 9.8 & 22.3 & 28.3 & 33.9 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item Water $= 66\times(\mathrm{TWh}/176)\times$ node share, in billion liters, $\div 3.785$ gallons, $\times\$10$/kgal. Rest of the $10/27$ pot is 54\% Construction, 46\% admin. Professional services $=0$. Units in the builder are millions.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+In 2022 the three purchase cells plus value added equal output. Same identity in 2018, 2023 and 2024.
+
+\section{Decisions}
+
+\begin{enumerate}
+\item \textbf{Keep the $10/27$ pot.} This note assigns counterparties. It does not resize leftover inputs or labour.
+\item \textbf{Identify water.} LBNL liters $\times$ node share $\times$ \$10/kgal, held as a static price. Band \bn0.05--0.25 in 2022 (Section~\ref{sec:water}).
+\item \textbf{54/46 on the rest.} Construction / admin, from KPMG US 2025. Held in every year we build.
+\item \textbf{No professional services} on this column.
+\item \textbf{Power stays on the building.}
+\item \textbf{Do not copy} the 2017 hosting column or the raw other-real-estate column (Section~\ref{sec:where}).
+\end{enumerate}
+
+\section{Where it sat}
+\label{sec:where}
+
+Power is the one official cell we can place. Landlords pay tenant electricity, so most of the data-center bill sat in other real estate's utilities purchase. September 2025 Use table, before redefinitions, 2022: utilities to other real estate \bn35.8, to Information \bn19.8, to hosting (514) \bn7.3. Power plus water (\bn9.0) fits in other real estate. Hosting alone cannot supply it. Who we subtract from is the utilities-carve step.
+
+The 2017 detailed Use table, before redefinitions, other-real-estate column (\$m):\footnote{\href{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}{BEA \texttt{AllTablesIO.zip}}, \texttt{IOUse\_Before\_Redefinitions\_PRO\_2017\_Detail.xlsx}, industry 531ORE.} electricity 36{,}155; nonresidential maintenance and repair 43{,}151; architectural and engineering 30{,}588; services to buildings 73{,}983; waste 30{,}034; security 4{,}834; water 1{,}271. Water is 3.5\% of that landlord's utilities bill. Repairs are a Construction commodity. We take the mapping (water $\to$ utilities, plant work $\to$ Construction, janitorial and security $\to$ admin) and not the shares. Other real estate is offices and mixed property; janitorial dominates. A hall with chillers, UPS and generators spends more on plant contracts. Hosting (518200) in the same table bought \$31m of water and \$184m of repairs.
+
+Digital Realty 2022: utilities \$1{,}005m, rental property operating \$821m.\footnote{\href{https://www.sec.gov/Archives/edgar/data/1297996/000155837023001449/dlr-20230216xex99d1.htm}{Digital Realty Q4 2022 supplement}, operating expenses. The \href{https://www.sec.gov/Archives/edgar/data/1297996/000155837023002087/dlr-20221231x10k.htm}{2022 10-K} does not split property operating into water, repairs and security.} The ratio says non-power opex is large. It does not name counterparties. Equinix still folds utilities into a 51\% cost-of-revenues line.
+
+We add Construction and admin purchases and do not yet take them out of Real estate. Power is subtracted later. That leak (\bn3.2 in 2022) waits on the adding-up step.
+
+\section{Water checks}
+\label{sec:water}
+
+The public argument is mostly power-plant water. LBNL 2023: 17~billion gallons consumed on site, 211~billion gallons consumed to generate the electricity.\footnote{Shehabi et al.\ (2024), cited above. AWWA summary: \href{https://doi.org/10.1002/awwa.2515}{Carpenter and Gonsenhauser (2026)}.} Ceres's 2026 multi-state figures are generator \emph{withdrawals}. Those gallons are already inside our electricity cell.
+
+On-site, 2022 node, at \$10/kgal:
+
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\caption{On-site water bill, 2022}
+\label{tab:water}
+\begin{tabular}{p{11.2cm}c}
+\toprule
+Source & \bn \\
+\midrule
+LBNL liters $\times$ share $\times$ \$10/kgal (used) & 0.10 \\
+Same liters as withdrawal ($\times 1.3$)\tnote{a} & 0.13 \\
+Guidi--Dominici 2026, 472 US hyperscale sites, 74~GL on site, scaled to our 2022 MW\tnote{b} & 0.14--0.18 \\
+ICPRB 2026, Potomac meters, 800 gal/day per MW\tnote{c} & 0.04 \\
+JLARC: Virginia 2.1~billion gallons in 2023, scaled at 20--25\% of US capacity\tnote{d} & 0.08--0.10 \\
+Old 30\% of leftover inputs & 0.99 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item[a] Firms consume 72--85\% of what they take. Google 2024: 78\% of 7.8~billion gallons withdrawn. Equinix 2024: 85\% of 1.4. Meta 2024 data centers: 2{,}974~ML consumed on 4{,}145~ML withdrawn. \href{https://mostpolicyinitiative.org/science-note/data-center-water-use/}{MOST Policy (2025)}; \href{https://theconversation.com/data-centers-consume-massive-amounts-of-water-companies-rarely-tell-the-public-exactly-how-much-262901}{Mytton, The Conversation (2025)}.
+\item[b] \href{https://arxiv.org/abs/2607.02531}{Guidi and Dominici (2026)}. Scope~1 74~GL on 20~GW nameplate. Their Scope~2 (226~GL at power plants) is not this cell.
+\item[c] \href{https://www.potomacriver.org/wp-content/uploads/2026/03/ICPRB.DataCentersandWaterUse.ICPRB_.March2026.pdf}{ICPRB (March 2026)}. Loudoun and Prince William utility records. Site range 100--1{,}600 gal/day/MW.
+\item[d] JLARC (2024), cited in \href{https://securewater.illinois.edu/data-center-expansion-in-virginia-closing-critical-gaps-for-informed-water-planning-and-permitting/}{Center for Secure Water (2025)}. One third of Virginia's data-center water was reclaimed.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+Company reports sit inside LBNL's national 17.4~billion gallons (2023): Google data-center consumption 6.1~billion gallons globally in 2024; Meta 0.79; AWS withdrawal 2.5 globally in 2025; Equinix consumption 1.2.\footnote{Google and Equinix: MOST, cited above. AWS: \href{https://www.aboutamazon.com/news/sustainability/amazon-data-center-water-usage}{Amazon (2026)}. Meta 2025 Environmental Data Index, 2{,}974~ML data-center consumption in 2024.} AWS Northern Virginia WUE was 0.06~L/kWh in 2025; Amazon cites 0.84 as an industry average.\footnote{\href{https://sustainability.aboutamazon.com/aws-sustainability-fact-sheets/aws-fact-sheet-virginia.pdf}{AWS Virginia fact sheet (2025)}.} LBNL's implied 0.38~L/kWh is the mix. Google's Council Bluffs site used about 1~billion gallons in 2024. That is a local permitting fact.
+
+LBNL projects 38--73~billion gallons on site by 2028. That is a later fleet. The 2022 cell stays at \bn0.10. The band is \bn0.05--0.25. The old \bn0.99 is outside it.
+
+\section{What is still open}
+
+Write 54/46 and the water function into \texttt{stage1\_assumptions.py}; the builder still uses 30/40/30. Take the new Construction and admin cells out of Real estate when we do the adding-up. AIES expense lines for hosting (electricity, water, building repairs) would beat KPMG if Census publishes them for halls rather than the 518 industry. Equinix still has no utilities dollar. Wholesale ``plus electricity'' stays at the utilities-carve step.
+
+\end{document}

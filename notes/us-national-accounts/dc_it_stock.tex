@@ -1,0 +1,135 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{threeparttable}
+\setlist{nosep}
+
+\newcommand{\bn}{\$bn}
+
+\title{Sizing the US stock of cloud servers\\ (and a sliver of software)}
+\author{}
+\date{September 2026. Working note, P\&P project. Companion to \texttt{dc\_structures\_sizing.tex}.}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent Compute's capital is the installed stock of servers in US hyperscale and colocation, plus a small orchestration-software stock. The measured object is BEA's current-cost net stock of mainframes, storage and ``system integrators'' in the hosting and internet-publishing industry (sheet 5140). That stock is \bn29 in 2018, \bn52 in 2022 and \bn65 in 2024 (September 2025 vintage). Publishing (5110) is reported as a Microsoft-inclusive ceiling, not added to the baseline. Official software in the same industry is three to four times the server stock and is mostly search and social products; we keep a 4\% add-on for orchestration software and show a 0--10\% band. Networking and PCs in 5140 are reported, not used. Section~\ref{sec:checks} compares the stock to Brandsaas et al.'s NIPA residual, 5140's own flows, filings, hyperscaler capex, megawatts, LBNL electricity, and communications equipment. 2022 is the steady-state year; 2018 is a legacy check; 2023--2024 are path checks. Script: \texttt{data\_construction/it\_stock.py}.
+\end{abstract}
+
+\section{Object}
+
+Compute owns the machines in the racks. It does not own the building or the power and cooling plant (those are the facility stock). The Computers sector \emph{produces} servers; the stock we want is who \emph{holds} them.
+
+``Server-like'' here means three BEA equipment types: EP1A mainframes, EP1G storage devices, EP1H system integrators. PCs, printers and terminals are dropped. Communications equipment (networking) is a real data-center asset and is shown as a check, not put in the baseline. Stocks are current-cost net stocks.
+
+The node is hyperscale plus colocation. Hosting also contains search, social, payment processing and enterprise hosting, so industry 5140 is an upper bound on the node. We do not apply a second haircut on top of that (the 65\% energy share is a share of \emph{all} data-center electricity, not of 5140).
+
+\section{Where the stock sits}
+
+A captive data center is a hosting establishment. Under the establishment rule, Google, Meta and AWS servers should sit in industry 514. Microsoft is the open case: Azure may be reported under software publishing (5110). Computer-systems design (5415) holds \bn8--12 of servers; that is consultants' own kit and is left out.
+
+\section{The number}
+
+Table~\ref{tab:it} is the September 2025 vintage. The 2018 object previously used the VLW 2019 vintage of 5110+5140 (\bn40). Same definition, new vintage, hosting only: \bn29.
+
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\caption{Compute IT capital, current-cost net stock, \bn}
+\label{tab:it}
+\begin{tabular}{lcccc}
+\toprule
+ & 2018 & 2022 & 2023 & 2024 \\
+\midrule
+Servers in hosting (5140), used & 29.1 & 51.6 & 57.4 & 65.0 \\
+\quad of which system integrators & 16.3 & 33.2 & 38.1 & 41.3 \\
+\quad mainframes & 10.5 & 16.0 & 16.9 & 21.0 \\
+\quad storage & 2.3 & 2.4 & 2.4 & 2.7 \\
+Publishing (5110) servers & 6.1 & 9.9 & 12.1 & 13.9 \\
+5110+5140 ceiling & 35.2 & 61.5 & 69.5 & 78.9 \\
+Software @ 4\% of hosting servers, used & 1.2 & 2.1 & 2.3 & 2.6 \\
+Replacement $0.30\times$ servers & 8.7 & 15.5 & 17.2 & 19.5 \\
+\midrule
+\textit{Not used} & & & & \\
+5140 PCs & 11.9 & 20.0 & 19.9 & 22.0 \\
+5140 networking (EP20) & 35.3 & 63.7 & 74.7 & 84.0 \\
+5140 official software (ENS1--3) & 107.9 & 188.3 & 214.3 & 242.0 \\
+5140 share of all US servers & 19\% & 24\% & -- & 27\% \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item BEA \texttt{detailnonres\_stk1.xlsx}, September 2025. Detail cells are flagged lower quality than industry totals. Storage is implausibly small; some racks may sit in the PC or system-integrator lines.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\section{Decisions}
+
+\begin{enumerate}
+\item \textbf{Baseline = 5140 server-like stock.} Same establishment logic as the facility note. 2022 baseline \bn52; 2018 check \bn29; 2023 and 2024 path checks \bn57 and \bn65.
+\item \textbf{5110 is a ceiling, not a summand.} Adding publishing raises 2022 by \bn10 (20\%). Use it as the Microsoft-inclusive robustness case.
+\item \textbf{Software is a 4\% add-on}, not the official 5140 software line. That official line is search and social. Band on the 2022 server stock: 0\% $\rightarrow$ \bn0, 4\% $\rightarrow$ \bn2.1, 10\% $\rightarrow$ \bn5.2. The add-on barely moves Compute's output; the server stock does.
+\item \textbf{Depreciation 30\%} on servers (BEA implied computer rate in 514 is about 33\%). Software 22\%. Networking and PCs stay out of the stock until we have a reason to put them in.
+\end{enumerate}
+
+These numbers scale Compute's capital income, its output, its sales row, its investment column, and the IT flows removed from Info. They do not change the facility stock.
+
+\section{Checks}
+\label{sec:checks}
+
+Seven comparisons. None is a target; the baseline stays 5140 servers. The 30/70 structures/equipment mix that appears in some write-ups of Brandsaas et al.\ (FEDS 2025-109) is a \emph{result} of their 2024 flows, not a constraint we impose. Compare their method to our \emph{investment} flows, not to $K_{\mathrm{fac}}/K_{\mathrm{IT}}$: buildings last longer than servers, so the stock mix is more structures-heavy than the capex mix.
+
+\paragraph{1. Brandsaas residual (their method, rebuilt annually).}
+They set data-center equipment equal to NIPA computers-and-peripherals investment minus a linear trend fitted on 2015--2022, and add Census/NIPA data-center structures. That \emph{is} check 1; the published path can be quoted from the paper, but their Figure~1 and Table~2 are quarterly annual rates, so the annual residuals in Table~\ref{tab:brandsaas} are rebuilt from the September 2025 NIPA vintage (table 5.3.5, computers line). Trend: $\hat I^{\mathrm{comp}}_t = 92.8 + 8.47\,(t-2015)$ in \bn. Their published Dodge nowcast is about \bn60 in 2024Q4 and \bn180 in 2025Q4 at an annual rate---a different object from the annual NIPA sum.
+
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\caption{Brandsaas imputation vs our replacement and 5140 server investment, \bn}
+\label{tab:brandsaas}
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+ & 2018 & 2022 & 2023 & 2024 & 2025 \\
+\midrule
+NIPA computers (actual) & 120.4 & 160.3 & 149.1 & 178.7 & 270.7 \\
+2015--22 trend & 118.2 & 152.1 & 160.6 & 169.1 & 177.6 \\
+Residual (equipment) & 2.2 & 8.1 & $-$11.6 & 9.6 & 93.2 \\
+C30 / NIPA data-center structures & 6.9 & 12.6 & 20.0 & 34.7 & 49.7 \\
+Structures + residual & 9.1 & 20.7 & 8.4 & 44.3 & 142.9 \\
+Our $I_{\mathrm{IT}}=0.30K_{\mathrm{IT}}$ & 8.7 & 15.5 & 17.2 & 19.5 & --- \\
+5140 server investment & 15.5 & 26.6 & 26.4 & 31.0 & --- \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item Residual can be negative: computers fell in 2023 while the trend kept rising. Paper quotes (Q4 annual rates, not this table): mean nowcast $\approx 60$ (2024Q4), $180$ (2025Q4), $370$ (2026Q2).
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+Reading: in 2015--2022 the residual is near zero \emph{by construction}, so it cannot validate a 2022 stock. Our replacement (\bn16 in 2022) sits between their residual (\bn8) and 5140's actual server investment (\bn27). In 2025 the residual (\bn93) is a boom increment and should exceed replacement---it does. Use Brandsaas for the \emph{path} after 2023, not as a 2022 level.
+
+\paragraph{2. Same industry, 5140.}
+Server stock matches by construction. Structures investment in 5140 is 1.8--2.7 times the C30 data-center line through 2023 and about equal to it in 2024 (\bn37 vs \bn35), the same gap as in the facility note. 5140 structures \emph{stock} (\bn235 in 2022) is an upper bound on $K_{\mathrm{fac}}$ because it includes offices. 5140 server investment exceeds $0.30K_{\mathrm{IT}}$ every year: the stock is still growing, so actual $I$ is above replacement.
+
+\paragraph{3. Filings.}
+The only hard server/building split is Alphabet's 2025 10-K: 60\% of \$139.6bn technical infrastructure is servers and network, 40\% data-center land and buildings (worldwide, gross). AWS reports segment property of \$18.9 / \$60.3 / \$110.7bn net (2018/22/24) but does not split racks from buildings; applying 60/40 is a cross-check (about \$25bn US net servers for AWS in 2022, \$48--50bn in 2024). Equinix and Digital Realty hold buildings only; tenants own the servers. Meta, Microsoft and Oracle do not split the stock. Filings therefore bound the \emph{facility} stock (already in the companion note) and do not add up to a four-firm US server book that can be compared to \$52bn.
+
+\paragraph{4. Hyperscaler capex.}
+Van Nieuwerburgh (2026, Figure 1), five firms, calendar year, from 10-Ks: \$97bn (2020), \$158bn (2022), \$240bn (2024), \$416bn (2025), \$801bn (2026 guidance). The series includes non-AI offices and retail and \emph{excludes} halls the firms lease. Our US replacement $I_{\mathrm{fac}}+I_{\mathrm{IT}}$ is \$11 / \$21 / \$29bn. The gap is foreign campuses, offices and Amazon retail, finance leases, growth capex above $\delta K$, and leased facilities that never hit hyperscaler capex. An upper bound on \emph{their} spending and a lower bound on US halls plus chips, not a target for replacement.
+
+\paragraph{5--6. Megawatts and electricity.}
+Hyperscale-plus-colocation capacity in the facility note: 6--8~GW (2018), 12.5--15 (2022), 23--27 (2024). LBNL TWh (76 / $\approx$145 / 192) at PUE 1.4--1.5 and utilisation 50--70\% gives 8--12~GW of all data centers in 2018 and 23--32 in 2024; a 65--74\% node share lines up with the inventory counts. Notes do not state a conventional server \$/MW. JLL (2026) puts tenant IT fit-out at \$10--20m per MW, and up to \$25m for an AI hall. Van Nieuwerburgh's 2026 GB300 campus is \$34m per MW of IT load (network 10\% of rack cost, storage 5\%). Epoch's AI campus (\$38bn/GW, 56--60\% servers) implies \$21--23m per MW---too rich for the 2018--22 fleet. Scaling Turner facility \$/MW by Epoch's 58/30 server-to-facility share gives \$13--17m (2018) and \$17--21m (2022). With a 5-year IT life, the 2022 inventory check is then about \$90--130bn net, above our \$52bn. The 2018 band (\$27--45bn) brackets \$29bn. So the official 5140 stock is conservative once the fleet is priced at engineering unit costs; part of the 2022--24 gap is pricing a still-conventional stock at AI-ready unit costs. Do not import his 6-year IT life (our $\delta$ is 30\%, near BEA computers in 514).
+
+\paragraph{7. Networking.}
+Communications equipment (EP20) in 5140 is \$35 / \$64 / \$84bn (2018/22/24), larger than the server stock. Epoch's 13\% network share of a new campus (Van Nieuwerburgh: 10\% of rack cost) would add only about \$11bn to 2022 servers. Adding all of EP20 would take 2022 IT from \$52bn to \$115bn and would count industry-wide LAN/WAN gear, not just data-center fabric. Decision unchanged: keep EP20 out of the baseline; the 13\% add-on (\$52bn $\to$ \$63bn) is the robustness case if we want ``ICT'' rather than servers.
+
+\section{What is still open}
+
+Whether Microsoft reports Azure in 5110 or 5140 (a query to BEA is pending, same as for structures). Whether some of the PC and networking stocks in 5140 are racks and fabric we should have included. A true node share of 5140, as opposed to treating the whole industry as the node. 2025 stocks wait on the October 2026 fixed-asset release. Brandsaas's 2025 residual will be the natural check on the first boom-year \emph{flow} once we have 2025 FA.
+
+\end{document}

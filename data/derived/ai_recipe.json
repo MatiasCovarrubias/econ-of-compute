@@ -1,0 +1,104 @@
+{
+  "r": 0.04166666666666674,
+  "AI_compute": {
+    "GO": 1.0,
+    "labour": 0.15066666666666667,
+    "capital_services": 0.5892783917189021,
+    "purchases": {
+      "AI_facilities": 0.19472160828109797,
+      "Info": 0.028000000000000004,
+      "Other": 0.007,
+      "Computers": 0.007,
+      "Prof_Tech": 0.011666666666666667,
+      "Admin": 0.011666666666666667
+    },
+    "delta": 0.2614,
+    "K": 1.9443853664284048,
+    "K_physical": 1.913589061984938,
+    "invcol": {
+      "Computers": 0.9,
+      "Prof_Tech": 0.03,
+      "Wholesale_Trade": 0.06,
+      "Transp_and_Wareh": 0.01
+    }
+  },
+  "AI_facilities": {
+    "GO": 0.19472160828109797,
+    "labour": 0.004252420137744307,
+    "capital_services": 0.12790067289413556,
+    "purchases": {
+      "Utilities": 0.045558834698240847,
+      "Construction": 0.008504840275488614,
+      "Admin": 0.0028349467584962047,
+      "Finance": 0.0010631050344360768,
+      "Info": 0.0021262100688721535,
+      "Prof_Tech": 0.0014174733792481026,
+      "Petroleum": 0.0010631050344360768
+    },
+    "electricity": 0.0455163104968634,
+    "delta": 0.07809923076923077,
+    "K": 1.0679223020275204,
+    "K_physical": 1.0205808330586335,
+    "invcol": {
+      "Construction": 0.48695652173913045,
+      "Prof_Tech": 0.06521739130434782,
+      "Electrical": 0.26130434782608697,
+      "Machinery": 0.16786956521739133,
+      "Fabricated_Metals": 0.018652173913043482
+    },
+    "invcol_alt": {
+      "Construction": 0.3333333333333333,
+      "Electrical": 0.4,
+      "Machinery": 0.26666666666666666
+    }
+  },
+  "checks": {
+    "generation": "A3",
+    "inference_share": 0.6666666666666666,
+    "labs_share": 0.06666666666666667,
+    "margin_share": 0.2666666666666667,
+    "compute_cost_per_MW_year_$m": 13.168971594068587,
+    "AI_services_per_MW_year_$m": 14.109612422216342,
+    "it_capex_per_MW_$m": 27.0,
+    "facility_capex_per_MW_$m": 14.399999999999999,
+    "facility_allin_per_MW_$m": 15.0,
+    "land_per_MW_$m": 0.6000000000000001,
+    "it_share_of_capex": 0.6521739130434783,
+    "capital_per_dollar": 3.012307668455925,
+    "electricity_per_dollar": 0.0455163104968634,
+    "electricity_share_of_f": 0.23375069104378265,
+    "water_share_of_electricity": 0.0009342629249436523,
+    "MWh_per_MW_IT_year": 7555.499999999999,
+    "z_cost_shares": {
+      "it_capital": 0.6213697054131093,
+      "space": 0.20863029458689064,
+      "purchases": 0.07,
+      "labour": 0.09,
+      "tax": 0.01
+    },
+    "f_cost_shares": {
+      "capital": 0.6277206749478577,
+      "electricity": 0.23375069104378265,
+      "other_purchases": 0.08757222633318794,
+      "labour": 0.02183846043221644,
+      "tax": 0.029117947242955255
+    }
+  },
+  "sources": {
+    "KM": "Korinek and McKelvey (2026), PIIE WP26-9, App. eq. 23 (services / inference = 1.5; labs = 0.1 x inference, 'a first-pass figure')",
+    "TT": "Turner & Townsend, Data Centre Construction Cost Index 2019-2025 (hard cost per MW IT; element shares 54/22/14/10 air, 48/33/9/10 liquid); recipe_research/facility_capex.md s1, s2.1",
+    "CAPEX_OUT": "Items outside hard cost as shares of hard cost (land, site, substation, fees, contingency): C&W 2026, KPMG 2026, Epoch, Uptime 2008; facility_capex.md s1",
+    "EQUIP": "Equipment vs installation: Schneider WP61 (electrical 50-60% equipment), WP218 (materials 71%), KPMG 2026 owner-furnished split; facility_capex.md s4, power_energy.md s1.4",
+    "ELEC_BOM": "Electrical equipment by maker, bottom-up from Schneider unit costs x BLS PPI, checked against T&T and Eaton; power_energy.md s1.2, s1.4, s6",
+    "MECH_SPLIT": "Mechanical equipment by maker: UNSOURCED assumption (70/10/10/10), open gap",
+    "LIVES": "Service lives: BEA office buildings (delta 0.0247); plant delta = 1.65/L with L = 18-20 years (ASHRAE, Uptime, filings); operations.md s4",
+    "POWER": "Electricity: operating PUE (Google, Meta, AWS, Microsoft; LBNL; Uptime), utilisation (EPRI, Microsoft, LBNL), delivered price (EIA, tariffs); power_energy.md s3-4",
+    "OPEX": "Facility operating lines per MW-IT-year: KPMG 2026, Epoch 1 GW TCO, Digital Realty 10-K, Virginia JLARC 2024, Uptime; operations.md table 0",
+    "WATER": "Water: LBNL 2024 WUE by cooling technology, operator WUE, $6/kgal; operations.md s1",
+    "OPEX_MAP": "Mapping of software/IT (60% Info, 40% Prof_Tech) and 'other' (50% Petroleum for generator fuel, 50% Admin): assumption",
+    "IT_CAPEX": "IT capex per MW IT and composition: SemiAnalysis (GB200 architecture, AI cloud TCO), Epoch 1 GW, Cottier et al. 2025, CNT 2026, VN 2026; it_equipment.md s0, s3, s9",
+    "IT_DELTA": "IT depreciation by component: 31 SEC filings, GPU rent indices (vintage gradient 0.27), resale profiles, Epoch price-performance; it_equipment.md s6, gpu_rental.md, sec_useful_lives.md, gpu_failure_priceperf.md",
+    "IT_MARGINS": "Trade margins on hyperscale IT purchases: BEA 2017 PEQ bridge vs direct purchase from ODMs and distributor margins; it_equipment.md s7, s11",
+    "Z_OPEX": "Compute-layer operating inputs as shares of cost: CoreWeave 10-K FY2025, Nebius 20-F, IREN, Census SAS 518, BEA 2017 use table; it_equipment.md s8"
+  }
+}

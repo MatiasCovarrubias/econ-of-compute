@@ -1,0 +1,116 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{threeparttable}
+\setlist{nosep}
+
+\newcommand{\bn}{\$bn}
+
+\title{What it costs to run the two new sectors for a year}
+\author{}
+\date{September 2026. Working note, P\&P project. Companion to \texttt{dc\_structures\_sizing.tex} and \texttt{dc\_it\_stock.tex}.}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent Given the facility and server stocks, this note builds yearly output and value added of the two new sectors. Output is the return on those stocks plus electricity plus other purchased inputs plus labour, with no leftover plug. Electricity is LBNL terawatt-hours times our share of data-center energy times 8.5 cents per kWh. In 2022 the bill is \bn8.9, facilities output is \bn22 and Compute output is \bn45. Section~\ref{sec:checks} compares those totals to physical power, colo 10-Ks, asking rent, official cloud series, payroll, engineering cost per MW, cost shares, and the utilities cells we would carve from. 2022 is the steady-state year; 2018 is a legacy check; 2023--2024 are path checks. Script: \texttt{data\_construction/cost\_buildup.py}.
+\end{abstract}
+
+\section{Object}
+
+Each new sector needs a yearly sales total (gross output) and a split of that total into purchases from other sectors versus value added (wages plus the return on capital). Those two numbers set the size of each new column and each new row. Who they buy from and sell to comes later.
+
+Facilities sells powered space to Compute only. Compute sells IaaS and PaaS, including own-use by Information. Official hosting sales are mostly payment processing and other services; electricity is about 1\% of that industry's output.
+
+\section{Recipe}
+
+\begin{equation*}
+\text{output} \;=\; (r+\delta)K \;+\; \text{electricity} \;+\; \text{other inputs} \;+\; \text{labour}.
+\end{equation*}
+
+$r=1/\beta-1=0.0417$. $K$ and $\delta$ come from the two stock notes. Electricity is LBNL TWh $\times$ the hyperscale-and-colo share $\times$ 8.5¢. Facility other inputs and labour are $10/27$ and $5/27$ of the power bill (engineering notes: power $\sim$27\% of facility cost, other inputs $\sim$10\%, labour $\sim$5\%). Compute other inputs and labour are 6\% and 4\% of Compute output. Compute also buys the whole of facilities output.
+
+LBNL published 76~TWh for 2018, 176 for 2023 and 192 for 2024. The 2022 figure, $\approx 145$, is interpolated in our notes. The 2018 energy share (65\%) is assumed. The 2023 share (74\%) is LBNL's share of \emph{servers}; they also write that hyperscale and colo use more than 90\% of server energy. The price is a 2018 midpoint of industrial and commercial rates, held in later years.
+
+\section{The number}
+
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\caption{Cost build-up, \bn current}
+\label{tab:cost}
+\begin{tabular}{lcccc}
+\toprule
+ & 2018 & 2022 & 2023 & 2024 \\
+\midrule
+LBNL TWh, all data centers & 76 & 145 & 176 & 192 \\
+\quad of which our node & 49 & 104 & 130 & 146 \\
+Electricity bill & 4.2 & 8.9 & 11.1 & 12.4 \\
+\addlinespace
+Facility stock & 25.7 & 67.1 & 87.1 & 114.6 \\
+\quad return on capital & 3.3 & 8.5 & 11.0 & 14.6 \\
+\quad other inputs / labour & 1.6 / 0.8 & 3.3 / 1.6 & 4.1 / 2.1 & 4.6 / 2.3 \\
+Facilities output / value added & 9.8 / 4.0 & 22.3 / 10.1 & 28.3 / 13.1 & 33.9 / 16.9 \\
+\addlinespace
+Server stock (+ 4\% software) & 29.1 (+1.2) & 51.6 (+2.1) & 57.4 (+2.3) & 65.0 (+2.6) \\
+\quad return on capital & 10.2 & 18.2 & 20.2 & 22.9 \\
+\quad other inputs / labour & 1.3 / 0.9 & 2.7 / 1.8 & 3.2 / 2.2 & 3.8 / 2.5 \\
+Compute output / value added & 22.3 / 11.1 & 45.0 / 20.0 & 53.8 / 22.4 & 63.1 / 25.4 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item 2022 is the steady state. 2018 checks the code against the old tables. 2023--24 are path years. Units in the builder are millions.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\section{Decisions}
+
+\begin{enumerate}
+\item \textbf{No leftover plug.} Output is the sum of the four pieces. $r$ is the model's $0.0417$.
+\item \textbf{Electricity is year-specific.} The builder had used the 2018 bill (\bn4.2) in every year. It now uses 76 / 145 / 176 / 192 TWh times 65 / 72 / 74 / 76\% times 8.5¢.
+\item \textbf{Keep the four shares.} Facility other inputs and labour still track the power bill. Compute other inputs and labour stay 6\% and 4\% of Compute output. Putting facility labour at 5\% of facility output would move 2022 facilities sales from \bn22.3 to \bn20.4.
+\item \textbf{Do not rescale} output to colo revenue or official hosting sales. Report the gaps.
+\end{enumerate}
+
+These numbers set both sectors' output, value added and electricity bill, and therefore the size of the new columns and rows. They do not assign counterparties.
+
+\section{Checks}
+\label{sec:checks}
+
+Eight comparisons. None is a target. Judge 2022 first.
+
+\paragraph{1. The power bill, three ways.}
+The construction is LBNL $\times$ share $\times$ 8.5¢. The independent route is inventory MW $\times$ hours $\times$ overhead $\times$ utilisation $\times$ the same price. 2018 (6--8~GW, PUE 1.55, 50--70\% use) gives \bn3.5--6.5 against our \bn4.2. 2022 (12.5--15~GW, PUE 1.45) gives \bn6.8--11.3 against our \bn8.9; the midpoint is \bn8.9. 2024 (23--27~GW) gives \bn12--21 against our \bn12.4, so the 76\% share sits at the low end of the inventory. Census SAS purchased electricity for hosting was \bn0.98 in 2017. LBNL already implied several times that; the official industry line is not a data-center bill.
+
+\paragraph{2. Colo 10-Ks.}
+Digital Realty 2022 10-K: utilities \bn1.00 (21\% of global revenue), US revenue \bn2.76 (59\%). Equinix does not publish a utilities dollar; utilities sit inside a 51--52\% cost-of-revenues line that is mostly depreciation. Equinix US revenue in 2022 is \bn2.9 (40\% of global). The two REITs' listed US colo sales are \bn5.7. A DLR-style 21\% power share on that \bn5.7 is about \bn1.2 of listed US utilities, a floor. Private colo and owned campuses make up the rest of 12.5--15~GW. Our \bn8.9 is well above the listed floor. Equinix's 51\% GAAP cost ratio is not a power intensity.
+
+\paragraph{3. Facilities output vs rent $\times$ MW.}
+Equinix plus Digital Realty US revenue (\bn5.7 in 2022) is a floor on facilities output. Our \bn22 includes owned campuses and the power bill, so it should exceed the two REITs. JLL wholesale asking rent ($>20$~MW) is \$152/kW-month \emph{plus electricity} in mid-2026; smaller deals are quoted all-in. Rents have grown about 9\% a year since 2020, so 2022 wholesale is about \$107 plus power. On 13.75~GW that is about \bn18 of rent plus our \bn9 power bill, against facilities output of \bn22. CBRE's late-2025 \$196/kW-month on 2022 MW is about \bn32. A \$100--140 band on 13.75~GW is \bn17--23, which brackets \bn22. JLL and Van Nieuwerburgh do not publish a landlord operating-cost split, so they do not identify the 10/27 and 5/27 ratios. The ``plus electricity'' quote is parked for the utilities-carve step: 2022 stays powered space sold in one cell.
+
+\paragraph{4. Compute output vs official ceilings.}
+Census SAS 518 revenue \bn308 (2022); hosting product line \bn156 (2020); BEA Digital Economy cloud \bn187 (2021); industry 514 output \bn750 (2022); QSS 518 about \bn329 (2023). Our \bn45 is 15\% of the 518 industry and a quarter of the 2021 cloud satellite. The official series include markup, SaaS and payment processing; ours is a cost build-up of IaaS/PaaS plus own-use. Korinek--McKelvey AI-only rental is \bn37 in 2023; our 2023 Compute output is \bn54, so the AI slice sits inside the node. AWS/Azure/GCP US IaaS is still not in the folder (global $\neq$ US).
+
+\paragraph{5. Labour vs payroll we refused to use.}
+SAS 518 payroll was \bn91 in 2022. Our two labour bills sum to \bn3.4, 4\% of that industry. We want people who run halls and racks, not the cloud firms' whole workforce. Equinix Americas had 5,493 employees and Digital Realty North America 1,492 in 2022. Facilities labour of \bn1.6 is about 15 thousand people at \$100k. Listed colo uses more labour per MW than hyperscale. Leave official hosting payroll off the node.
+
+\paragraph{6. All-in cost vs Epoch per MW.}
+Epoch's AI campus is \$8.5m per MW-year (7\% power, 4\% other operating cost, 89\% capital). On 13.75~GW that is \bn117, against our \bn45. Epoch is pricing a 2026 AI hall. A conventional \$3.5m per MW-year is \bn48. Same warning as in the server note: do not price the 2022 fleet at AI-ready unit costs.
+
+\paragraph{7. Cost shares vs colo and the notes.}
+The engineering facility picture is power 25--30\%, other inputs 10\%, labour 5\%, capital 55--65\%. Digital Realty utilities are 21--27\% of revenue. Epoch's all-in power share is 7\%. Our 2022 facilities split is capital 38\%, power 40\%, other inputs 15\%, labour 7\%; all-in Compute is capital 59\%, power 20\%. The construction-based stock is low, so capital services are small and power is a large share of output. Official hosting is 1\% power, 19\% labour, 38\% surplus. That is a processing industry; we do not copy it.
+
+\paragraph{8. Does the carve still fit?}
+2022 power plus water is about \bn9.9. September 2025 Use table, before redefinitions: utilities sold to other real estate \bn35.8, to all of Information \bn19.8, to hosting (514) alone \bn7.3. Taking \bn9.9 from other real estate first leaves that cell at \bn26 and does not touch Information. Hosting alone cannot supply the bill. The plan's older ``Utilities$\to$Info \bn7.3 in 2022'' was the 514 cell. The same vintage revises 2018 Real estate utilities from the VLW \bn104 to \bn44. The 2018 legacy carve (\bn4.7) still fits; the 37-sector rebuild will move these cells by much more than 1\%.
+
+\section{What is still open}
+
+A published LBNL 2022 TWh (145 is ours). A 10-K utilities dollar for Equinix. 2022 Economic Census product lines for hosting. AIES 2023--24 electricity expense for 518. AWS/Azure/GCP US IaaS. Whether to raise the node energy share toward LBNL's ``90\% of server energy'' (that would push the 2022 bill toward \bn11). JLL's ``grid often above 10¢'' is a 2025--26 price, not a reason to move 8.5¢ in 2022. The order of the utilities carve is still open at that step; other-real-estate-first still has room. Wholesale ``plus electricity'' and Hyperion's separate power contract belong there, not here.
+
+\end{document}

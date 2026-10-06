@@ -1,0 +1,660 @@
+% Self-contained section: the recipe of the AI sectors by data-center generation.
+% Compile standalone with dc_recipe_engineering.tex, or \input into a document that loads
+% amsmath, booktabs, array, longtable, graphicx and hyperref.
+
+\section{The recipe of the AI sectors}\label{sec:recipe}
+This note describes what it takes to build and run an AI data center. It gives a cost
+recipe for five generations of facilities, from pre-2015 enterprise halls to 2027+ designs. For
+each, it covers the facility, the IT equipment and the running costs, down to 6-digit NAICS
+suppliers, so the same recipe can feed the 37-sector model and the 2017 detailed benchmark
+tables. It prefers specialised sources (cost consultants, engineering white papers, national
+labs, standards bodies, company filings, measurement studies) and says where independent sources
+agree.
+
+Seven results change the recipe. They are implemented in \texttt{ai\_recipe.py}, in the project's data-construction folder (baseline A3). The 2026 Bank of Italy rack recipe is kept as \texttt{ai\_recipe\_cnt2026.py}:
+\begin{enumerate}
+  \item The facility investment column needs installation labour. It becomes roughly
+    Construction 49, Electrical 26, Machinery 19, professional services 6.5, not 33/40/27.
+  \item Facility running costs other than electricity are mostly repairs, taxes, software,
+    security and insurance. Own labour is 10--16 percent of them, not 50.
+  \item Water is negligible in new designs.
+  \item Facility depreciation is 0.078 (0.085--0.09 if plant depreciates at 0.10), not 0.075.
+  \item IT capital must include networking and storage, 20--25 percent on top of the rack.
+  \item IT depreciation of about 0.26 is supported. It is driven by obsolescence, not failure.
+  \item The wholesale margin on IT purchases is about 6 percent, not 22.
+\end{enumerate}
+Newer facilities trade water and labour for capital. They cost more per MW, use almost no water,
+and need a tenth of the staff of legacy halls.
+
+
+\subsection{Scope, sources and generations}
+
+\paragraph{Objects.} Two sectors share out the cost of AI services:
+\begin{itemize}
+  \item \textbf{AI\_facilities} ($f$) owns the shell and the electrical and mechanical plant,
+    buys electricity and runs the building, and sells powered space.
+  \item \textbf{AI\_compute} ($z$) owns the servers, networking and storage, buys space, and
+    sells AI services.
+\end{itemize}
+A recipe is each sector's purchases by supplying industry, its labour, its capital by asset and
+service life, and its investment column (which industries produce its capital goods). It is
+expressed per MW of IT load; Section~\ref{sec:perdollar} converts it to per \$1.
+
+\paragraph{Source hierarchy.} In order of preference:
+\begin{enumerate}
+  \item Cost consultants, engineering and vendor white papers, national labs and standards
+    bodies, specialist analysts, and measurement studies.
+  \item Company filings.
+  \item Economics papers, only when they are primary.
+\end{enumerate}
+Each observation in the CSV files records whether it is primary or a re-quote, and traces
+re-quotes to their origin. Anything not checked at source is marked UNVERIFIED there.
+
+\paragraph{Generations.} Table~\ref{tab:arch} gives the five generations, with specifications
+corrected against the sources.
+
+\begin{table}[ht]\centering\small
+\caption{Data-center generations}\label{tab:arch}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.0cm}>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{4.8cm}}
+\toprule
+Code & Generation & kW per rack & Cooling & IT \\
+\midrule
+A0 & Legacy enterprise and retail colocation, pre-2015 & 4--8 & Chillers, CRAH units, cooling towers & 2-socket CPU servers \\
+A1 & Hyperscale cloud, air-cooled, 2015--22 & 8--15 & Outside air, evaporative or adiabatic & CPU servers, storage servers \\
+A2 & AI, air-cooled or hybrid, 2023--24 & $\approx$40 & Rear-door heat exchangers & HGX H100 8-GPU servers \\
+A3 & AI, liquid-cooled, 2025--26 & 120--145 & Direct-to-chip, closed loop; dry coolers or chillers & GB200 / GB300 NVL72 \\
+A4 & Next generation, 2027+ & 330 (Rubin NVL72) to 600 (Kyber) & Liquid; 800 V DC distribution & Vera Rubin \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{What changes relative to the 2026 recipe}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.8cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{4.8cm}>{\raggedright\arraybackslash}p{3.8cm}}
+\caption{Current recipe against the evidence}\label{tab:changes}\\
+\toprule
+Item & 2026 rack recipe & Evidence & Main sources \\
+\midrule\endfirsthead
+\toprule
+Item & Now & Evidence & Main sources \\
+\midrule\endhead
+IT vs facility share of capex & 67/33 (one rack sheet) & 68--72/28--32. Confirmed; rises to $\approx$72 once networking is included & Van Nieuwerburgh; Epoch; Fed FEDS 2025-109; Microsoft filings; SemiAnalysis \\
+Facility cost per MW (A3) & Implicit in the rack sheet & \$12m hard (10.5--14), \$15m all-in (12--18). US mean rose from \$8.9m (2021) to \$11.1m (2025) & Turner \& Townsend 2019--25; Digital Realty; KPMG 2026; JLL \\
+Facility investment column & Construction 33, Electrical 40, Machinery 27 & Construction 49, Electrical 26, Machinery 19, Prof.\ services 6.5 (A3). The rack sheet omits installation labour and fees & T\&T element shares; KPMG owner-furnished split; Schneider WP61, WP218 \\
+Facility $\delta$ & 0.075 & 0.078 (plant 0.088, shell 0.0247). Plant lives 18--20 years; shell about 15--20\% of cost & ASHRAE; BEA; IRS; filings \\
+Facility running costs other than electricity & 50/25/25 labour, Admin, Prof.\ services; unsourced & About 0.6 per \$1 of electricity. Repairs 0.19, taxes 0.13, own labour 0.10, software/IT 0.08, Admin 0.04, insurance 0.02 & KPMG; Epoch; Digital Realty; Virginia JLARC \\
+Water & Ignored & Near zero in A3 with dry coolers (0.05 L/kWh). About 3\% of electricity cost in legacy halls. Price about \$6 per 1{,}000 gallons & LBNL 2024; The Green Grid; Mytton 2021; operator reports \\
+Electricity & \$105k per rack-year & \$640k per MW-IT-year for A3 ($\approx$\$85k per 132 kW rack): PUE 1.15, utilisation 0.75, \$85/MWh. About 25\% of facility cost & Operator PUEs; EPRI; LBNL; EIA \\
+IT capital & Rack only & Rack $\times$1.25: scale-out network 14\%, storage 4\%, integration 3\% of IT capex & SemiAnalysis; Cottier et al.; Epoch \\
+IT $\delta$ & 0.25 & 0.26 (0.20--0.32): GPU servers 0.27, networking 0.20, storage 0.30. Failure adds $<$1 point & 31 SEC filings; rent indices; resale; Epoch; Meta and NCSA reliability \\
+IT investment margins & Wholesale 22\% & Wholesale 6\%, transport 1\% (direct purchase from manufacturers) & BEA PEQ; distributor margins; operator practice \\
+Compute's other purchases & None & 0.06--0.08 per \$ of GPU-cloud revenue: software 0.02, telecom 0.01, maintenance 0.015, services 0.025 & CoreWeave, Nebius, IREN filings; Census SAS 518 \\
+\bottomrule
+\end{longtable}
+
+\subsection{Facility capital}
+
+\subsubsection{Cost per MW and element shares}
+
+\begin{table}[ht]\centering\small
+\caption{Facility capex per MW of IT load, US, \$m}\label{tab:capex}
+\resizebox{\textwidth}{!}{\begin{tabular}{lcccccc}
+\toprule
+ & A0 & A1 (2019/22) & A2 & A3 & A4 (projection) \\
+\midrule
+Hard cost (T\&T scope) & 9 (6--13) & 8.5 / 9.8 & 10.6 (9--13) & 12 (10.5--14) & 13--16 \\
+All-in (adds land, site, substation, fees, contingency) & 11 (8--30) & 10 / 11.5 & 12 (10--14) & 15 (12--18) & 16--22 \\
+\addlinespace
+\multicolumn{6}{l}{\textit{Share of hard cost}} \\
+Electrical, incl.\ equipment & 45\% & 54\% & 52\% & 48\% & 45--55\% \\
+Mechanical, incl.\ equipment & 25\% & 22\% & 25\% & 33\% & 30--35\% \\
+Shell, core, architectural & 20\% & 14\% & 12\% & 9\% & 7--9\% \\
+General contractor preliminaries and fees & 10\% & 10\% & 10\% & 10\% & 8--10\% \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Outside the hard cost, as shares of the A3 all-in cost:
+\begin{itemize}
+  \item land 3--5 percent (Cushman \& Wakefield: \$584k/MW);
+  \item site works 3--6 percent;
+  \item the customer substation 1--3 percent;
+  \item professional fees for design, engineering, project management and commissioning 5--8
+    percent;
+  \item contingency 3--8 percent.
+\end{itemize}
+The liquid-cooling premium is 7--10 percent (T\&T; JLL 10). Schneider finds about zero at equal
+rack density. Build time is about 18--20 months (JLL; Fed/Dodge).
+
+\subsubsection{The investment column at detailed codes}\label{sec:faccol}
+
+\paragraph{Equipment versus installation.} The rack-based column puts all electrical and cooling
+spending on manufactured equipment. The engineering sources split it:
+\begin{itemize}
+  \item Electrical: 50--60 percent equipment, 25--35 installation, 15--20 design (Schneider
+    WP61). Materials are 71 percent of electrical cost in WP218. KPMG's split of
+    owner-furnished equipment agrees.
+  \item Mechanical: about 65 percent equipment.
+\end{itemize}
+Table~\ref{tab:faccol} builds the A3 column per \$15m of all-in cost.
+
+\begin{table}[ht]\centering\small
+\caption{AI\_facilities investment column, A3, per MW of IT load}\label{tab:faccol}
+\resizebox{\textwidth}{!}{\begin{tabular}{>{\raggedright\arraybackslash}p{4.6cm}c>{\raggedright\arraybackslash}p{7.4cm}}
+\toprule
+Element & \$m & Producer (NAICS) \\
+\midrule
+Shell, core, architectural & 1.08 & Construction (BEA 2332A0) \\
+Contractor preliminaries and fees & 1.20 & Construction \\
+Electrical installation (40\%) & 2.30 & Construction (238210 electrical contractors) \\
+Mechanical installation (35\%) & 1.39 & Construction (238220) \\
+Site works and civil & 0.60 & Construction \\
+Customer substation & 0.30 & Half Construction, half 335311/335313 \\
+Electrical equipment (60\%) & 3.46 & See the split below \\
+Mechanical equipment (65\%) & 2.57 & 333415 HVAC, chillers, CRAHs, CDUs; 333914 pumps; 333413 fans; some 332 pipe and manifolds \\
+Design, engineering, commissioning & 0.90 & 541330, 5413 \\
+Contingency & 0.60 & Pro rata \\
+Land & 0.60 & Not produced; excluded \\
+\midrule
+\textbf{Produced total} & \textbf{14.4} & \textbf{Construction 49\%, Electrical 26\%, Machinery 19\%, Prof.\ services 6.5\%} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\paragraph{Air-cooled halls.} For A1, T\&T's air-cooled shares with the same equipment ratios give
+Construction 53, Electrical 29, Machinery 12, Prof.\ services 6. With a 70 percent equipment
+share, A3 becomes 43/30/20/6.5.
+
+\paragraph{Electrical equipment by maker.} Shares of electrical equipment, A3 (A1 in brackets):
+\begin{itemize}
+  \item generators, 335312 (engines 333618): 29 (31);
+  \item UPS, PDUs and miscellaneous, 335999: 22 (21);
+  \item switchgear, switchboards and busway, 335313: 22 (22);
+  \item transformers, 335311: 9 (8);
+  \item cable and wire, 335929: 7 (7);
+  \item batteries, 335911: 6 (5);
+  \item controls and other, 335314 and 334513: 5.
+\end{itemize}
+These replace the unsourced 30/20/15/15/10/5/5 in \texttt{upstream\_concentration.py}, which gave
+too much to switchgear, transformers and batteries.
+
+\paragraph{How electrical capex compares by generation.} Installed electrical capex is about
+\$5--6m per MW in every generation (A3 \$6.0m, range 4.5--8). The bottom-up build, from
+Schneider unit costs indexed by the producer price index (PPI), comes in 15--25 percent below
+the consultants. PPIs miss the 2023--26 backlog premiums. Transformer prices rose 76 percent from
+2019 to 2025 (PPI; Wood Mackenzie and NIAC agree), and lead times are 120--150 weeks.
+
+\paragraph{Imports of electrical equipment, 2024--25} (share of value imported):
+
+\begin{center}\small
+\begin{tabular}{lcp{8cm}}
+\toprule
+Equipment & Best (range) & Note \\
+\midrule
+Transformers & 40\% (30--55) & Large power transformers about 75--80\%; distribution transformers 25--50\% \\
+Switchgear & 25\% (15--45) & Medium-voltage switchgear 9--15\% \\
+Generator sets & 30\% (20--50) & BEA's 64\% looks too high for large diesel sets \\
+UPS & 50\% & \\
+Lithium-ion batteries & 50\% & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{How the national accounts record it.} This matters for decision R4:
+\begin{itemize}
+  \item Census C30 and BEA treat integral electrical and mechanical plant as structures.
+  \item BEA added a data-center line to NIPA Table 5.4 in September 2025.
+  \item The UK statistics office (ONS, 2026) books racks, PDUs and stand-alone backup generators
+    as machinery.
+\end{itemize}
+The model's Construction sector has the 2017 average recipe, which buys almost no switchgear or
+transformers. Routing equipment directly to its producers therefore preserves the supply chain.
+
+\subsection{Facility operations}
+
+\subsubsection{Electricity}
+
+\begin{table}[ht]\centering\small
+\caption{Electricity per MW of IT load per year}\label{tab:elec}
+\resizebox{\textwidth}{!}{\begin{tabular}{lccccc}
+\toprule
+ & A0 & A1 & A2 & A3 & A4 \\
+\midrule
+Operating PUE & 1.70 & 1.15 & 1.25 & 1.15 & 1.10 \\
+Utilisation (average draw / provisioned) & 0.50 & 0.65 & 0.70 & 0.75 & 0.80 \\
+GWh per MW-IT-year & 7.4 & 6.5 & 7.7 & 7.6 & 7.7 \\
+Price, \$/MWh & 110 & 75 & 80 & 85 & 85 \\
+\textbf{Cost, \$k per MW-IT-year} & \textbf{819} & \textbf{491} & \textbf{613} & \textbf{642} & \textbf{655} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Energy per MW of IT is roughly flat after the legacy generation, because rising utilisation
+offsets falling PUE. Hyperscaler fleet PUEs agree with each other: Google 1.09, Meta 1.08, AWS
+1.14--1.15, Microsoft 1.16--1.17. Industry surveys are higher (Uptime 1.36) because they include
+colocation and enterprise halls. No measured PUE exists yet for a GB200-class site.
+
+On-site generation is about 90 GW announced but only 2 GW operating. Treat it as a scenario and
+as utility-type capital (turbines and engines, 333611 and 333618; gas, 211000 and 486000), not
+as part of AI\_facilities.
+
+\subsubsection{Water: old versus new designs}
+
+\begin{table}[ht]\centering\small
+\caption{Water per MW of IT load}\label{tab:water}
+\resizebox{\textwidth}{!}{\begin{tabular}{lccccc}
+\toprule
+ & A0 & A1 & A2 & A3 & A4 \\
+\midrule
+On-site use, L per kWh of IT energy & 2.0 & 0.30 & 0.50 & 0.05 & 0.02 \\
+Water and sewer cost, \$k per MW-year & 26 & 4 & 7 & 0.6 & 0.2 \\
+Water cost / electricity cost & 3.4\% & 0.7\% & 1.1\% & 0.1\% & $\approx$0 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+New designs cut water in two steps:
+\begin{itemize}
+  \item Outside-air hyperscale cooling cut on-site water 5--10 times at almost no energy cost.
+  \item Warm-water liquid cooling with dry coolers takes it to about zero with no energy
+    penalty: PUE 1.10, against 1.14 with cooling towers.
+\end{itemize}
+The saving comes from the heat-rejection choice, not from liquid cooling as such. An A3 hall on
+cooling towers still uses about 2 L/kWh.
+
+Legacy halls used towers because going waterless cost about 0.3 points of PUE. That is roughly
+\$138k of extra electricity to save \$38k of water per MW-year.
+
+Counting the water used to generate the electricity (about 4.4 L/kWh), total water per unit of
+IT falls only 35--40 percent from A0 to A3.
+
+The ``industry average 1.8 L/kWh'' often quoted is a 2016 LBNL assumption per kWh of total site
+energy, not a measurement.
+
+\subsubsection{Labour, maintenance and other running costs}
+
+\begin{table}[ht]\centering\small
+\caption{Facility running costs other than electricity, \$k per MW of IT load per year}\label{tab:opex}
+\resizebox{\textwidth}{!}{\begin{tabular}{>{\raggedright\arraybackslash}p{3.8cm}ccccc>{\raggedright\arraybackslash}p{3.4cm}}
+\toprule
+ & A0 & A1 & A2 & A3 & A4 & Supplier \\
+\midrule
+Facility staff, FTE per MW & 5 & 1.3 per hall; 0.6 per campus & 0.7 & 0.5 & 0.3 & Half own staff; half 5612/5616/5617 \\
+Own payroll & 400 & 133 & 90 & 60 & 40 & Labour \\
+Plant maintenance & 150 & 70 & 100 & 120 & 150 & 230301 repairs; some 811300 \\
+Security & 150 & 43 & 30 & 20 & 15 & 5616 \\
+Cleaning & 40 & 13 & 7 & 5 & 3 & 5617 \\
+Insurance & 10 & 10 & 12 & 15 & 20 & 524 \\
+Property tax, after abatements & 80 & 50 & 70 & 80 & 95 & Tax on production \\
+Software, IT and network operations & 100 & 60 & 50 & 50 & 55 & 517, 518, 5415 \\
+Other (generator fuel and testing, consumables) & 40 & 25 & 25 & 30 & 30 & 324110, misc. \\
+\midrule
+\textbf{Total} & \textbf{$\sim$1{,}000} & \textbf{$\sim$410} & \textbf{$\sim$390} & \textbf{$\sim$380} & \textbf{$\sim$410} & \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Staffing agrees across sources at about 1.3 FTE per MW for a 30--40 MW hall (Virginia JLARC,
+KPMG, Uptime 2007). At gigawatt scale the sources diverge, from Meta at 0.2 to operator
+announcements at 0.9--1.5. BLS employment in NAICS 518210 is not a measure of facility staff.
+Most facility staff work for the parent company or for facilities-support and security firms.
+
+\subsubsection{Service lives}
+
+\begin{itemize}
+  \item Shell: about 40 years (BEA offices: 36 years, $\delta=0.0247$).
+  \item Electrical switchgear, transformers and busway: about 30 years.
+  \item UPS electronics: about 10 years. Lithium-ion batteries: 12. VRLA batteries: 4, which is
+    a replacement flow in legacy halls.
+  \item Mechanical plant: 18--20 years.
+  \item Blended facility $\delta$: 0.078 with plant at 0.088 (BEA's 1.65/L rule with a 19-year life); 0.085--0.09 with plant at 0.10.
+\end{itemize}
+
+\subsection{IT capital}
+
+\begin{table}[ht]\centering\small
+\caption{IT capital per generation}\label{tab:it}
+\resizebox{\textwidth}{!}{\begin{tabular}{lccccc}
+\toprule
+ & A0/A1 & A2 H100 & A3 GB200 & A3 GB300 & A4 Rubin \\
+\midrule
+Rack or server price & \$7.5--10k per server & \$190--270k per server & \$3.1m & \$4.5m & $\sim$\$7m \\
+All-in per GPU & -- & \$35k & \$54k & \$76k & $\sim$\$115k \\
+\textbf{\$m per MW of IT} & \textbf{15} (10--22) & \textbf{24} (21--28) & \textbf{27} (26--30) & \textbf{37} (31--42) & \textbf{$\sim$50} (35--65) \\
+Network share of IT capex & 15\% & 15\% & 14\% & 13\% & 12\% \\
+Storage share & 15\% & 4\% & 4\% & 4\% & 5--15\% \\
+Integration share & 3\% & 3\% & 3\% & 3\% & 2--4\% \\
+NVIDIA gross profit / IT capex & -- & $\sim$55\% & 55--60\% & 55--60\% & 55--60\% \\
+Geometric $\delta$ & 0.30 & 0.27 & 0.27 & 0.27 & 0.27--0.33 \\
+Import share & \multicolumn{5}{c}{0.85--0.95 (servers); networking 0.80--0.95; storage 0.60--0.80} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Confidence is highest for H100 and GB200, which have several primary analyst sources, vendor
+specifications and filings. It is medium for GB300 and low for A0/A1 per MW and for A4.
+
+Cost per rack rose about 15 times from CPU racks to GB200, but cost per MW only about 2 times,
+because rack power rose about 12 times.
+
+\paragraph{Composition, A3.} Shares of cluster IT capex:
+\begin{itemize}
+  \item GPU modules including HBM: 55;
+  \item the rest of the compute tray: 14;
+  \item NVLink switches and rack infrastructure: 10;
+  \item scale-out network: 14;
+  \item storage: 4;
+  \item integration: 3.
+\end{itemize}
+NVIDIA content is over 92 percent of the rack, at a 71--75 percent gross margin. With a closed
+economy, that margin becomes value added of Computers. This is why the import treatment matters.
+
+\paragraph{Investment column of AI\_compute, at purchasers' value.} Central values (range):
+\begin{itemize}
+  \item computers (334111, 334112): 0.77;
+  \item communications equipment (334210; networking): 0.13;
+  \item integration, computer systems design (541512): 0.03 (0.02--0.05);
+  \item wholesale: 0.06 (0.03--0.10);
+  \item transport: 0.01;
+  \item retail: 0.
+\end{itemize}
+This replaces the average-buyer margins in the BEA 2017 bridge, where wholesale is 0.19. US
+server imports reached \$164bn in 2025, 91 percent from Mexico and Taiwan. 58 percent of server
+exports are re-exports: GPUs and boards go out and come back as servers.
+
+\paragraph{Depreciation.} Five independent kinds of evidence give $\delta\approx0.20$--$0.30$ for
+GPU servers:
+\begin{itemize}
+  \item \textbf{Accounting lives} of 5--6 years in 31 SEC filings. Amazon cut part of its fleet
+    to 5 years in 2025, citing AI. Neoclouds use 4--6 years.
+  \item \textbf{Rents across chip generations:} about 0.27 log points per year of vintage.
+  \item \textbf{Resale prices by age:} 0.18--0.28.
+  \item \textbf{Price-performance:} 0.28--0.40 log per year (Epoch).
+  \item \textbf{Physical failure is small:} replacements of 0.4--0.8 percent a year. The widely
+    quoted 9 percent counts job interruptions, not dead GPUs.
+\end{itemize}
+The 2023--25 fall in H100 rents (0.35--0.48 a year) includes the unwinding of a scarcity premium
+and should not be read as $\delta$.
+
+\paragraph{Compute's operating inputs other than power and space.} Per \$1 of GPU-cloud revenue:
+\begin{itemize}
+  \item software: 0.02;
+  \item telecom and transit: 0.01;
+  \item maintenance and spares: 0.015;
+  \item purchased sales, marketing and administrative services: 0.025;
+  \item labour, excluding the labs: 0.06--0.12;
+  \item property tax: about 0.01, a production tax.
+\end{itemize}
+Sources: CoreWeave, Nebius and IREN filings. The Bank of Italy's network, maintenance and
+``other'' lines are 2--4 percent of CoreWeave's realised revenue per rack, which is consistent.
+Its list rental prices are 4--6 times realised revenue.
+
+\subsection{Per \$1 of AI services}\label{sec:perdollar}
+
+The recipe is scaled from per MW of IT load to \$1 of AI services in three steps:
+\begin{enumerate}
+  \item The facility's output (powered space) is its capital at user cost $r+\delta_f$, plus
+    electricity, other purchases, labour and property tax.
+  \item Compute costs its IT capital at user cost $r+\delta_z$, plus space, plus operating inputs
+    (purchases 6.5, staff 9 and property tax 1 percent of its cost).
+  \item Korinek and McKelvey's closure turns compute into AI services: services revenue is 1.5
+    times inference compute, the labs' labour is 0.1 times inference, and the margin pays for
+    training compute. Compute is therefore 0.933 of each \$1.
+\end{enumerate}
+Table~\ref{tab:rec:perdollar} reports the result by generation, with the 2026 rack recipe for
+comparison.
+
+\begin{table}[ht]\centering\small
+\caption{Recipe per \$1 of AI services, by generation}\label{tab:rec:perdollar}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccccccc}
+\toprule
+ & A0 & A1 & A2 & A3 & A3 GB300 & A4 & 2026 rack \\
+\midrule
+$z$: labour (labs + staff running the computers) & 0.151 & 0.151 & 0.151 & 0.151 & 0.151 & 0.151 & 0.067 \\
+$z$: IT capital services & 0.487 & 0.537 & 0.588 & 0.589 & 0.632 & 0.650 & 0.669 \\
+$z$: space from $f$ & 0.297 & 0.247 & 0.196 & 0.195 & 0.152 & 0.134 & 0.264 \\
+$z$: other purchases & 0.065 & 0.065 & 0.065 & 0.065 & 0.065 & 0.065 & 0 \\
+$f$: electricity & 0.080 & 0.053 & 0.049 & 0.046 & 0.036 & 0.027 & 0.080 \\
+$f$: other purchases & 0.050 & 0.024 & 0.018 & 0.017 & 0.013 & 0.011 & 0.032 \\
+$f$: labour & 0.039 & 0.014 & 0.007 & 0.004 & 0.003 & 0.002 & 0.032 \\
+$f$: capital services & 0.128 & 0.155 & 0.122 & 0.128 & 0.100 & 0.093 & 0.120 \\
+\addlinespace
+IT capital per \$1 a year & 1.49 & 1.65 & 1.94 & 1.94 & 2.08 & 2.13 & 2.29 \\
+Facility capital per \$1 a year & 1.12 & 1.31 & 1.05 & 1.07 & 0.83 & 0.76 & 1.03 \\
+$\delta_{IT}$ / $\delta_f$ & .285/.072 & .285/.076 & .261/.074 & .261/.078 & .262/.078 & .264/.081 & .25/.075 \\
+Electricity share of $f$'s cost & 0.27 & 0.21 & 0.25 & 0.23 & 0.23 & 0.21 & 0.30 \\
+AI services per MW-IT-year, \$m & 10.3 & 9.3 & 12.5 & 14.1 & 18.1 & 23.8 & -- \\
+\addlinespace
+$f$ investment: Constr./Elec./Mach./Prof. & 55/25/13/7 & 52/29/11/7 & 51/28/13/7 & 49/26/17/7 & 49/26/17/7 & 48/27/17/7 & 33/40/27/0 \\
+$z$ investment: Computers/integration/wholesale & \multicolumn{6}{c}{90 / 3 / 6 (transport 1)} & 78/0/22 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Newer generations spend a larger share of each dollar on IT capital and a smaller share on
+space. Electricity falls from 8 cents per dollar (legacy) to under 3 (next generation), because
+chips get more expensive per watt faster than power gets cheaper.
+
+Two decisions are kept unchanged for the authors (\texttt{recipe\_plan.md}, R1--R2): the labs'
+labour (Korinek and McKelvey's 0.1 of inference, which the evidence puts about 10 times too low)
+and the treatment of training as a current cost.
+
+One cross-check is open. At user cost on new capital, compute costs about \$13m per MW-year.
+Epoch's total cost of ownership and CoreWeave's revenue per MW are about \$8.5m.
+
+\subsection{Cross-checks}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{5.6cm}>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}p{4.0cm}}
+\caption{Where independent sources agree and disagree}\label{tab:xcheck}\\
+\toprule
+Number & Sources & Agree? & Why they differ / verdict \\
+\midrule\endfirsthead
+\toprule
+Number & Sources & Agree? & Verdict \\
+\midrule\endhead
+IT share of campus capex & Van Nieuwerburgh 68; Epoch 69; Fed 70 (IT-inclusive); Microsoft PP\&E 57 servers; CNT rack + network 72 & Yes & 68--72 \\
+Facility hard cost per MW & T\&T; JLL; KPMG; Schneider & Yes, once scope and year match & \$12m (A3) \\
+Facility all-in cost per MW, A3 & Landlords 8--13; DLR 14.1; C\&W 17.6 & Spread & Scope: brownfield vs land, soft costs and contingency \\
+Shell share & 9--35\% across sources & No & Some include site work; use 9--14\% plus 3--6\% site \\
+Equipment vs installation & Schneider WP61 (only primary); KPMG; Eaton content & Single source & Gap narrowed, not closed \\
+Electrical capex per MW & Bottom-up PPI build; T\&T $\times$ share; C\&W & Partly & PPIs miss backlog premiums; lean to the consultants \\
+Eaton AI content & \$2.4m/MW vs bottom-up \$1.3m & No & Possibly IT-side power; unresolved \\
+Transformer price inflation & PPI +76\%; Wood Mackenzie +77--95\%; NIAC +80\% & Yes & \\
+Transformer import share & Own calculation 26.5\% (2017), $\ge$38.5\% (2024); BEA 29\%; BIS 82\% of large units & Yes by size class & \\
+Generator import share & Own calculation $\le$44\%; BEA 64\% & No & BEA too high for large sets \\
+Hyperscale PUE & Google, Meta, AWS, Microsoft 1.08--1.17; LBNL 1.22; Uptime 1.36 & Operators yes & Surveys include colocation and enterprise \\
+Hyperscale water (L/kWh) & LBNL 0.32; Microsoft 0.27--0.30; Meta 0.20; Virginia utilities 0.2--0.3 & Yes & Withdrawal vs consumption explains a 1.3$\times$ gap \\
+Staff per MW, 30 MW hall & JLARC; KPMG; Uptime & Yes & 1.3 \\
+Staff per MW, 1 GW campus & Meta 0.2; Crusoe 0.47; Oracle and Microsoft announcements 0.9--1.5 & No & 0.5 (0.3--1.0) \\
+Facility running costs other than electricity & KPMG; ITK; Epoch; Digital Realty 0.33--0.41m; CNT 0.64m & Yes except CNT & CNT includes network (belongs to $z$) and an unsourced line \\
+Electricity share of facility cost & Own A3 25\%; engineering notes 25--30\%; Digital Realty 23\% of revenue & Yes & \\
+GB200 rack price & CNT \$3.0m; SemiAnalysis \$3.1m & Yes & Independent \\
+Non-rack share of IT & SemiAnalysis (2 articles); Cottier; Epoch & Yes & Van Nieuwerburgh's 12.5\% is low and unsourced \\
+GB300 price & Van Nieuwerburgh \$4.0m; purchase orders \$5.0m; press \$6--6.5m & No & $\pm$25\% \\
+IT $\delta$ & SEC lives; rents; resale; Epoch & Yes & 0.26 (0.20--0.32) \\
+Wholesale margin on servers & BEA PEQ 19\%; distributors 7--11\%; direct purchase & No & 6\% for hyperscalers \\
+\bottomrule
+\end{longtable}
+
+\paragraph{Mis-quotes found and corrected.}
+\begin{itemize}
+  \item ``1.8 L/kWh industry average'': a 2016 LBNL assumption, not a measurement.
+  \item ``9 percent annual GPU failure rate'': a press calculation on Meta's interruption table.
+    It counts interruptions, and the paper itself has a typo in the table.
+  \item ``GPUs last 1--3 years'': an anonymous social-media post.
+  \item Van Nieuwerburgh applies a per-IT-MW cost to total facility power.
+  \item Epoch's facility cost re-quotes Turner \& Townsend.
+  \item IEA's ``84 percent training load factor'' is not in the LBNL report it cites.
+\end{itemize}
+
+\subsection{Imports of AI capital: IT equipment, facility gear and the grid}\label{sec:rec:imports}
+
+\paragraph{The current treatment.} The baseline economy is closed, following the vom
+Lehn--Winberry convention. The paper's imports alternative opens one flow only:
+\begin{itemize}
+  \item Imports supply 95 percent of what AI\_compute buys from Computers, the BEA 2017 import
+    share of computers.
+  \item A linear technology turns an export basket with the composition of 2017 consumption into
+    imported equipment at a fixed rate.
+  \item Trade balances every year.
+\end{itemize}
+Facility gear (electrical and mechanical equipment) and the grid equipment that Utilities buys
+stay domestic. The paper's conclusion lists imports of data-center electrical equipment as a next
+step. This section sets out how to add them. Nothing here is implemented yet.
+
+\paragraph{How big the flows are.} In the steady state of the A3 recipe, per \$1 of AI services:
+\begin{itemize}
+  \item AI\_facilities invests $\delta_fK_f\approx0.080$ a year: 0.021 in electrical equipment
+    and 0.013 in machinery.
+  \item AI\_compute invests $\delta_zK_z\approx0.50$ a year, of which 0.45 is Computers
+    (servers, networking and storage).
+\end{itemize}
+At the import shares below, imported facility gear is about 0.010 per \$1 of AI services, about
+1 percent of AI revenue. Imported IT is about 0.40. Gear imports therefore barely move GDP,
+consumption or AI investment.
+
+They matter for industries. Electrical equipment is one of the paper's headline winners, and in
+the IT-imports alternative it is the industry that takes the place of Computers. If about 40
+percent of the AI-driven demand for electrical gear goes abroad, that gain shrinks accordingly.
+
+\begin{table}[ht]\centering\small
+\caption{Import shares of AI capital (share of value imported)}\label{tab:rec:imports}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llccl}
+\toprule
+Item & NAICS & BEA 2017 & 2024--25 (best, range) & Note \\
+\midrule
+\multicolumn{5}{l}{\textit{AI\_compute: IT equipment}} \\
+Servers & 334111 & 0.95 & 0.90 (0.85--0.95) & Mexico and Taiwan are 91\% of 2025 server imports \\
+Networking & 334210 & -- & 0.875 (0.80--0.95) & Vietnam, Thailand \\
+Storage & 334112 & -- & 0.70 (0.60--0.80) & Thailand \\
+\addlinespace
+\multicolumn{5}{l}{\textit{AI\_facilities: electrical equipment (share of it in brackets)}} \\
+Generator sets (29\%) & 335312 & 0.64 & 0.30 (0.20--0.50) & BEA too high for large diesel sets \\
+UPS, PDUs (22\%) & 335999 & 0.55 & 0.50 (0.35--0.60) & Proxy: static converters \\
+Switchgear, busway (22\%) & 335313 & 0.26 & 0.25 (0.15--0.45) & Medium voltage 9--15\% \\
+Transformers (9\%) & 335311 & 0.29 & 0.40 (0.30--0.55) & $\ge$38.5\% in 2024; large units 75--82\% \\
+Cable and wire (7\%) & 335929 & 0.91 & not re-checked & BEA 2017 value \\
+Batteries (6\%) & 335911 & $\approx$0.36 & 0.50 (0.40--0.70) & Li-ion; VRLA $\approx$0.35 \\
+Controls (5\%) & 335314 & -- & $\approx$0.45 & Broad switchgear and controls, 43--50\% \\
+\textbf{Weighted electrical} & & $\approx$\textbf{0.50} & $\approx$\textbf{0.40} & \\
+\addlinespace
+\multicolumn{5}{l}{\textit{AI\_facilities: mechanical equipment}} \\
+HVAC, chillers, CDUs & 333415 & 0.14 & $\approx$0.15 & Pumps and fans not studied \\
+\addlinespace
+\multicolumn{5}{l}{\textit{Utilities: grid equipment}} \\
+Large power transformers & 335311 & -- & 0.75--0.82 & BIS 2020; Wood Mackenzie \\
+Distribution transformers & 335311 & -- & 0.20--0.50 & BIS 18--21\% (2019) vs Wood Mackenzie 50\% \\
+Medium- and high-voltage switchgear & 335313 & 0.26 & 0.15 & \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\paragraph{How to implement it in the model.} Generalise the single import weight to one weight
+$m_{ij}$ for each pair of supplying sector $i$ and investing sector $j$. The price of $j$'s
+investment bundle becomes
+\[
+\tilde P^k_{j}=\Big(\sum_i (1-m_{ij})\,G^I_{ij}\,P_i^{1-\sigma_I}+\Big(\sum_i m_{ij}G^I_{ij}\Big)P_{imp}^{1-\sigma_I}\Big)^{1/(1-\sigma_I)},
+\]
+where $P_{imp}$ is the price of the export basket that pays for imports. The rest follows
+directly:
+\begin{itemize}
+  \item Imports by sector $j$ are
+    $I^{imp}_j=\big(\sum_im_{ij}G^I_{ij}\big)(P_{imp}/\tilde P^k_j)^{-\sigma_I}I_j$.
+  \item Exports are the consumption-weighted basket that pays for $\sum_jI^{imp}_j$.
+  \item The resource constraint and GDP add up over $j$.
+\end{itemize}
+In the code, the scalar import weight becomes a matrix, filled from import shares stored by NAICS
+code in \texttt{ai\_recipe.py} and aggregated with the recipe. Two choices remain:
+\begin{enumerate}
+  \item \textbf{Vintage of the shares.} BEA 2017 detail is consistent with the vintage of the
+    current IT exercise. The 2024--25 trade data match a 2025--26 recipe. The weighted
+    electrical share is about 0.50 on BEA 2017 and 0.40 on 2024--25; the main difference is
+    generator sets. Using 2024--25 for both IT and gear moves the IT share only from 0.95 to about
+    0.90.
+  \item \textbf{Utilities.} The grid bottleneck runs through the equipment Utilities buys to
+    expand transmission and distribution: transformers and switchgear, 15 percent of its 2017
+    investment column. Importing them means opening an existing sector's investment column, which
+    departs from the closed-economy convention for the 37 sectors. There are two ways to do it:
+    \begin{itemize}
+      \item \emph{Average shares.} Utilities imports its electrical equipment at all dates,
+        including 2017. Then the 2017 steady state has trade, and the export basket must be
+        calibrated to it.
+      \item \emph{Marginal shares.} Only purchases above the 2017 level are imported. This keeps
+        the 2017 calibration unchanged but is less standard.
+    \end{itemize}
+    The first is cleaner and makes the grid, and its import dependence, part of the exercise.
+    The authors plan to include Utilities if the extension proceeds.
+\end{enumerate}
+
+\paragraph{What it would add to the paper.}
+\begin{itemize}
+  \item A version of the imports alternative with IT, facility gear and grid equipment.
+  \item How much of the Electrical sector's gain leaks abroad.
+  \item Whether the ranking of winners survives.
+  \item A natural tariff scenario: a tax on imported AI capital. See the Quintana et al.\ (2026)
+    paper on tariffs as taxes on capital in \texttt{PandP/}.
+\end{itemize}
+Run time is about 10 minutes per scenario.
+
+\subsection{Using the recipe with the 2017 detailed tables}
+
+The recipe is specified at 6-digit NAICS wherever the sources allow. The proposal is to store it
+as a vector over the 2017 detailed commodities:
+\begin{itemize}
+  \item one vector per generation and per sector (running costs and investment column);
+  \item with the source, year and range attached to each cell;
+  \item and let the loader aggregate it to the 37 sectors.
+\end{itemize}
+The same data then serve the paper as it stands, a detailed or split version of the model (the
+\texttt{Construction\_AI}-type splits already in \texttt{model.py}), and import shares by
+commodity, which differ a lot within Electrical.
+
+Two caveats:
+\begin{itemize}
+  \item Several NAICS codes map to aggregated BEA detail codes, e.g.\ pumps and batteries. The
+    NAICS-to-BEA mapping is still to be done.
+  \item The 2017 tables have no data-center industry. Hosting (518200) is mostly payment
+    processing, and data-center buildings sit in 2332A0. The detailed tables supply the
+    suppliers, not a data-center column to copy.
+\end{itemize}
+
+\subsection{Open gaps}
+\begin{itemize}
+  \item Equipment versus installation rests on one primary source (Schneider WP61).
+  \item No measured PUE or water use for GB200-class sites. No cost data on liquid-cooling
+    maintenance.
+  \item The split of mechanical equipment among HVAC, pumps and fans is not quantified.
+  \item Insurance rates; the size of owner-furnished equipment beyond KPMG; grid-upgrade cost per
+    kW.
+  \item Prices for GB300 and Rubin rest on press reports and one blog. SemiAnalysis item-level
+    tables are paywalled.
+  \item The share of hyperscaler servers bought directly from manufacturers.
+  \item The labs' cost structure (decisions R1--R2).
+\end{itemize}
+
+\subsection{Main sources}
+\begin{itemize}
+  \item \textbf{Cost consultants:} Turner \& Townsend, Data Centre Construction Cost Index
+    (2019--25); KPMG (2026), benchmarking capex and opex; JLL 2026 outlooks; Cushman \& Wakefield
+    (partly verified).
+  \item \textbf{Engineering and vendors:} Schneider Electric white papers WP61, WP75, WP218,
+    WP229 and WP282; Uptime Institute (Koomey et al.\ 2008; annual surveys); Eaton; NVIDIA DGX and
+    NVL72 specifications and its 800 V DC paper.
+  \item \textbf{National labs, agencies and standards:} LBNL (Shehabi et al.\ 2024); EPRI; EIA;
+    The Green Grid WP35; ASHRAE; BIS and DOE on transformers; Mytton (2021); Li et al.\ (2023).
+  \item \textbf{Official and filings:} Virginia JLARC (2024); BEA depreciation rates and NIPA 5.4;
+    ONS (2026); UN Comtrade and Census trade data; SEC filings of Amazon, Microsoft, Alphabet,
+    Meta, Oracle, CoreWeave, Nebius, IREN, WhiteFiber, Nscale, Digital Realty and Equinix.
+  \item \textbf{Analysts and measurement:} SemiAnalysis (GB200 architecture, AI cloud total cost
+    of ownership (TCO), GPU index); Epoch AI (hardware trends, 1 GW TCO); Silicon Data and Ornn
+    rent indices; Meta, NCSA, BigScience and ByteDance reliability studies; Cottier et al.\
+    (2025).
+\end{itemize}
+Files:
+\begin{itemize}
+  \item Reports and observations: \texttt{notes/recipe\_research/*.md} and \texttt{*\_obs.csv}.
+  \item PDFs: \texttt{References/engineering/}, in four subfolders (facility capex, power and
+    energy, operations, IT equipment).
+\end{itemize}

@@ -1,0 +1,253 @@
+generation,sector,block,naics,description,model_sector,per_MW,unit,per_dollar_AI,source
+A0,AI_facilities,investment,2332A0,"Commercial structures (shell, core, contractor fees, site works)",Construction,3.40435,$m per MW (share of column in per_dollar_AI),0.315217,TT;CAPEX_OUT
+A0,AI_facilities,investment,238210,Electrical installation,Construction,1.69043,$m per MW (share of column in per_dollar_AI),0.156522,EQUIP
+A0,AI_facilities,investment,238220,Mechanical installation,Construction,0.82174,$m per MW (share of column in per_dollar_AI),0.076087,EQUIP
+A0,AI_facilities,investment,332996,Fabricated pipe and manifolds,Fabricated_Metals,0.15261,$m per MW (share of column in per_dollar_AI),0.01413,EQUIP;MECH_SPLIT
+A0,AI_facilities,investment,333413,Fans,Machinery,0.15261,$m per MW (share of column in per_dollar_AI),0.01413,EQUIP;MECH_SPLIT
+A0,AI_facilities,investment,333415,"HVAC, chillers, CRAH, CDU",Machinery,1.06826,$m per MW (share of column in per_dollar_AI),0.098913,EQUIP;MECH_SPLIT
+A0,AI_facilities,investment,333914,Pumps,Machinery,0.15261,$m per MW (share of column in per_dollar_AI),0.01413,EQUIP;MECH_SPLIT
+A0,AI_facilities,investment,335311,Transformers,Electrical,0.26155,$m per MW (share of column in per_dollar_AI),0.024217,EQUIP;ELEC_BOM
+A0,AI_facilities,investment,335312,Generators (gensets),Electrical,0.78605,$m per MW (share of column in per_dollar_AI),0.072783,EQUIP;ELEC_BOM
+A0,AI_facilities,investment,335313,"Switchgear, switchboards, busway",Electrical,0.61654,$m per MW (share of column in per_dollar_AI),0.057087,EQUIP;ELEC_BOM
+A0,AI_facilities,investment,335314,Controls,Electrical,0.15214,$m per MW (share of column in per_dollar_AI),0.014087,EQUIP;ELEC_BOM
+A0,AI_facilities,investment,335911,Batteries,Electrical,0.12678,$m per MW (share of column in per_dollar_AI),0.011739,EQUIP;ELEC_BOM
+A0,AI_facilities,investment,335929,Cable and wire,Electrical,0.1775,$m per MW (share of column in per_dollar_AI),0.016435,EQUIP;ELEC_BOM
+A0,AI_facilities,investment,335999,"UPS, PDUs, misc. electrical",Electrical,0.53249,$m per MW (share of column in per_dollar_AI),0.049304,EQUIP;ELEC_BOM
+A0,AI_facilities,investment,541330,"Engineering, design, commissioning",Prof_Tech,0.70435,$m per MW (share of column in per_dollar_AI),0.065217,TT;CAPEX_OUT
+A0,AI_compute,investment,334111,Computers (servers),Computers,9.32474,$m per MW (share of column in per_dollar_AI),0.621649,IT_CAPEX;IT_MARGINS
+A0,AI_compute,investment,334112,Storage devices,Computers,2.08763,$m per MW (share of column in per_dollar_AI),0.139175,IT_CAPEX;IT_MARGINS
+A0,AI_compute,investment,334210,"Communications equipment (switches, routers)",Computers,2.08763,$m per MW (share of column in per_dollar_AI),0.139175,IT_CAPEX;IT_MARGINS
+A0,AI_compute,investment,423430,Wholesale margin,Wholesale_Trade,0.9,$m per MW (share of column in per_dollar_AI),0.06,IT_CAPEX;IT_MARGINS
+A0,AI_compute,investment,48-49,Transport margin,Transp_and_Wareh,0.15,$m per MW (share of column in per_dollar_AI),0.01,IT_CAPEX;IT_MARGINS
+A0,AI_compute,investment,541512,Systems integration,Prof_Tech,0.45,$m per MW (share of column in per_dollar_AI),0.03,IT_CAPEX;IT_MARGINS
+A0,AI_facilities,intermediate,221100,Electricity,Utilities,819.06,$k per MW-year,0.079839,POWER
+A0,AI_facilities,intermediate,221300,Water and sewer,Utilities,26.0,$k per MW-year,0.002534,WATER
+A0,AI_facilities,intermediate,230301,Nonresidential maintenance and repair,Construction,150.0,$k per MW-year,0.014622,OPEX;OPEX_MAP
+A0,AI_facilities,intermediate,324110,Fuel,Petroleum,20.0,$k per MW-year,0.00195,OPEX;OPEX_MAP
+A0,AI_facilities,intermediate,517,Telecommunications,Info,60.0,$k per MW-year,0.005849,OPEX;OPEX_MAP
+A0,AI_facilities,intermediate,524,Insurance,Finance,10.0,$k per MW-year,0.000975,OPEX;OPEX_MAP
+A0,AI_facilities,intermediate,5415,Computer services,Prof_Tech,40.0,$k per MW-year,0.003899,OPEX;OPEX_MAP
+A0,AI_facilities,intermediate,5616,Security and support services,Admin,20.0,$k per MW-year,0.00195,OPEX;OPEX_MAP
+A0,AI_facilities,intermediate,561600,Security services,Admin,150.0,$k per MW-year,0.014622,OPEX;OPEX_MAP
+A0,AI_facilities,intermediate,561700,Cleaning and building services,Admin,40.0,$k per MW-year,0.003899,OPEX;OPEX_MAP
+A0,AI_facilities,labour,labour,labour,labour,400.0,$k per MW-year,0.038991,OPEX
+A0,AI_facilities,capital_services,capital,capital,capital,0,,0.127902,LIVES;OPEX (incl. property tax)
+A0,AI_compute,intermediate,AI_facilities,AI_facilities,AI_facilities,0,,0.29703,derived
+A0,AI_compute,intermediate,5132,Software,Info,0,,0.018667,Z_OPEX
+A0,AI_compute,intermediate,517,Telecommunications,Info,0,,0.009333,Z_OPEX
+A0,AI_compute,intermediate,811,Repair and maintenance,Other,0,,0.007,Z_OPEX
+A0,AI_compute,intermediate,334111,Computers (servers),Computers,0,,0.007,Z_OPEX
+A0,AI_compute,intermediate,5416,Management and admin services,Prof_Tech,0,,0.011667,Z_OPEX
+A0,AI_compute,intermediate,5616,Security and support services,Admin,0,,0.011667,Z_OPEX
+A0,AI_compute,labour,labour,labour,labour,0,,0.150667,KM;Z_OPEX
+A0,AI_compute,capital_services,capital,capital,capital,0,,0.48697,IT_DELTA;Z_OPEX (incl. property tax)
+A1,AI_facilities,investment,2332A0,"Commercial structures (shell, core, contractor fees, site works)",Construction,3.09339,$m per MW (share of column in per_dollar_AI),0.263043,TT;CAPEX_OUT
+A1,AI_facilities,investment,238210,Electrical installation,Construction,2.20883,$m per MW (share of column in per_dollar_AI),0.187826,EQUIP
+A1,AI_facilities,investment,238220,Mechanical installation,Construction,0.78741,$m per MW (share of column in per_dollar_AI),0.066957,EQUIP
+A1,AI_facilities,investment,332996,Fabricated pipe and manifolds,Fabricated_Metals,0.14623,$m per MW (share of column in per_dollar_AI),0.012435,EQUIP;MECH_SPLIT
+A1,AI_facilities,investment,333413,Fans,Machinery,0.14623,$m per MW (share of column in per_dollar_AI),0.012435,EQUIP;MECH_SPLIT
+A1,AI_facilities,investment,333415,"HVAC, chillers, CRAH, CDU",Machinery,1.02363,$m per MW (share of column in per_dollar_AI),0.087043,EQUIP;MECH_SPLIT
+A1,AI_facilities,investment,333914,Pumps,Machinery,0.14623,$m per MW (share of column in per_dollar_AI),0.012435,EQUIP;MECH_SPLIT
+A1,AI_facilities,investment,335311,Transformers,Electrical,0.32897,$m per MW (share of column in per_dollar_AI),0.027974,EQUIP;ELEC_BOM
+A1,AI_facilities,investment,335312,Generators (gensets),Electrical,1.02711,$m per MW (share of column in per_dollar_AI),0.087339,EQUIP;ELEC_BOM
+A1,AI_facilities,investment,335313,"Switchgear, switchboards, busway",Electrical,0.79283,$m per MW (share of column in per_dollar_AI),0.067417,EQUIP;ELEC_BOM
+A1,AI_facilities,investment,335314,Controls,Electrical,0.1988,$m per MW (share of column in per_dollar_AI),0.016904,EQUIP;ELEC_BOM
+A1,AI_facilities,investment,335911,Batteries,Electrical,0.16566,$m per MW (share of column in per_dollar_AI),0.014087,EQUIP;ELEC_BOM
+A1,AI_facilities,investment,335929,Cable and wire,Electrical,0.23193,$m per MW (share of column in per_dollar_AI),0.019722,EQUIP;ELEC_BOM
+A1,AI_facilities,investment,335999,"UPS, PDUs, misc. electrical",Electrical,0.69578,$m per MW (share of column in per_dollar_AI),0.059165,EQUIP;ELEC_BOM
+A1,AI_facilities,investment,541330,"Engineering, design, commissioning",Prof_Tech,0.76696,$m per MW (share of column in per_dollar_AI),0.065217,TT;CAPEX_OUT
+A1,AI_compute,investment,334111,Computers (servers),Computers,9.32474,$m per MW (share of column in per_dollar_AI),0.621649,IT_CAPEX;IT_MARGINS
+A1,AI_compute,investment,334112,Storage devices,Computers,2.08763,$m per MW (share of column in per_dollar_AI),0.139175,IT_CAPEX;IT_MARGINS
+A1,AI_compute,investment,334210,"Communications equipment (switches, routers)",Computers,2.08763,$m per MW (share of column in per_dollar_AI),0.139175,IT_CAPEX;IT_MARGINS
+A1,AI_compute,investment,423430,Wholesale margin,Wholesale_Trade,0.9,$m per MW (share of column in per_dollar_AI),0.06,IT_CAPEX;IT_MARGINS
+A1,AI_compute,investment,48-49,Transport margin,Transp_and_Wareh,0.15,$m per MW (share of column in per_dollar_AI),0.01,IT_CAPEX;IT_MARGINS
+A1,AI_compute,investment,541512,Systems integration,Prof_Tech,0.45,$m per MW (share of column in per_dollar_AI),0.03,IT_CAPEX;IT_MARGINS
+A1,AI_facilities,intermediate,221100,Electricity,Utilities,491.1075,$k per MW-year,0.052928,POWER
+A1,AI_facilities,intermediate,221300,Water and sewer,Utilities,4.0,$k per MW-year,0.000431,WATER
+A1,AI_facilities,intermediate,230301,Nonresidential maintenance and repair,Construction,70.0,$k per MW-year,0.007544,OPEX;OPEX_MAP
+A1,AI_facilities,intermediate,324110,Fuel,Petroleum,12.5,$k per MW-year,0.001347,OPEX;OPEX_MAP
+A1,AI_facilities,intermediate,517,Telecommunications,Info,36.0,$k per MW-year,0.00388,OPEX;OPEX_MAP
+A1,AI_facilities,intermediate,524,Insurance,Finance,10.0,$k per MW-year,0.001078,OPEX;OPEX_MAP
+A1,AI_facilities,intermediate,5415,Computer services,Prof_Tech,24.0,$k per MW-year,0.002587,OPEX;OPEX_MAP
+A1,AI_facilities,intermediate,5616,Security and support services,Admin,12.5,$k per MW-year,0.001347,OPEX;OPEX_MAP
+A1,AI_facilities,intermediate,561600,Security services,Admin,43.0,$k per MW-year,0.004634,OPEX;OPEX_MAP
+A1,AI_facilities,intermediate,561700,Cleaning and building services,Admin,13.0,$k per MW-year,0.001401,OPEX;OPEX_MAP
+A1,AI_facilities,labour,labour,labour,labour,133.0,$k per MW-year,0.014334,OPEX
+A1,AI_facilities,capital_services,capital,capital,capital,0,,0.155074,LIVES;OPEX (incl. property tax)
+A1,AI_compute,intermediate,AI_facilities,AI_facilities,AI_facilities,0,,0.246584,derived
+A1,AI_compute,intermediate,5132,Software,Info,0,,0.018667,Z_OPEX
+A1,AI_compute,intermediate,517,Telecommunications,Info,0,,0.009333,Z_OPEX
+A1,AI_compute,intermediate,811,Repair and maintenance,Other,0,,0.007,Z_OPEX
+A1,AI_compute,intermediate,334111,Computers (servers),Computers,0,,0.007,Z_OPEX
+A1,AI_compute,intermediate,5416,Management and admin services,Prof_Tech,0,,0.011667,Z_OPEX
+A1,AI_compute,intermediate,5616,Security and support services,Admin,0,,0.011667,Z_OPEX
+A1,AI_compute,labour,labour,labour,labour,0,,0.150667,KM;Z_OPEX
+A1,AI_compute,capital_services,capital,capital,capital,0,,0.537416,IT_DELTA;Z_OPEX (incl. property tax)
+A2,AI_facilities,investment,2332A0,"Commercial structures (shell, core, contractor fees, site works)",Construction,3.12584,$m per MW (share of column in per_dollar_AI),0.247807,TT;CAPEX_OUT
+A2,AI_facilities,investment,238210,Electrical installation,Construction,2.3015,$m per MW (share of column in per_dollar_AI),0.182456,EQUIP
+A2,AI_facilities,investment,238220,Mechanical installation,Construction,0.96818,$m per MW (share of column in per_dollar_AI),0.076754,EQUIP
+A2,AI_facilities,investment,332996,Fabricated pipe and manifolds,Fabricated_Metals,0.1798,$m per MW (share of column in per_dollar_AI),0.014254,EQUIP;MECH_SPLIT
+A2,AI_facilities,investment,333413,Fans,Machinery,0.1798,$m per MW (share of column in per_dollar_AI),0.014254,EQUIP;MECH_SPLIT
+A2,AI_facilities,investment,333415,"HVAC, chillers, CRAH, CDU",Machinery,1.25863,$m per MW (share of column in per_dollar_AI),0.099781,EQUIP;MECH_SPLIT
+A2,AI_facilities,investment,333914,Pumps,Machinery,0.1798,$m per MW (share of column in per_dollar_AI),0.014254,EQUIP;MECH_SPLIT
+A2,AI_facilities,investment,335311,Transformers,Electrical,0.34534,$m per MW (share of column in per_dollar_AI),0.027377,EQUIP;ELEC_BOM
+A2,AI_facilities,investment,335312,Generators (gensets),Electrical,1.0702,$m per MW (share of column in per_dollar_AI),0.084842,EQUIP;ELEC_BOM
+A2,AI_facilities,investment,335313,"Switchgear, switchboards, busway",Electrical,0.82865,$m per MW (share of column in per_dollar_AI),0.065693,EQUIP;ELEC_BOM
+A2,AI_facilities,investment,335314,Controls,Electrical,0.20714,$m per MW (share of column in per_dollar_AI),0.016421,EQUIP;ELEC_BOM
+A2,AI_facilities,investment,335911,Batteries,Electrical,0.17261,$m per MW (share of column in per_dollar_AI),0.013684,EQUIP;ELEC_BOM
+A2,AI_facilities,investment,335929,Cable and wire,Electrical,0.24166,$m per MW (share of column in per_dollar_AI),0.019158,EQUIP;ELEC_BOM
+A2,AI_facilities,investment,335999,"UPS, PDUs, misc. electrical",Electrical,0.72497,$m per MW (share of column in per_dollar_AI),0.057474,EQUIP;ELEC_BOM
+A2,AI_facilities,investment,541330,"Engineering, design, commissioning",Prof_Tech,0.82987,$m per MW (share of column in per_dollar_AI),0.065789,TT;CAPEX_OUT
+A2,AI_compute,investment,334111,Computers (servers),Computers,17.36907,$m per MW (share of column in per_dollar_AI),0.723711,IT_CAPEX;IT_MARGINS
+A2,AI_compute,investment,334112,Storage devices,Computers,0.89072,$m per MW (share of column in per_dollar_AI),0.037113,IT_CAPEX;IT_MARGINS
+A2,AI_compute,investment,334210,"Communications equipment (switches, routers)",Computers,3.34021,$m per MW (share of column in per_dollar_AI),0.139175,IT_CAPEX;IT_MARGINS
+A2,AI_compute,investment,423430,Wholesale margin,Wholesale_Trade,1.44,$m per MW (share of column in per_dollar_AI),0.06,IT_CAPEX;IT_MARGINS
+A2,AI_compute,investment,48-49,Transport margin,Transp_and_Wareh,0.24,$m per MW (share of column in per_dollar_AI),0.01,IT_CAPEX;IT_MARGINS
+A2,AI_compute,investment,541512,Systems integration,Prof_Tech,0.72,$m per MW (share of column in per_dollar_AI),0.03,IT_CAPEX;IT_MARGINS
+A2,AI_facilities,intermediate,221100,Electricity,Utilities,613.2,$k per MW-year,0.048896,POWER
+A2,AI_facilities,intermediate,221300,Water and sewer,Utilities,7.0,$k per MW-year,0.000558,WATER
+A2,AI_facilities,intermediate,230301,Nonresidential maintenance and repair,Construction,100.0,$k per MW-year,0.007974,OPEX;OPEX_MAP
+A2,AI_facilities,intermediate,324110,Fuel,Petroleum,12.5,$k per MW-year,0.000997,OPEX;OPEX_MAP
+A2,AI_facilities,intermediate,517,Telecommunications,Info,30.0,$k per MW-year,0.002392,OPEX;OPEX_MAP
+A2,AI_facilities,intermediate,524,Insurance,Finance,12.0,$k per MW-year,0.000957,OPEX;OPEX_MAP
+A2,AI_facilities,intermediate,5415,Computer services,Prof_Tech,20.0,$k per MW-year,0.001595,OPEX;OPEX_MAP
+A2,AI_facilities,intermediate,5616,Security and support services,Admin,12.5,$k per MW-year,0.000997,OPEX;OPEX_MAP
+A2,AI_facilities,intermediate,561600,Security services,Admin,30.0,$k per MW-year,0.002392,OPEX;OPEX_MAP
+A2,AI_facilities,intermediate,561700,Cleaning and building services,Admin,7.0,$k per MW-year,0.000558,OPEX;OPEX_MAP
+A2,AI_facilities,labour,labour,labour,labour,90.0,$k per MW-year,0.007177,OPEX
+A2,AI_facilities,capital_services,capital,capital,capital,0,,0.121518,LIVES;OPEX (incl. property tax)
+A2,AI_compute,intermediate,AI_facilities,AI_facilities,AI_facilities,0,,0.196011,derived
+A2,AI_compute,intermediate,5132,Software,Info,0,,0.018667,Z_OPEX
+A2,AI_compute,intermediate,517,Telecommunications,Info,0,,0.009333,Z_OPEX
+A2,AI_compute,intermediate,811,Repair and maintenance,Other,0,,0.007,Z_OPEX
+A2,AI_compute,intermediate,334111,Computers (servers),Computers,0,,0.007,Z_OPEX
+A2,AI_compute,intermediate,5416,Management and admin services,Prof_Tech,0,,0.011667,Z_OPEX
+A2,AI_compute,intermediate,5616,Security and support services,Admin,0,,0.011667,Z_OPEX
+A2,AI_compute,labour,labour,labour,labour,0,,0.150667,KM;Z_OPEX
+A2,AI_compute,capital_services,capital,capital,capital,0,,0.587989,IT_DELTA;Z_OPEX (incl. property tax)
+A3,AI_facilities,investment,2332A0,"Commercial structures (shell, core, contractor fees, site works)",Construction,3.16174,$m per MW (share of column in per_dollar_AI),0.219565,TT;CAPEX_OUT
+A3,AI_facilities,investment,238210,Electrical installation,Construction,2.40417,$m per MW (share of column in per_dollar_AI),0.166957,EQUIP
+A3,AI_facilities,investment,238220,Mechanical installation,Construction,1.44626,$m per MW (share of column in per_dollar_AI),0.100435,EQUIP
+A3,AI_facilities,investment,332996,Fabricated pipe and manifolds,Fabricated_Metals,0.26859,$m per MW (share of column in per_dollar_AI),0.018652,EQUIP;MECH_SPLIT
+A3,AI_facilities,investment,333413,Fans,Machinery,0.26859,$m per MW (share of column in per_dollar_AI),0.018652,EQUIP;MECH_SPLIT
+A3,AI_facilities,investment,333415,"HVAC, chillers, CRAH, CDU",Machinery,1.88014,$m per MW (share of column in per_dollar_AI),0.130565,EQUIP;MECH_SPLIT
+A3,AI_facilities,investment,333914,Pumps,Machinery,0.26859,$m per MW (share of column in per_dollar_AI),0.018652,EQUIP;MECH_SPLIT
+A3,AI_facilities,investment,335311,Transformers,Electrical,0.40282,$m per MW (share of column in per_dollar_AI),0.027974,EQUIP;ELEC_BOM
+A3,AI_facilities,investment,335312,Generators (gensets),Electrical,1.04582,$m per MW (share of column in per_dollar_AI),0.072626,EQUIP;ELEC_BOM
+A3,AI_facilities,investment,335313,"Switchgear, switchboards, busway",Electrical,0.87164,$m per MW (share of column in per_dollar_AI),0.06053,EQUIP;ELEC_BOM
+A3,AI_facilities,investment,335314,Controls,Electrical,0.18031,$m per MW (share of column in per_dollar_AI),0.012522,EQUIP;ELEC_BOM
+A3,AI_facilities,investment,335911,Batteries,Electrical,0.21638,$m per MW (share of column in per_dollar_AI),0.015026,EQUIP;ELEC_BOM
+A3,AI_facilities,investment,335929,Cable and wire,Electrical,0.25244,$m per MW (share of column in per_dollar_AI),0.01753,EQUIP;ELEC_BOM
+A3,AI_facilities,investment,335999,"UPS, PDUs, misc. electrical",Electrical,0.79338,$m per MW (share of column in per_dollar_AI),0.055096,EQUIP;ELEC_BOM
+A3,AI_facilities,investment,541330,"Engineering, design, commissioning",Prof_Tech,0.93913,$m per MW (share of column in per_dollar_AI),0.065217,TT;CAPEX_OUT
+A3,AI_compute,investment,334111,Computers (servers),Computers,19.79072,$m per MW (share of column in per_dollar_AI),0.73299,IT_CAPEX;IT_MARGINS
+A3,AI_compute,investment,334112,Storage devices,Computers,1.00206,$m per MW (share of column in per_dollar_AI),0.037113,IT_CAPEX;IT_MARGINS
+A3,AI_compute,investment,334210,"Communications equipment (switches, routers)",Computers,3.50722,$m per MW (share of column in per_dollar_AI),0.129897,IT_CAPEX;IT_MARGINS
+A3,AI_compute,investment,423430,Wholesale margin,Wholesale_Trade,1.62,$m per MW (share of column in per_dollar_AI),0.06,IT_CAPEX;IT_MARGINS
+A3,AI_compute,investment,48-49,Transport margin,Transp_and_Wareh,0.27,$m per MW (share of column in per_dollar_AI),0.01,IT_CAPEX;IT_MARGINS
+A3,AI_compute,investment,541512,Systems integration,Prof_Tech,0.81,$m per MW (share of column in per_dollar_AI),0.03,IT_CAPEX;IT_MARGINS
+A3,AI_facilities,intermediate,221100,Electricity,Utilities,642.2175,$k per MW-year,0.045516,POWER
+A3,AI_facilities,intermediate,221300,Water and sewer,Utilities,0.6,$k per MW-year,4.3e-05,WATER
+A3,AI_facilities,intermediate,230301,Nonresidential maintenance and repair,Construction,120.0,$k per MW-year,0.008505,OPEX;OPEX_MAP
+A3,AI_facilities,intermediate,324110,Fuel,Petroleum,15.0,$k per MW-year,0.001063,OPEX;OPEX_MAP
+A3,AI_facilities,intermediate,517,Telecommunications,Info,30.0,$k per MW-year,0.002126,OPEX;OPEX_MAP
+A3,AI_facilities,intermediate,524,Insurance,Finance,15.0,$k per MW-year,0.001063,OPEX;OPEX_MAP
+A3,AI_facilities,intermediate,5415,Computer services,Prof_Tech,20.0,$k per MW-year,0.001417,OPEX;OPEX_MAP
+A3,AI_facilities,intermediate,5616,Security and support services,Admin,15.0,$k per MW-year,0.001063,OPEX;OPEX_MAP
+A3,AI_facilities,intermediate,561600,Security services,Admin,20.0,$k per MW-year,0.001417,OPEX;OPEX_MAP
+A3,AI_facilities,intermediate,561700,Cleaning and building services,Admin,5.0,$k per MW-year,0.000354,OPEX;OPEX_MAP
+A3,AI_facilities,labour,labour,labour,labour,60.0,$k per MW-year,0.004252,OPEX
+A3,AI_facilities,capital_services,capital,capital,capital,0,,0.127901,LIVES;OPEX (incl. property tax)
+A3,AI_compute,intermediate,AI_facilities,AI_facilities,AI_facilities,0,,0.194722,derived
+A3,AI_compute,intermediate,5132,Software,Info,0,,0.018667,Z_OPEX
+A3,AI_compute,intermediate,517,Telecommunications,Info,0,,0.009333,Z_OPEX
+A3,AI_compute,intermediate,811,Repair and maintenance,Other,0,,0.007,Z_OPEX
+A3,AI_compute,intermediate,334111,Computers (servers),Computers,0,,0.007,Z_OPEX
+A3,AI_compute,intermediate,5416,Management and admin services,Prof_Tech,0,,0.011667,Z_OPEX
+A3,AI_compute,intermediate,5616,Security and support services,Admin,0,,0.011667,Z_OPEX
+A3,AI_compute,labour,labour,labour,labour,0,,0.150667,KM;Z_OPEX
+A3,AI_compute,capital_services,capital,capital,capital,0,,0.589278,IT_DELTA;Z_OPEX (incl. property tax)
+A3_GB300,AI_facilities,investment,2332A0,"Commercial structures (shell, core, contractor fees, site works)",Construction,3.16174,$m per MW (share of column in per_dollar_AI),0.219565,TT;CAPEX_OUT
+A3_GB300,AI_facilities,investment,238210,Electrical installation,Construction,2.40417,$m per MW (share of column in per_dollar_AI),0.166957,EQUIP
+A3_GB300,AI_facilities,investment,238220,Mechanical installation,Construction,1.44626,$m per MW (share of column in per_dollar_AI),0.100435,EQUIP
+A3_GB300,AI_facilities,investment,332996,Fabricated pipe and manifolds,Fabricated_Metals,0.26859,$m per MW (share of column in per_dollar_AI),0.018652,EQUIP;MECH_SPLIT
+A3_GB300,AI_facilities,investment,333413,Fans,Machinery,0.26859,$m per MW (share of column in per_dollar_AI),0.018652,EQUIP;MECH_SPLIT
+A3_GB300,AI_facilities,investment,333415,"HVAC, chillers, CRAH, CDU",Machinery,1.88014,$m per MW (share of column in per_dollar_AI),0.130565,EQUIP;MECH_SPLIT
+A3_GB300,AI_facilities,investment,333914,Pumps,Machinery,0.26859,$m per MW (share of column in per_dollar_AI),0.018652,EQUIP;MECH_SPLIT
+A3_GB300,AI_facilities,investment,335311,Transformers,Electrical,0.40282,$m per MW (share of column in per_dollar_AI),0.027974,EQUIP;ELEC_BOM
+A3_GB300,AI_facilities,investment,335312,Generators (gensets),Electrical,1.04582,$m per MW (share of column in per_dollar_AI),0.072626,EQUIP;ELEC_BOM
+A3_GB300,AI_facilities,investment,335313,"Switchgear, switchboards, busway",Electrical,0.87164,$m per MW (share of column in per_dollar_AI),0.06053,EQUIP;ELEC_BOM
+A3_GB300,AI_facilities,investment,335314,Controls,Electrical,0.18031,$m per MW (share of column in per_dollar_AI),0.012522,EQUIP;ELEC_BOM
+A3_GB300,AI_facilities,investment,335911,Batteries,Electrical,0.21638,$m per MW (share of column in per_dollar_AI),0.015026,EQUIP;ELEC_BOM
+A3_GB300,AI_facilities,investment,335929,Cable and wire,Electrical,0.25244,$m per MW (share of column in per_dollar_AI),0.01753,EQUIP;ELEC_BOM
+A3_GB300,AI_facilities,investment,335999,"UPS, PDUs, misc. electrical",Electrical,0.79338,$m per MW (share of column in per_dollar_AI),0.055096,EQUIP;ELEC_BOM
+A3_GB300,AI_facilities,investment,541330,"Engineering, design, commissioning",Prof_Tech,0.93913,$m per MW (share of column in per_dollar_AI),0.065217,TT;CAPEX_OUT
+A3_GB300,AI_compute,investment,334111,Computers (servers),Computers,27.46392,$m per MW (share of column in per_dollar_AI),0.742268,IT_CAPEX;IT_MARGINS
+A3_GB300,AI_compute,investment,334112,Storage devices,Computers,1.3732,$m per MW (share of column in per_dollar_AI),0.037113,IT_CAPEX;IT_MARGINS
+A3_GB300,AI_compute,investment,334210,"Communications equipment (switches, routers)",Computers,4.46289,$m per MW (share of column in per_dollar_AI),0.120619,IT_CAPEX;IT_MARGINS
+A3_GB300,AI_compute,investment,423430,Wholesale margin,Wholesale_Trade,2.22,$m per MW (share of column in per_dollar_AI),0.06,IT_CAPEX;IT_MARGINS
+A3_GB300,AI_compute,investment,48-49,Transport margin,Transp_and_Wareh,0.37,$m per MW (share of column in per_dollar_AI),0.01,IT_CAPEX;IT_MARGINS
+A3_GB300,AI_compute,investment,541512,Systems integration,Prof_Tech,1.11,$m per MW (share of column in per_dollar_AI),0.03,IT_CAPEX;IT_MARGINS
+A3_GB300,AI_facilities,intermediate,221100,Electricity,Utilities,642.2175,$k per MW-year,0.03557,POWER
+A3_GB300,AI_facilities,intermediate,221300,Water and sewer,Utilities,0.6,$k per MW-year,3.3e-05,WATER
+A3_GB300,AI_facilities,intermediate,230301,Nonresidential maintenance and repair,Construction,120.0,$k per MW-year,0.006646,OPEX;OPEX_MAP
+A3_GB300,AI_facilities,intermediate,324110,Fuel,Petroleum,15.0,$k per MW-year,0.000831,OPEX;OPEX_MAP
+A3_GB300,AI_facilities,intermediate,517,Telecommunications,Info,30.0,$k per MW-year,0.001662,OPEX;OPEX_MAP
+A3_GB300,AI_facilities,intermediate,524,Insurance,Finance,15.0,$k per MW-year,0.000831,OPEX;OPEX_MAP
+A3_GB300,AI_facilities,intermediate,5415,Computer services,Prof_Tech,20.0,$k per MW-year,0.001108,OPEX;OPEX_MAP
+A3_GB300,AI_facilities,intermediate,5616,Security and support services,Admin,15.0,$k per MW-year,0.000831,OPEX;OPEX_MAP
+A3_GB300,AI_facilities,intermediate,561600,Security services,Admin,20.0,$k per MW-year,0.001108,OPEX;OPEX_MAP
+A3_GB300,AI_facilities,intermediate,561700,Cleaning and building services,Admin,5.0,$k per MW-year,0.000277,OPEX;OPEX_MAP
+A3_GB300,AI_facilities,labour,labour,labour,labour,60.0,$k per MW-year,0.003323,OPEX
+A3_GB300,AI_facilities,capital_services,capital,capital,capital,0,,0.09995,LIVES;OPEX (incl. property tax)
+A3_GB300,AI_compute,intermediate,AI_facilities,AI_facilities,AI_facilities,0,,0.152169,derived
+A3_GB300,AI_compute,intermediate,5132,Software,Info,0,,0.018667,Z_OPEX
+A3_GB300,AI_compute,intermediate,517,Telecommunications,Info,0,,0.009333,Z_OPEX
+A3_GB300,AI_compute,intermediate,811,Repair and maintenance,Other,0,,0.007,Z_OPEX
+A3_GB300,AI_compute,intermediate,334111,Computers (servers),Computers,0,,0.007,Z_OPEX
+A3_GB300,AI_compute,intermediate,5416,Management and admin services,Prof_Tech,0,,0.011667,Z_OPEX
+A3_GB300,AI_compute,intermediate,5616,Security and support services,Admin,0,,0.011667,Z_OPEX
+A3_GB300,AI_compute,labour,labour,labour,labour,0,,0.150667,KM;Z_OPEX
+A3_GB300,AI_compute,capital_services,capital,capital,capital,0,,0.631831,IT_DELTA;Z_OPEX (incl. property tax)
+A4,AI_facilities,investment,2332A0,"Commercial structures (shell, core, contractor fees, site works)",Construction,3.59348,$m per MW (share of column in per_dollar_AI),0.206522,TT;CAPEX_OUT
+A4,AI_facilities,investment,238210,Electrical installation,Construction,3.02609,$m per MW (share of column in per_dollar_AI),0.173913,EQUIP
+A4,AI_facilities,investment,238220,Mechanical installation,Construction,1.72109,$m per MW (share of column in per_dollar_AI),0.098913,EQUIP
+A4,AI_facilities,investment,332996,Fabricated pipe and manifolds,Fabricated_Metals,0.31963,$m per MW (share of column in per_dollar_AI),0.01837,EQUIP;MECH_SPLIT
+A4,AI_facilities,investment,333413,Fans,Machinery,0.31963,$m per MW (share of column in per_dollar_AI),0.01837,EQUIP;MECH_SPLIT
+A4,AI_facilities,investment,333415,"HVAC, chillers, CRAH, CDU",Machinery,2.23741,$m per MW (share of column in per_dollar_AI),0.128587,EQUIP;MECH_SPLIT
+A4,AI_facilities,investment,333914,Pumps,Machinery,0.31963,$m per MW (share of column in per_dollar_AI),0.01837,EQUIP;MECH_SPLIT
+A4,AI_facilities,investment,335311,Transformers,Electrical,0.50309,$m per MW (share of column in per_dollar_AI),0.028913,EQUIP;ELEC_BOM
+A4,AI_facilities,investment,335312,Generators (gensets),Electrical,1.31635,$m per MW (share of column in per_dollar_AI),0.075652,EQUIP;ELEC_BOM
+A4,AI_facilities,investment,335313,"Switchgear, switchboards, busway",Electrical,1.09317,$m per MW (share of column in per_dollar_AI),0.062826,EQUIP;ELEC_BOM
+A4,AI_facilities,investment,335314,Controls,Electrical,0.22696,$m per MW (share of column in per_dollar_AI),0.013043,EQUIP;ELEC_BOM
+A4,AI_facilities,investment,335911,Batteries,Electrical,0.27235,$m per MW (share of column in per_dollar_AI),0.015652,EQUIP;ELEC_BOM
+A4,AI_facilities,investment,335929,Cable and wire,Electrical,0.31774,$m per MW (share of column in per_dollar_AI),0.018261,EQUIP;ELEC_BOM
+A4,AI_facilities,investment,335999,"UPS, PDUs, misc. electrical",Electrical,0.99861,$m per MW (share of column in per_dollar_AI),0.057391,EQUIP;ELEC_BOM
+A4,AI_facilities,investment,541330,"Engineering, design, commissioning",Prof_Tech,1.13478,$m per MW (share of column in per_dollar_AI),0.065217,TT;CAPEX_OUT
+A4,AI_compute,investment,334111,Computers (servers),Computers,35.72165,$m per MW (share of column in per_dollar_AI),0.714433,IT_CAPEX;IT_MARGINS
+A4,AI_compute,investment,334112,Storage devices,Computers,3.71134,$m per MW (share of column in per_dollar_AI),0.074227,IT_CAPEX;IT_MARGINS
+A4,AI_compute,investment,334210,"Communications equipment (switches, routers)",Computers,5.56701,$m per MW (share of column in per_dollar_AI),0.11134,IT_CAPEX;IT_MARGINS
+A4,AI_compute,investment,423430,Wholesale margin,Wholesale_Trade,3.0,$m per MW (share of column in per_dollar_AI),0.06,IT_CAPEX;IT_MARGINS
+A4,AI_compute,investment,48-49,Transport margin,Transp_and_Wareh,0.5,$m per MW (share of column in per_dollar_AI),0.01,IT_CAPEX;IT_MARGINS
+A4,AI_compute,investment,541512,Systems integration,Prof_Tech,1.5,$m per MW (share of column in per_dollar_AI),0.03,IT_CAPEX;IT_MARGINS
+A4,AI_facilities,intermediate,221100,Electricity,Utilities,655.248,$k per MW-year,0.027479,POWER
+A4,AI_facilities,intermediate,221300,Water and sewer,Utilities,0.2,$k per MW-year,8e-06,WATER
+A4,AI_facilities,intermediate,230301,Nonresidential maintenance and repair,Construction,150.0,$k per MW-year,0.00629,OPEX;OPEX_MAP
+A4,AI_facilities,intermediate,324110,Fuel,Petroleum,15.0,$k per MW-year,0.000629,OPEX;OPEX_MAP
+A4,AI_facilities,intermediate,517,Telecommunications,Info,33.0,$k per MW-year,0.001384,OPEX;OPEX_MAP
+A4,AI_facilities,intermediate,524,Insurance,Finance,20.0,$k per MW-year,0.000839,OPEX;OPEX_MAP
+A4,AI_facilities,intermediate,5415,Computer services,Prof_Tech,22.0,$k per MW-year,0.000923,OPEX;OPEX_MAP
+A4,AI_facilities,intermediate,5616,Security and support services,Admin,15.0,$k per MW-year,0.000629,OPEX;OPEX_MAP
+A4,AI_facilities,intermediate,561600,Security services,Admin,15.0,$k per MW-year,0.000629,OPEX;OPEX_MAP
+A4,AI_facilities,intermediate,561700,Cleaning and building services,Admin,3.0,$k per MW-year,0.000126,OPEX;OPEX_MAP
+A4,AI_facilities,labour,labour,labour,labour,40.0,$k per MW-year,0.001677,OPEX
+A4,AI_facilities,capital_services,capital,capital,capital,0,,0.093131,LIVES;OPEX (incl. property tax)
+A4,AI_compute,intermediate,AI_facilities,AI_facilities,AI_facilities,0,,0.133744,derived
+A4,AI_compute,intermediate,5132,Software,Info,0,,0.018667,Z_OPEX
+A4,AI_compute,intermediate,517,Telecommunications,Info,0,,0.009333,Z_OPEX
+A4,AI_compute,intermediate,811,Repair and maintenance,Other,0,,0.007,Z_OPEX
+A4,AI_compute,intermediate,334111,Computers (servers),Computers,0,,0.007,Z_OPEX
+A4,AI_compute,intermediate,5416,Management and admin services,Prof_Tech,0,,0.011667,Z_OPEX
+A4,AI_compute,intermediate,5616,Security and support services,Admin,0,,0.011667,Z_OPEX
+A4,AI_compute,labour,labour,labour,labour,0,,0.150667,KM;Z_OPEX
+A4,AI_compute,capital_services,capital,capital,capital,0,,0.650256,IT_DELTA;Z_OPEX (incl. property tax)

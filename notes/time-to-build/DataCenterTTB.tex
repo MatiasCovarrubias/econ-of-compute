@@ -1,0 +1,337 @@
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue]{hyperref}
+\usepackage{xurl}
+
+\geometry{margin=1in}
+\setlength{\parskip}{4pt}
+\urlstyle{same}
+\renewcommand{\footnotesize}{\fontsize{8}{9.5}\selectfont}
+
+% Source: linked text in the body plus the URL as a footnote.
+\newcommand{\src}[2]{\href{#1}{#2}\footnote{\url{#1}}}
+
+\title{Time to Build: The Lifecycle of Data-Centre Projects in Spain\\
+\large Evidence from administrative filings, with a first look at Portugal and France}
+\author{}
+\date{September 2026}
+
+\begin{document}
+\maketitle
+
+\section*{Summary}
+
+Announced data-centre investment in Spain is large (the SpainDC--Pb7 forecast is EUR 66.9 billion over 2026--2030), but the euros become investment only when buildings go up and equipment is installed. This note uses a census of Spanish administrative filings compiled by \src{https://ja-prieto.github.io/data-centers-analysis-site/}{Prieto (2026)}, together with official gazettes and press, to measure how long a campus takes from first public paperwork to operation and what determines the variation.
+
+Main findings:
+
+\begin{enumerate}[leftmargin=*]
+\item A large campus on rural land passes through seven gates: a regional strategic-interest label, a regional land-use plan, environmental permits, land assembly, a grid connection, municipal building licences, and construction. Observed durations are 2 weeks to 3 months for the label; 7 to 31 months for the plan; 8 to 18 months for environmental permits (about a year more when contested); 0 to 22 months for land assembly; 1 to 6 years for the grid; 1 to 25 months for municipal licences; and 25 to 27 months for construction of the first halls.
+\item The only completed greenfield campus, Amazon's first Aragón region, went from announcement (October 2019) to service (November 2022) in 36 months: 9 months to the definitive plan and 27 months of construction. It had public land, grid capacity at the node, an uncontested environmental file and a regional government that halves its own deadlines.
+\item Projects missing any of those conditions are slower. Meta's Talavera campus, filed March 2022, has its plan and land assembled but no building licence 54 months later; first halls are unlikely before 2029. Microsoft's Aragón campuses, announced October 2023, have no definitive plan after 35 months, and the promoter's filed schedule puts partial operation in 2030, about seven years after announcement.
+\item Facilities on already-zoned industrial land skip the plan and land-assembly steps. Microsoft's Madrid region took 52 months from announcement to service; Nostrum's 40 MW Guadalajara site plans three years from environmental filing to operation. In Madrid the observed bottleneck was municipal licensing (25 months in Algete).
+\item The grid connection is the binding and least predictable step. Spain has granted more than 43 GW of demand access rights against a 38.2 GW peak; capacity at saturated nodes is now allocated by competitive call; Red Eléctrica quotes 3 to 6 years to permit a substation; and a draft Royal Decree would add efficiency and renewables conditions to every permit above 1 MW and let unconnected permits lapse.
+\item Six conditions observable at announcement explain most of the variation: land zoning, land seller (public agency vs private owners), spare capacity at the grid node, the regional legal route, local contestation, and the promoter's own phasing.
+\item A first pass on Portugal and France shows the same two tracks. Start Campus Sines put a 15 MW first hall in service 43 months after announcement on public industrial land; its 1.2 GW campus is unbuilt after five years. France's Fouju campus reached permits in 17 months under a State grid fast track and plans first delivery end-2029; Microsoft's contested Alsace campus plans 2030, six years after announcement. Fast first halls outside Spain are small; gigawatt phases wait for transmission works everywhere.
+\item For investment timing, a greenfield hyperscale euro announced in year $t$ is spent mostly in $t+2$ to $t+5$ on the fast track and from $t+4$ otherwise; industrial-land facilities compress this to $t+1$ to $t+3$. The SpainDC assumption of 12--18 month permitting delays fits the Amazon track and understates the others.
+\end{enumerate}
+
+\section{Motivation}
+
+Most estimates of Spanish data-centre investment start from announcements: a company says it will invest EUR 15.7 billion by 2033, a regional government adds the number to its pipeline, and the total is reported as if it were committed capital. For national accounts what matters is when construction firms pour concrete and when servers are installed, and that depends on a permitting and construction sequence that is long, region-specific and only partly under the promoter's control.
+
+The forecast used in the companion note (\src{https://spaindc.com/wp-content/uploads/2025/09/SpainDC-Informe-Anual-2025_.pdf}{SpainDC--Pb7 annual report}) handles timing through assumptions: 12--18 month permitting delays, a 12-month slip on announced commissioning dates, and 15\% of early-stage plans materialising. This note asks whether the observed lifecycle supports those numbers.
+
+\section{Data}
+
+The source is a public dataset compiled by J.A.~Prieto from official gazettes (Aragón's BOA, Castilla-La Mancha's DOCM, Madrid's BOCM, the national BOE) and regional environmental portals, published as an \src{https://ja-prieto.github.io/data-centers-analysis-site/}{interactive site} and as CSV files (\src{https://github.com/ja-prieto/data-centers-analysis-site}{repository}; \src{https://raw.githubusercontent.com/ja-prieto/data-centers-analysis-site/main/public/proyectos.csv}{projects}; \src{https://raw.githubusercontent.com/ja-prieto/data-centers-analysis-site/main/public/expedientes.csv}{filings}). The September 2026 dump has 232 filings grouped into 112 projects, dated November 2019 to August 2026.
+
+A filing (\emph{expediente}) is one administrative act: a notice that a file is open for public comment, a permit, an approval. Three features of the data limit what can be done with it.
+
+\begin{itemize}[leftmargin=*]
+\item Most filings are public-comment notices. 134 of the 232 rows are literally ``Información pública'', the moment a regional body publishes a file so citizens can object. They date the start of a review; the decision comes later and is often unrecorded.
+\item Most projects appear once. 74 of the 112 projects have a single filing, so no duration can be computed. Only 17 have three or more dated filings.
+\item Two events never appear: the private grid-access application to Red Eléctrica or the distributor, and the purchase of land. Both usually precede the first public notice and both matter for timing.
+\end{itemize}
+
+The lifecycle therefore cannot be estimated as an average over projects. It is reconstructed for the projects with enough dated decisions and cross-checked against official pages and press. Those are Amazon (Aragón, two waves), Meta (Talavera) and Microsoft (Aragón). Three smaller projects (Nostrum in Guadalajara, Blackstone/QTS in Calatorao, Box2Bit in Épila) and Microsoft's Madrid region serve as contrasts.
+
+\section{Steps}
+
+The steps below apply to a large campus on land not yet zoned for industrial use, the situation of the hyperscale projects in Aragón and Castilla-La Mancha. A facility on an already-urbanised industrial plot skips steps 2 and 4.
+
+\subsection{Regional strategic-interest label}
+
+Each region has a label it can attach to a project it wants. In Aragón it is the \emph{Declaración de Inversión de Interés Autonómico} (DIGA, \src{https://www.boe.es/buscar/doc.php?id=BOA-d-2008-90036}{Decreto-ley 1/2008}); in Castilla-La Mancha the \emph{Declaración de Interés Regional} (DIR, \src{https://urbanismo.castillalamancha.es/sites/default/files/2024-09/decreto_legislativo_1-2023_de_28_de_febrero_trlotau.pdf}{TRLOTAU art.~33}). The label authorises nothing by itself. In Aragón it halves the region's own administrative deadlines for everything that follows (Microsoft's plan got a 23-working-day comment period instead of 45). In Castilla-La Mancha it opens the door to the regional plan and, in Meta's case, set a 12-month deadline to file it.
+
+Whether the label is mandatory depends on the region. In Castilla-La Mancha it is: the law makes the DIR a precondition for a private promoter to file a PSI. In Aragón the DIGA is optional in law; a PIGA can be declared of general interest on its own. In practice every large campus in the census has taken it, because it halves deadlines and signals government backing, and Aragón usually issues the DIGA and the general-interest declaration in the same cabinet decision. In Madrid the equivalent is a general-interest finding inside the PAE procedure itself. So the label is legally required on the Castilla-La Mancha route and optional but universal on the Aragón route.
+
+Observed durations: Amazon obtained the Aragón label five weeks after announcing the project (31 October to 3 December 2019). Meta's application of 4 March 2022 was granted on 7 June 2022. Microsoft's first Aragón label came two weeks after the announcement (10 to 25 October 2023). Once a regional government has publicly backed a project, this step is fast and close to certain.
+
+\subsection{Regional land-use plan}
+
+Municipal plans do not allow multi-building, high-power campuses on farmland. The region therefore approves a special plan that reclassifies the land, sets what can be built, and can carry a declaration of public utility that enables expropriation. Aragón's instrument is the \emph{Plan/Proyecto de Interés General de Aragón} (PIGA, \src{https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=881901422828}{TRLOTA arts.~32--50}); Castilla-La Mancha's is the \emph{Proyecto de Singular Interés} (PSI); Madrid's, for unsectorised land, the \emph{Proyecto de Actuación Especial} (PAE, \src{https://www.boe.es/buscar/act.php?id=BOE-A-2001-18984}{Ley 9/2001 art.~27}).
+
+The plan goes through initial approval, a public-comment period (one month by law), sectoral reports, and definitive approval by the regional government. As a plan it also needs its own strategic environmental assessment (Section~3.3). Statutory deadlines are short (Castilla-La Mancha lists three months to resolve a PSI; Madrid six for a PAE) but the clock runs only on a complete file, and files are rarely complete at the first pass. Table~\ref{tab:plans} gives the observed durations.
+
+\begin{table}[H]
+\centering\small
+\caption{Regional plan: filing to definitive approval}
+\label{tab:plans}
+\begin{tabular}{p{2.3cm}p{2.2cm}p{2.3cm}p{2.0cm}p{2.9cm}p{2.2cm}}
+\toprule
+Project & Route & Filed & Initial approval & Definitive approval & Elapsed \\
+\midrule
+Amazon, phase 1 & Aragón PIGA & 16 Dec 2019 & 27 Dec 2019 & 30 Jul 2020 & 7.5 months \\
+Amazon, expansion & Aragón PIGA, partial approvals & 7 Nov 2024 & 4 Dec 2024 & 22 Aug 2025 (utilities); 4 May 2026 (buildings) & 9.5 / 18 months \\
+Meta, Talavera & CLM DIR then PSI & 4 Mar 2022 (DIR); 22 Mar 2023 (PSI) & 31 Mar 2023 & 22 Oct 2024 & 31.5 months from DIR; 19 from PSI \\
+Microsoft, Aragón & Aragón PIGA & 29 Sep 2025 & 14 Nov 2025 & pending (Sep 2026) & $>$12 months (35 since announced) \\
+QTS (Blackstone), Calatorao & Aragón PIGA & 4 Jul 2025 & 19 Aug 2025 & pending & $>$14 months \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Sources: Aragón government pages for the \src{https://www.aragon.es/-/proyecto-de-interes-general-de-aragon-sobre-la-implantacion-de-centros-de-datos-en-la-comunidad-autonoma-de-aragon-a-propuesta-de-amazon-data-services-spain}{Amazon PIGA}, the \src{https://www.aragon.es/-/expansion-aws-aragon}{Amazon expansion} and the \src{https://www.aragon.es/-/piga-microsoft}{Microsoft PIGA}; Castilla-La Mancha's \src{https://urbanismo.castillalamancha.es/planeamiento/planeamiento-territorial/proyectos-de-singular-interes/meta-data-center-campus}{Meta PSI page}; the \src{https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1408861960606}{Calatorao PIGA order}.
+
+The two regions run this step differently. Aragón approves plans in pieces: Amazon's expansion got a first partial approval covering roads and utilities nine months after filing, and the piece authorising buildings eight months later, so civil works can start while the rest is under review. Castilla-La Mancha's route is sequential: a DIR first, then a full PSI, each with its own hearing. Meta's plan took two and a half years from the first application.
+
+\subsection{Environmental permits}
+
+Three environmental decisions matter.
+
+\begin{itemize}[leftmargin=*]
+\item The plan needs a strategic environmental assessment (\emph{evaluación ambiental estratégica}), ending in a \emph{declaración} or \emph{informe ambiental estratégico}. It asks whether the land use is acceptable at all.
+\item The project (buildings, roads, substation) needs an environmental impact assessment under \src{https://www.boe.es/buscar/act.php?id=BOE-A-2013-12913}{Ley 21/2013}, ending in a \emph{Declaración de Impacto Ambiental} (DIA) on the ordinary route or an \emph{informe de impacto ambiental} on the simplified route. The law gives the environmental body four months to issue the DIA once the file is complete. A DIA is valid for four years, after which works must have started or the permit lapses.
+\item If the backup diesel generators exceed 50 MW of thermal capacity, which any large campus does, the site needs an integrated environmental authorisation (\emph{Autorización Ambiental Integrada}, AAI, \src{https://www.boe.es/buscar/act.php?id=BOE-A-2016-12601}{RDL 1/2016}), the industrial-pollution permit a refinery needs. Statutory deadline nine months.
+\end{itemize}
+
+Amazon's phase 1 obtained its DIA and AAI together on 27 July 2020, eight months after the first environmental notice (13 November 2019). Meta's DIA came on 22 March 2024, twelve months after the initial PSI approval, after the cooling design was changed twice to cut water use (from about 665 million litres a year for the whole campus to 40,600 cubic metres for the data centre itself, by switching to dry-air cooling; \src{https://elpais.com/tecnologia/2023-12-22/meta-recorta-un-24-el-agua-que-consumira-su-hipercentro-de-datos-de-talavera-de-la-reina.html}{El País, Dec 2023}; \src{https://docm.jccm.es/docm/descargarArchivo.do?ruta=2024/03/22/pdf/2024_2337.pdf&tipo=rutaDocm}{DIA in DOCM}). Microsoft filed its strategic assessment in March 2025 and, after replacing its environmental annexes in July 2026, is in a new comment period that drew 349 objections from a neighbourhood platform defending the Pinares de Venecia pine forest (\src{https://www.eldiario.es/aragon/politica/plataforma-presenta-349-alegaciones-instalacion-centro-datos-microsoft-zaragoza_1_13472646.html}{eldiario.es}).
+
+The environmental step is where local opposition enters the timeline. Water in Talavera and a pine forest in Zaragoza each added roughly a year. Where the site is an existing industrial estate with no sensitive receptor, the simplified route applies and the step is quick: Blackstone's Calatorao project got a screening decision in July 2026 exempting it from ordinary assessment (\src{https://www.hoyaragon.es/aragon/centro-datos-blackstone-qts-calatorao-ambiental/20260805100944140774.html}{hoyaragon.es}).
+
+\subsection{Land assembly and urbanisation}
+
+A plan says what may be built. Before a building licence can be issued, the old rural plots must be redrawn into urban plots (\emph{reparcelación}), streets and utilities must be designed (\emph{proyecto de urbanización}) and either built or guaranteed with a bond. Until the re-parcelling is final, municipalities are legally barred from issuing building licences.
+
+This step is short when the promoter buys a ready plot from a public land agency and long when land must be bought from many private owners or expropriated. Amazon's phase 1 bought its three plots from Aragón's public land companies (SVA, APL) as part of the December 2019 agreement that launched the plan; there was nothing to assemble. Meta bought the core of its 191 hectares from the national land agency Sepes in December 2024 for EUR 20.6 million (\src{https://www.eldiario.es/castilla-la-mancha/provincias/toledo/sepes-culmina-venta-suelo-industrial-talavera-hara-posible-llegada-proyecto-mark-zuckerberg_1_11915310.html}{eldiario.es}), applied for re-parcelling in April 2025, and obtained definitive approval on 7 August 2026, 22 months after the plan and 16 after the application (\src{https://www.castillalamancha.es/actualidad/notasdeprensa/el-gobierno-regional-aprueba-definitivamente-la-reparcelacion-del-psi-del-futuro-campus-de-centros}{Junta press note}). Microsoft bought 94 private plots at La Muela for about EUR 14 million and public land at Zaragoza for EUR 24.5 million, then needed a municipal expropriation for the last 9.4 hectares at La Muela and now faces a lawsuit from expropriated owners over 16.5 hectares at Puerto Venecia (\src{https://www.elperiodicodearagon.com/aragon/2026/07/19/expropiados-abren-frente-judicial-centro-132563870.html}{El Periódico de Aragón}).
+
+\subsection{Grid connection}
+
+A campus needs an access and connection permit for demand from Red Eléctrica (transmission) or the distributor, under \src{https://www.boe.es/buscar/act.php?id=BOE-A-2020-17278}{RD 1183/2020} and \src{https://www.boe.es/eli/es/cir/2024/09/27/1}{CNMC Circular 1/2024}. The permit itself is fast on paper (the grid operator has 60 days to make an offer) and the application is private, so it never appears in the census. What appears is the physical work: the substation and the high-voltage line, which need their own administrative authorisation, public-utility declaration and, often, expropriation of the land under the towers.
+
+Three facts make this the binding step in Spain today.
+
+\begin{itemize}[leftmargin=*]
+\item Capacity is scarce at the right nodes. Since 2020 the system has granted more than 43 GW of demand access rights against a 2024 peak load of 38.2 GW (\src{https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/transicion-ecologica/paginas/2025/120925-aagesen-planificacion-electrica-2030.aspx}{La Moncloa, Sep 2025}). In October 2024 Amazon and Microsoft were each asking for about 300 MW per site at Zaragoza-area nodes that were already saturated (\src{https://www.elperiodicodearagon.com/aragon/2024/10/20/amazon-microsoft-3-promotores-centros-109787991.html}{El Periódico de Aragón}).
+\item Where demand exceeds capacity at a node, capacity is now allocated by competitive call (\emph{concurso}), created by \src{https://www.boe.es/buscar/act.php?id=BOE-A-2023-27680}{RDL 8/2023}. The first call (3,681 MW at eight nodes) opened in July 2025 and was resolved in February 2026 (\src{https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-4357}{BOE}); most capacity went to industry rather than data centres, and the ministerial order that should set the full criteria is still unpublished.
+\item Building the wire is slow. Red Eléctrica's own estimate is three to six years to permit a normal substation and one year to build it, and six to twelve years to permit a medium-length line (\src{https://www.eleconomista.es/energia/noticias/13772094/02/26/red-electrica-denuncia-un-cuello-de-botella-de-permisos-que-frena-nuevas-inversiones-en-redes.html}{El Economista, Feb 2026}). The Calera y Chozas 220 kV substation that serves Meta, a 208-metre entry into an existing line, was filed in November 2022 and inaugurated in July 2025, 32 months (\src{https://www.ree.es/es/sala-de-prensa/actualidad/nota-de-prensa-transporte/2025/07/corredor-y-garcia-page-inauguran-calera-chozas}{REE}).
+\end{itemize}
+
+The grid also decides where projects go. Box2Bit abandoned Cariñena in January 2026 after the node was left out of the 2025--2030 grid plan and refiled at Épila, where it obtained 150 MW only after a CNMC dispute with Red Eléctrica and Blackstone over the Calatorao node (\src{https://www.heraldo.es/noticias/aragon/2026/07/27/box2bit-logro-energia-para-su-centro-datos-epila-tras-recurrir-cnmc-2037785.html}{Heraldo}). Blackstone arrived at Calatorao with 300 MW already granted, and REE started the 220 kV substation in March 2025 with completion planned within the year (\src{https://www.elperiodicodearagon.com/aragon/2025/03/05/red-electrica-invierte-8-millones-114967807.html}{El Periódico de Aragón}).
+
+A draft national Royal Decree, out for consultation in August--September 2026 (\src{https://www.miteco.gob.es/es/energia/participacion/2026/detalle-participacion-publica-k-851.html}{MITECO}), would condition every access permit above 1 MW on efficiency (PUE at or below 1.15), digital-sovereignty declarations and 80\% coverage by new Spanish renewables with hourly matching. Pending applications would have three months to comply and granted-but-unconnected permits six months, after which they lapse. It creates no fast track. If enacted as drafted, it adds a compliance gate to this step and puts existing permits at risk, which the Castilla-La Mancha government has said could affect Meta (\src{https://www.eldiario.es/castilla-la-mancha/politica/diez-pegas-castilla-mancha-decreto-centros-datos-pone-riesgo-proyecto-meta-talavera_1_13514887.html}{eldiario.es}).
+
+\subsection{Municipal licences}
+
+The town hall issues the building licence (\emph{licencia de obras}), the activity licence and the first-occupation licence. Statutory times are a few months. In practice they range from about a month in small towns that want the project to two years in towns with thin planning departments: Microsoft's Algete activity licence was 25 months late when it was unblocked in August 2023 (\src{https://cadenaser.com/cmadrid/2023/08/03/desbloqueada-la-concesion-de-licencias-para-la-creacion-del-data-center-de-microsoft-en-algete-ser-madrid-norte/}{Cadena SER}). Zaragoza issued Microsoft a licence in February 2026 to fence and clear 59 hectares at Puerto Venecia, explicitly without earthworks (\src{https://www.zaragoza.es/sede/servicio/agenda-institucional/attachment/6800}{Ayuntamiento de Zaragoza}). Press reports often call that kind of licence a construction start; it authorises fencing and clearing only.
+
+\subsection{Construction and fit-out}
+
+Once licensed, the first buildings take roughly two years. Amazon's earthworks began in August 2020 and the region opened on 15 November 2022, 27 months (\src{https://www.heraldo.es/noticias/aragon/2020/08/23/amazon-ficha-a-las-grandes-constructoras-del-pais-para-levantar-sus-centros-de-datos-1392086.html}{Heraldo}; \src{https://aws.amazon.com/blogs/aws/now-open-aws-region-in-spain/}{AWS}). Digital Realty's MAD4 in Madrid started works in June 2021 and hosted IBM's live region by July 2023, 25 months. Data4's first Alcobendas building went from construction in spring 2019 to service in 2020. The IT equipment, the larger part of the euros in the SpainDC totals, is installed in the last months of that window and afterwards, and never appears in any filing.
+
+\subsection{Summary table}
+
+\begin{table}[H]
+\centering\small
+\caption{Steps, statutory clocks and observed durations}
+\label{tab:steps}
+\begin{tabular}{p{2.4cm}p{2.4cm}p{2.7cm}p{3.9cm}p{2.4cm}}
+\toprule
+Step & Who decides & Statutory clock & Observed & Predictability \\
+\midrule
+1. Strategic label & Regional government & 2--3 months & 2 weeks to 3 months & High \\
+2. Regional plan & Regional government & 3--6 months on a complete file & 7.5 months (Amazon) to 31 (Meta); Microsoft $>$12 and open & Medium; route and contestation \\
+3. Environmental permits & Regional environmental body & 4 months (DIA), 9 months (AAI) after complete file & 8 months (Amazon) to 12+ (Meta); Microsoft open after 18 & Medium; opposition adds about a year \\
+4. Land assembly & Region and municipality & None binding & 0 (public land bought upfront) to 22 months (Meta) & Low with private owners or expropriation \\
+5. Grid connection & REE / distributor, ministry, CNMC & 60 days for offer; years for works & 1 year if capacity exists; 3--6 years for a new substation; competitive call 7 months & Lowest; binding constraint \\
+6. Municipal licences & Town hall & 3--6 months & 1 to 25 months & Medium \\
+7. Construction to first halls & Promoter & None & 25--27 months & High \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Steps 2, 3 and 5 overlap. Step 4 follows 2. Step 6 follows 4. Step 7 follows 6 and needs 5 complete before energisation.
+
+\section{Case studies}
+
+\subsection{Amazon Aragón, phase 1}
+
+Amazon's site search reached the Aragón government in April 2018 through the national investment agency; a confidentiality agreement was signed in June 2019 and the region was announced on 31 October 2019 (\src{https://www.elperiodicodearagon.com/aragon/2019/11/16/gesto-llegada-amazon-aragon-46584139.html}{El Periódico de Aragón}; \src{https://press.aboutamazon.com/2019/10/aws-to-open-data-centers-in-spain}{AWS}). Everything then moved at once: label on 3 December, plan filed 16 December and initially approved 27 December, land bought from two public land companies, fibre works from March 2020, environmental permits and definitive plan in the last week of July 2020, earthworks in August 2020 by ACS and Acciona, and the region live on 15 November 2022 with three sites and a EUR 2.5 billion plan budget.
+
+Announcement to definitive plan took 9 months; plan to service 27.5 months; announcement to service 36.5 months. From the first contact with the regional government it was four and a half years, but the pre-announcement phase is the promoter's site search and falls outside permitting.
+
+The ingredients: public land with no assembly, grid capacity available at the nodes in 2019, an ordinary environmental assessment with no organised opposition, and a regional government that had halved its deadlines and approved the plan in pieces.
+
+\subsection{Amazon Aragón, expansion}
+
+The May 2024 announcement of EUR 15.7 billion through 2033 (raised to EUR 33.7 billion through 2035 in March 2026; \src{https://www.aboutamazon.com/news/company-news/amazon-spain-investment}{Amazon}) came with a new label the same day. The new plan was filed in November 2024, initially approved in December, and approved in three pieces: utilities and re-parcelling in August 2025, power lines and water in November 2025, and the first-phase buildings and substations on 4 May 2026 (\src{https://www.hoyaragon.es/aragon/amazon-servidores-ia-aragon/20260505135250129739.html}{hoyaragon.es}). Environmental decisions for the substations came in October 2025 and for the buildings in April 2026.
+
+The promoter's staging plan, filed with the PIGA, puts first operations in Q2 2027, when potable water arrives, with power stepping from 100 MW at 132 kV to 200--300 MW per site at 220 kV, and some water infrastructure only in 2029 (\src{https://www.aragon.es/documents/d/guest/tomo-viii-plan-de-etapas-pdf}{plan de etapas}). If met, that is three years from label to first operation, the same as phase 1, on a footprint that grew from 46 to about 400 hectares. The 2025--2026 activity visible in the filings is substations, lines and the authorisation to build; the euros for the halls fall in 2026--2027 and the IT afterwards.
+
+\subsection{Meta Talavera}
+
+Meta's vehicle applied for the Castilla-La Mancha label on 4 March 2022 with a plan to start building in late 2023 and reach full operation in 2030. The label came in June 2022; the plan was filed in March 2023, went through a strategic environmental report (December 2023) and an impact assessment (March 2024) that forced a redesign of the cooling system after the water controversy, and was definitively approved on 22 October 2024 at EUR 750 million and 191 hectares. The land was bought from Sepes in December 2024. Re-parcelling was requested in April 2025, published for comment in November 2025 and approved on 7 August 2026. The promoter posted its EUR 1.09 million urbanisation bond on 2 September 2026, and the regional government announced that Meta could now apply for building licences (\src{https://castillalamancha.es/actualidad/notasdeprensa/castilla-la-mancha-consolida-el-avance-definitivo-del-proyecto-de-meta-en-talavera-tras-culminar-el}{Junta}). Environmental monitoring reports filed in August 2025 and February 2026 confirm that construction has not started (\src{https://urbanismo.castillalamancha.es/sites/default/files/2026-02/1_informe_2_seguimiento.pdf}{report II}).
+
+Application to plan took 31.5 months; plan to assembled land 22 months; 54 months have elapsed with no building licence. The grid side ran in parallel and finished first (substation inaugurated July 2025). If construction takes Amazon's 27 months from earthworks, first halls arrive in 2029 at the earliest, against an original 2023 start.
+
+What made it slow: a sequential two-stage regional route, land held by a national agency that had to unwind an earlier urbanisation before selling, a water-stressed basin, and a promoter that described the label application as a test of whether a campus ``could be built if company needs require'' (\src{https://www.elespanol.com/invertia/disruptores/autonomias/castilla-la-mancha/20220316/castilla-la-mancha-convencio-facebook-instalar-talavera-reina/657434432_0.html}{El Español}). Part of the delay is therefore the promoter's option to wait, and part is administrative time; the filings do not separate the two.
+
+\subsection{Microsoft Aragón}
+
+Microsoft announced an Aragón campus on 10 October 2023, obtained a label two weeks later and bought land at La Muela (94 private plots, about EUR 14 million) and at Zaragoza's technology park (EUR 24.5 million from the regional government) that autumn. In December 2024 it decided to move the Zaragoza site to Puerto Venecia, next to a pine forest, and obtained a third label for it in February 2025 at EUR 2.9 billion. A single plan covering the three campuses (EUR 5.36 billion of urbanisation and construction) was filed in September 2025 and initially approved on 14 November 2025 (\src{https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VEROBJ&MLKOB=1421303980707}{BOA}). The environmental file was resubmitted in July 2026 and drew 349 objections. As of September 2026 there is no definitive plan.
+
+The filed schedule says the first phase (EUR 1.3 billion, 50 MW guaranteed per campus) will be completed about four years after the definitive plan, with partial operation from 2030 and full build-out a decade later (\src{https://www.elperiodicodearagon.com/aragon/2025/05/20/microsoft-dilata-2040-despliegue-completo-117570895.html}{El Periódico de Aragón}). The 300 MW per site Microsoft requested at saturated nodes is not yet granted; 50 MW per site is. Announcement to first operation will be about seven years if that schedule holds.
+
+What made it slow relative to Amazon: private land needing expropriation, a site change that cost a year, a contested environmental file, and grid capacity that exists only for the first 150 MW.
+
+\subsection{Projects on industrial land}
+
+Microsoft's Madrid cloud region (Algete, Meco, San Sebastián de los Reyes) sits on already-zoned industrial plots. It was announced in February 2020 and opened on 11 June 2024, about four years and four months, with no regional plan needed; the visible delay was municipal (the 25-month Algete licence) and the promoter's own pace (\src{https://news.microsoft.com/source/emea/2024/06/microsoft-abre-su-primera-region-cloud-en-espana-para-acelerar-el-desarrollo-de-la-economia-de-la-ia/?lang=es}{Microsoft}). Nostrum's 40 MW GUA1 in Guadalajara, on a 2-hectare industrial plot with power already granted, filed its environmental application in September 2025 and presented the project in February 2026 with works planned for late 2026 and operation in 2028 (\src{https://www.guadalajara.es/es/noticia/nostrum-data-centers-creara-en-guadalajara-un-nuevo-centro-de-datos-de-40-mwe-que-reforzara-la-posicion-de-la-ciudad-como-nodo-digital-estrategic.html}{Ayuntamiento de Guadalajara}). That is a three-year clock with two steps removed, roughly what Amazon achieved with all seven steps and every favourable condition.
+
+\section{Determinants of variation}
+
+The observed range runs from three years to seven-plus. Each slow project lacks one or more of the following conditions, and each condition can be read from public information at the time of announcement.
+
+\begin{enumerate}[leftmargin=*]
+\item Land status. An industrial plot skips the regional plan and land assembly, which together account for one to four years in the greenfield cases. This is the largest single determinant and the reason Madrid colocation is fast.
+\item Land seller. Public land companies (Aragón's SVA, APL and PTR; the national Sepes) sell a ready plot, sometimes in the same agreement that launches the plan. Private land means many sellers, expropriation and litigation (Microsoft at La Muela and Puerto Venecia).
+\item Grid capacity at the node. Amazon in 2019 and Blackstone in 2024 arrived with capacity available or granted; Box2Bit lost its node and moved; Microsoft holds a sixth of what it asked for. Where a new substation is needed, Red Eléctrica's three-to-six-year permitting time dominates everything else.
+\item Regional legal route. Aragón's plan can be approved in pieces and its deadlines are halved by the label. Castilla-La Mancha's two-stage route is sequential and its land-assembly stage adds close to two years.
+\item Local contestation. Water in Talavera, a pine forest in Zaragoza. Each added about a year to the environmental step and slowed the regional government.
+\item The promoter's own phasing. Campuses are built in phases over a decade. Meta filed with an explicit option to wait; Microsoft's own plan says 2030 for partial operation. Administrative time and corporate time are hard to separate in the filings, and both belong in a forecast.
+\end{enumerate}
+
+\section{Uncertainty by step}
+
+Predictable once the conditions above are known: the label (weeks to three months), construction of the first halls (about two years from earthworks), and the regional plan when the land is public and the region is Aragón (under a year).
+
+Moderately uncertain: environmental permits (8 to 18 months, with about a year added for organised opposition), municipal licences (1 to 25 months, depending on the town), and the regional plan under the Castilla-La Mancha route (2 to 3 years).
+
+Most uncertain: land assembly on private land, and the grid. The grid step is uncertain in two ways. Its duration depends on whether physical works are needed at the node, which ranges from a year to six. And its rules are moving: capacity is now auctioned, the auction criteria are not yet in an order, the 2025--2030 grid plan is still a proposal, and a draft decree would add compliance conditions and lapse deadlines to existing permits. No other step has that degree of regulatory motion.
+
+\section{Implications for investment timing}
+
+The SpainDC business-as-usual assumptions (12--18 month permitting delay, 12-month commissioning slip) describe the Amazon track reasonably well: Amazon's expansion took 18 months from filing to building authorisation and its staging plan puts first operation in 2027. They do not describe Meta (four and a half years pre-licence) or Microsoft Aragón (2030). The lag should be modelled as two tracks conditioned on land status and grid, rather than as one average.
+
+A rough spending profile by stage for a greenfield hyperscale campus:
+
+\begin{itemize}[leftmargin=*]
+\item Label and plan (year 0 to 1 or 2.5): engineering, land purchase, fees. Land is not GFCF; the rest is small.
+\item Land assembly and grid works (year 1 to 3): substations and lines, which are the grid operator's or the promoter's investment but small relative to the campus (the Amazon line files carry material-execution budgets of a few million euros each).
+\item Construction (year 2 to 4 on the fast track, 4 to 7 otherwise): buildings, power and cooling plant. This is the EUR 25 billion construction layer in the SpainDC totals.
+\item IT fit-out (last six months of construction and beyond): servers and networking, the EUR 42 billion residual layer, phased over years as halls fill.
+\end{itemize}
+
+Applied to the census: the roughly 6 GW of converted IT capacity that still sits in public-comment notices is not 2026 or 2027 construction. A EUR 8.8 billion flow in 2026, as in the SpainDC path, is plausible only if dominated by Amazon's expansion halls, Madrid colocation on industrial land, and IT fit-out of existing buildings. Meta belongs in 2028 onwards; Microsoft Aragón in 2028--2030 onwards; Blackstone Calatorao, which still needs its AAI and municipal licences, not before 2027.
+
+\section{Portugal and France}
+
+A first pass on two neighbouring jurisdictions checks whether the Spanish pattern is local. The sources are official portals and press, listed in \texttt{portugal\_france\_first\_pass.md}; the dates have not yet been checked against primary documents to the same degree as the Spanish cases.
+
+\subsection{Step mapping}
+
+Both countries have the same gates with two structural differences. Portugal has no regional plan layer: the municipal plan (PDM) governs, a full revision takes over five years, and large projects therefore default to public industrial estates such as ZILS Sines, where the investor buys a 50-year surface right and steps 2 and 4 disappear. Its national label, the \emph{Potencial Interesse Nacional} (PIN, \src{https://portugal.gov.pt/pt/gc22/comunicacao/noticias/sines-recebera-o-maior-investimento-estrangeiro-das-ultimas-decadas}{DL 154/2013}), is decided in 30 days, halves internal deadlines and sets a 90-day environmental clock, but rezones nothing and reserves no megawatts. France has all seven gates plus one Spain lacks in practice: a third-party appeal against the building permit, with a two-month window and 12--24 months on the merits, which can stay a granted permit within months. Its 2026 law (\src{https://www.conseil-constitutionnel.fr/decision/2026/2026903DC.htm}{loi 2026-403}) lets the State designate a data centre a \emph{projet d'intérêt national majeur} by decree, moving the building permit to the prefect and speeding plan compatibility and grid reservation; the exemption from land-take limits was struck down and no data-centre decree has been issued.
+
+Grid allocation was rewritten in all three countries between 2023 and 2026. Portugal handles saturated zones through \emph{zonas de grande procura} (\src{https://www.e-redes.pt/pt-pt/noticias/2024/01/08/informacao-prevista-no-dl-no-802023-sobre-capacidade-atribuida-nao-utilizada-na}{DL 80/2023}): bond, sweep of unused capacity, then competitive award, with PIN projects ranked first. The Sines zone drew 7.9 GVA of interest against insufficient reinforcements in 2023; a national call in early 2026 received 5.6 GW of valid requests, mostly data centres (\src{https://eco.pt/2026/03/06/governo-recebe-29-pedidos-de-ligacao-a-rede-eletrica/}{ECO}). France's regulator approved an RTE Fast Track in May 2025 under which the State pre-reserves capacity at a few sites (\src{https://www.cre.fr/fileadmin/Documents/Deliberations/2025/250507_2025-120_Procedure_raccordement_Fast_track_annexe.pdf}{CRE}); RTE had about 18 GW reserved for some 80 projects by May 2026, 7 GW of it in Île-de-France, and quotes two to seven years for a connection (\src{https://www.rte-france.com/bases-electricite/consommation-electricite/essor-data-centers-france}{RTE}). Spain's 43 GW of access rights, Portugal's 41 GW of informal requests and France's 18 GW reserved all sit far above plausible build.
+
+\subsection{Clocks}
+
+\begin{table}[H]
+\centering\small
+\caption{Portugal and France: announcement to first megawatt}
+\label{tab:ptfr}
+\begin{tabular}{p{3.4cm}p{3.6cm}p{2.2cm}p{2.6cm}p{2.4cm}}
+\toprule
+Case & Type & Start & First MW & Elapsed \\
+\midrule
+Start Campus SIN01, Sines & Public industrial land, PIN, first hall exempt from EIA, distribution connection & Apr 2021 & Q4 2024 (14--26 MW) & 43 months \\
+Start Campus SIN02--06 & 1.2 GW campus on 400 kV & DIA Aug 2023 & SIN02 planned 2027; campus early 2030s & $>$5 years, unbuilt \\
+Altice Covilhã & Brownfield & Feb 2011 & Sep 2013 & 31 months \\
+AtlasEdge LIS001 & Colocation, urban & Apr 2024 (works) & Oct 2025 (5 MW) & 18 months \\
+Campus IA Fouju & 1 GW greenfield, State Fast Track & Feb 2025 & planned end-2029 (240 MW contracted end-2027) & 17 months to permits; 3.5--4.5 years planned \\
+Microsoft Petit-Landau & Greenfield, contested, new 400/225 kV substation & May 2024 & planned 2030 & about 6 years planned \\
+Sesterce Alixan & 40 MW, contested & Permit Dec 2025 & stayed by court Jul 2026 & appeal to stay in 7 months \\
+Data4 Marcoussis & Incremental, assembled land & Permits 2021--22 & Completion 2023 & 22--24 months per building \\
+AWS / Microsoft Paris regions & Colocation & 2016 & 2017--18 & 15--17 months \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Sources: \src{https://siaia.apambiente.pt/ProcessoAIA/Detalhes/3633}{APA process 3633} and \src{https://www.startcampus.pt/press_release_august_2024_1gw}{Start Campus} for Sines; \src{https://lafibre.info/images/datacenter/202601_fouju_campus_ia_rte_raccordement_fasttrack_400000volts.pdf}{RTE Fast Track contract} and \src{https://www.seine-et-marne.gouv.fr/Publications/Enquetes-publiques/FOUJU-PROJET-CAMPUS-IA/DECISIONS}{prefecture of Seine-et-Marne} for Fouju; \src{https://www.lalsace.fr/economie/2026/08/24/centre-de-donnees-un-avis-favorable-malgre-80-de-contributions-defavorables}{L'Alsace} for Petit-Landau; \src{https://www.zdnet.fr/actualites/coup-darret-pour-le-datacenter-sesterce-a-valence-498653.htm}{ZDNet} for Sesterce; \src{https://basedespermis.fr/autorisation-pc-0913632110030-2021-07-07}{permit records} for Data4.
+
+\subsection{Reading}
+
+The two-track pattern repeats. With State-packaged land and pre-reserved grid: Amazon Aragón 36 months, Start Campus first hall 43 months, Fouju 3.5 to 4.5 years planned. Contested greenfield needing a new substation: Meta 54 months and no licence, Microsoft Aragón about 7 years planned, Microsoft Alsace about 6 years planned, the Sines gigawatt phase more than 5 years and unbuilt. Construction of the first buildings takes 22 to 30 months everywhere.
+
+The fast first halls outside Spain are small: 15 to 26 MW at Sines on a distribution connection, 5 to 10 MW colocation halls in Lisbon and Paris. The gigawatt phases wait for transmission works in every country. A first-megawatt clock and a campus clock therefore need to be reported separately, and the Spanish fast track (Amazon's 36 months to a three-site region) is the exception in the sample rather than the rule for large campuses.
+
+\section{Caveats}
+
+The Portugal and France dates come from a single research pass and have not been checked against primary documents to the same degree as the Spanish cases; the Fouju appeal outcome, the Petit-Landau prefectoral decision and the Sines municipal licence dates are open. For Spain, the completed sample is one campus. Amazon phase 1 is the only Spanish greenfield hyperscale project observed from first filing to service, and it had every favourable condition. The other clocks are truncated and the planned dates are the promoters' own. The filings do not record grid-access permits or land purchases, so steps 4 and 5 are dated from press and from the grid operator's own works, which lag the permit. Dates are gazette publication dates, which trail the administrative act by days to weeks. The census groups filings into projects with what its authors call low confidence for the largest promoters, so Amazon and Microsoft rows were merged by hand. One inconsistency remains: the census dates an Amazon AAI to February 2020, while the official Aragón page dates the DIA and AAI to 27 July 2020; this note uses the official date.
+
+\appendix
+
+\section{Glossary}
+
+\begin{table}[H]
+\centering\small
+\begin{tabular}{p{4.2cm}p{11cm}}
+\toprule
+Term & Plain meaning \\
+\midrule
+Expediente & One administrative filing. \\
+Información pública & Public-comment period on a file; the date is the gazette publication date. \\
+DIGA / DIR & Regional strategic-interest labels (Aragón / Castilla-La Mancha). Speed up or unlock later steps; authorise nothing by themselves. \\
+PIGA / PSI / PAE & Regional land-use plans for a specific project (Aragón / Castilla-La Mancha / Madrid). Replace the municipal plan for that site. \\
+Evaluación ambiental estratégica & Environmental assessment of the plan. \\
+EIA, DIA & Environmental impact assessment of the project and the decision that closes it. \\
+AAI & Integrated environmental authorisation, the industrial-pollution permit, triggered by backup generators over 50 MW thermal. \\
+Reparcelación & Redrawing rural plots into urban plots so licences can be issued. \\
+Proyecto de urbanización & Engineering file for roads and utilities inside the plan. \\
+Permiso de acceso y conexión & Grid-connection permit from Red Eléctrica or the distributor. \\
+Concurso de capacidad de demanda & Competitive allocation of grid capacity at saturated nodes. \\
+Licencia de obras / actividad / primera ocupación & Municipal building, operating and occupancy licences. \\
+MW electrical vs MW IT & Grid draw vs power delivered to servers. Nostrum's filing pairs 40 MW electrical with 26 MW IT. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Key dates by project}
+
+\paragraph{Amazon phase 1.} Announcement 31 Oct 2019; label 3 Dec 2019; plan filed 16 Dec 2019; initial approval 27 Dec 2019; DIA and AAI 27 Jul 2020; definitive plan 30 Jul 2020; earthworks Aug 2020; region live 15 Nov 2022.
+
+\paragraph{Amazon expansion.} Label 22 May 2024; plan filed 7 Nov 2024; initial approval 4 Dec 2024; environmental decisions Jul--Oct 2025; partial definitive approvals 22 Aug 2025, 12 Nov 2025, 4 May 2026 (buildings); planned first operation Q2 2027.
+
+\paragraph{Meta Talavera.} DIR application 4 Mar 2022; DIR 7 Jun 2022; PSI filed 22 Mar 2023; initial approval 31 Mar 2023; strategic environmental report 4 Dec 2023; DIA 22 Mar 2024; definitive PSI 22 Oct 2024; land purchase 19 Dec 2024; substation inaugurated 23 Jul 2025; re-parcelling approved 7 Aug 2026; bond posted 2 Sep 2026; building licence pending.
+
+\paragraph{Microsoft Aragón.} Announcement 10 Oct 2023; labels 25 Oct 2023, 20 Dec 2023, 3 Jul 2024, 28 Feb 2025; land purchases autumn 2023 to 2025; strategic assessment filed 3 Mar 2025; plan filed 29 Sep 2025; initial approval 14 Nov 2025; site-clearing licence 16 Feb 2026; environmental comment period 30 Jul to 1 Sep 2026; definitive plan pending; planned partial operation 2030.
+
+\paragraph{Microsoft Madrid.} Announcement 25 Feb 2020; sites 2021--2022; Algete licence unblocked Aug 2023; region open 11 Jun 2024.
+
+\paragraph{Blackstone/QTS Calatorao.} Label 14 Oct 2024 with 300 MW granted; REE substation works from Mar 2025; plan filed 4 Jul 2025; initial approval 19 Aug 2025; environmental screening 23 Jul 2026; AAI and licences pending.
+
+\paragraph{Box2Bit Épila.} Cariñena abandoned Jan 2026 (node excluded from grid plan); label 28 Jan 2026; 150 MW confirmed after CNMC dispute Jul 2026; plan not yet initially approved; phase 1 works planned to end-2029.
+
+\paragraph{Nostrum Guadalajara.} Vehicle Nov 2024; environmental application 22 Sep 2025; public presentation 25 Feb 2026; environmental comment period 28 Apr 2026; works planned late 2026; operation planned 2028.
+
+\end{document}

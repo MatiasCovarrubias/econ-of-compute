@@ -1,0 +1,238 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{threeparttable}
+\usepackage{xcolor}
+\setlist{nosep}
+
+\newcommand{\bn}{\$bn}
+\newcommand{\todo}[1]{\textcolor{red}{[#1]}}
+
+\title{Upstream effects of the data-center boom: electricity and construction\\
+\large IMPLAN's method, data feasibility, and level of detail}
+\author{}
+\date{September 2026. Working note, P\&P project. Links the energy plan (\texttt{data\_notes.tex}) and the DC node (\texttt{stage1\_plan.md}).}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent Proposed route: take the 2017 detailed benchmark Use table (the last pre-AI benchmark, $\approx$400 industries), split electricity (BEA 221100) the way IMPLAN does, and push an engineering cost vector for data centers through it. The upstream question is then where that spending lands: electricity by technology and wires, fuels, power-related construction and electrical equipment. Findings. (i) IMPLAN's split is top-down and cheap. EIA aggregate tables (IOU revenue and expenses, retail revenue, generation by source) plus IEA/NREL fuel costs and BLS wages fix a small cost block for each technology. Everything else keeps BEA's 221100 proportions, and the result is RAS-balanced. IMPLAN does not use plant-level EIA-923/860 or FERC Form~1. (ii) All the data are public and 2017 is covered, and we have downloaded it. Bridges are trivial on the NAICS side. The real work is reconciling with BEA, which records public power outside 221100 (in the government-enterprise industries S00101 and S00202). Even after adding those back, BEA spreads fuel across gas, coal and petroleum very differently from EIA. (iii) Detail pays off mostly on the \emph{construction and equipment} side. A data-center build is 54\% electrical and 22\% mechanical, and BEA books transformers, switchgear and generators as equipment investment, not as construction inputs. For electricity, a four-way split (fossil, nuclear, renewables, T\&D) captures what the nine IMPLAN sectors capture for our question.
+\end{abstract}
+
+\section{The route}
+
+Both earlier plans have a weakness. The energy decomposition at annual frequency mostly separates oil, gas and coal, and does not separate electricity by technology (\texttt{data\_notes.tex}). The DC node (\texttt{stage1\_plan.md}) is a downstream object: a new sector buying electricity and construction. The link is the upstream incidence of the boom:
+\[
+\text{DC capex and opex} \;\to\; \underbrace{\text{construction, electrical and mechanical equipment, electricity}}_{\text{first round}} \;\to\; \underbrace{\text{generation by technology, T\&D, fuels, power structures, turbines, transformers}}_{\text{second round}}.
+\]
+The second round is where the energy decomposition becomes interesting: extra load is met by gas turbines, by nuclear restarts and renewables, and by new transmission, each with a different input and capital structure.
+
+\section{IMPLAN's methodology}\label{sec:implan}
+
+\subsection{Sector scheme}
+IMPLAN's current scheme has 528 industries (data years 2023--2027). It is built on the BEA 2017 detailed benchmark ``with parts of 2012, 2007, 2002, and 1997''. The earlier 546 scheme (2018--2022) was built on 2012 [A4]. IMPLAN has more industries than BEA's 402 for three reasons [A5]:
+\begin{enumerate}
+  \item splits carried over from older benchmarks (about 60 BEA detail codes, e.g.\ 111900, 2122A0, 21311A, 721000);
+  \item ``production functions for industries for which the BEA has never provided production functions''. Electricity is the only case built from outside data;
+  \item mergers where NAICS changed.
+\end{enumerate}
+
+\begin{center}\small
+\begin{tabular}{lll}
+\toprule
+IMPLAN industry & NAICS 2022 & Commodity produced \\
+\midrule
+34 Hydro, 35 Fossil fuel, 36 Nuclear, 37 Solar, 38 Wind, & 221111--221118 & 3034 Electricity (single) \\
+39 Geothermal, 40 Biomass, 41 All other generation & & \\
+42 Transmission and distribution & 221121, 221122 & 3042 Electricity T\&D \\
+509/512/515 Federal / state / local government electric utilities & 2211 (govt.) & 3034 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Commodities 3035--3041 are labelled ``not a unique commodity''. All generators, including government utilities, make the same good, 3034. The T\&D industry buys that good, and final users buy 3042. IMPLAN adjusts ``the transmission and distribution Industry's purchase of electricity to equal total Commodity Output of all electricity Commodities'' [A1]. Economically this is a nested structure: a homogeneous wholesale good from $N$ technologies, sold through a wires sector.
+
+\subsection{How the split is built}
+IMPLAN documents it in the ``Electrical Power Industry Spending Patterns'' section of [A1]:
+\begin{enumerate}
+  \item \textbf{Totals and the generation vs.\ T\&D split.} EIA Table 8.3 (revenue and expenses of major investor-owned utilities, from FERC Form~1) is scaled to EIA Table 2.3 (revenue from sales to ultimate customers), which is their proxy for output. The generation vs.\ T\&D split comes from EIA's Annual Energy Outlook, and the labour share from BEA KLEMS. The result is two columns with six rows each: fuel, purchased power, other intermediates, compensation, taxes, and gross operating surplus (GOS).
+  \item \textbf{Generation across the eight technologies.} Fuel cost per technology comes from EIA, NREL and IEA; compensation from BLS QCEW. EIA Table 1.1 (generation by source) ``is used as a distributor for all other categories of Value Added and Intermediate Inputs.''
+  \item \textbf{Commodity detail.} Coal is bought from coal mining; other fossil fuels from oil and gas extraction; nuclear fuel from uranium, which sits in other metal ore mining. Purchased power goes to T\&D. All other inputs follow the BEA 221100 pattern, and GOS is the residual. Ad hoc fixes: turbines are removed from T\&D's purchases, and part of rail and pipeline transportation is moved to fossil generation.
+  \item \textbf{Balancing and updating.} Aggregate expenditures are benchmarked to EIA accounts (2022 in the current release). The annual update takes the benchmark absorption coefficients, current output and value added (column controls), and supply less final demand (row controls), then applies RAS. Zeros stay zero [A1, A7]. The 2023 release moved fuel costs to IEA/NREL and added uranium purchases by nuclear [A3].
+\end{enumerate}
+\emph{Assessment.} This is a hybrid. A handful of cost blocks come from outside data, the detailed composition of ``other'' inputs is BEA's 221100 composition, and value added is spread by MWh. So IMPLAN's nine sectors differ mainly in fuel, labour and scale. Capital intensity across technologies is not really identified: GOS is a residual allocated roughly in proportion to generation. None of the IMPLAN pages mention EIA-923/860/861, FERC Form~1 plant schedules, or the Economic Census 22111x codes \todo{not verified: employment source for generation; older MIG manuals and the energy webinar were not accessible}.
+
+\subsection{Other IMPLAN splits relevant here}
+\begin{itemize}
+  \item \textbf{Oil and gas are not split.} IMPLAN 20 = BEA 211000 and IMPLAN 146 refineries = BEA 324110; the separate natural gas liquids sector was merged in 2018. Output of electricity, oil and gas, and refining is projected with EIA prices and quantities [A6, A8].
+  \item \textbf{Construction:} 13 IMPLAN sectors (45--57) against BEA's 12. The extra one is maintenance and repair of highways, streets, bridges and tunnels. Sectors are defined by Census structure type, not NAICS [A9, A10]. The mapping to Census C30 types is in \texttt{Data/raw/implan/IMPLAN528\_construction\_details.xlsx}.
+  \item \textbf{Government enterprises:} state and local electric utilities are split out using QCEW ownership codes [A9]. BEA has the same object in S00202 (see Section~\ref{sec:gap}).
+  \item \textbf{418 Data processing} = BEA 518200 = NAICS 518210. Not split.
+\end{itemize}
+
+\subsection{How IMPLAN models data centers}
+IMPLAN's guide [A11] recommends modelling construction and operations separately:
+\begin{itemize}
+  \item \textbf{Construction:} industry 50 (new commercial structures), or a customised copy of 46 (manufacturing structures) saved as ``46B Construction of data centers''.
+  \item \textbf{Equipment:} industry 287 (electronic computers), only if made domestically. Capex splits quoted: 20/68/6/6 construction/equipment/land/other (Virginia JLARC) and 32/68 (Mangum, Nebraska).
+  \item \textbf{Operations:} industry 418, with the electricity (3042) share of purchases raised to about 40\% and the spending pattern renormalised. New generation (e.g.\ a nuclear restart) enters as industry 36.
+\end{itemize}
+PwC for the Data Center Coalition (2025, 2026; IMPLAN) defines the industry functionally: all of NAICS 518210 plus data-center products reallocated from other industries by Economic Census product codes. It turns capex into asset types with BEA's capital-flow matrix [B1, B2]. As noted in \texttt{data\_center\_notes.tex}, these studies treat imported IT as domestic and are not usable for calibration. Their cost-vector logic is the same as ours, though.
+
+\subsection{Access}
+IMPLAN is an annual subscription with custom pricing; university licences exist [B3, B4]. With a licence, the national 528$\times$528 industry-by-commodity accounts and production functions export to CSV [A14, A15]. The industry lists, NAICS bridges and construction definitions are free and are saved in \texttt{Data/}. We do not need IMPLAN: the method is replicable from public data. An IMPLAN export would be a useful cross-check if a licence is available (check the university library) \todo{check redistribution terms}.
+
+\section{Other decompositions}\label{sec:other}
+\begin{itemize}
+  \item \textbf{Cornerstone ``bedrock'' (successor to EPA's USEEIO).} Open code that splits 221100 into generation (221110), transmission (221121) and distribution (221122) for 2017--2024. It uses the EIA Electric Power Annual, eGRID and MECS [C1, C2]. Its issue tracker documents the same problems with BEA's 221100 column that we find (Section~\ref{sec:gap}). This is the closest open precedent and a possible shortcut for the generation vs.\ wires split.
+  \item \textbf{GTAP-Power} (Peters 2016, JGEA). Splits electricity into T\&D plus base- and peak-load technologies by minimising the distance to IEA/NEA levelised-cost components (capital, fuel, O\&M, taxes), subject to adding up to the parent sector. T\&D value share: 21\%, from EIA Table 8.3 non-production expenses; the paper discusses alternatives from 4\% to 65\%. This is the cleanest template for giving each technology its own \emph{capital} share, which IMPLAN does not do [C3].
+  \item \textbf{EXIOBASE}: splits generation from T\&D using supply-use tables, then splits generation across technologies with IEA data [C4]. Already ruled out as a primary source in \texttt{data\_notes.tex}.
+  \item \textbf{NREL JEDI}: input-output-style cost templates for building power plants (coal, gas, hydro, solar, wind, geothermal) and transmission lines [C5]. Useful for the \emph{investment} side, i.e.\ what a GW of new gas or solar capacity buys, and so for the second-round construction channel.
+  \item \textbf{BEA itself}: 221100 is a single industry in 2002, 2007, 2012 and 2017. The note in \texttt{data\_notes.tex} that superseded 2007/2012 vintages had 221112/221113/22111A/221120 could not be confirmed; the 2007 and 2012 sheets in our 2024-vintage file have only 221100 \todo{drop that claim from \texttt{data\_notes.tex} unless someone finds the old files}.
+\end{itemize}
+
+\section{Feasibility: data and bridges}\label{sec:feas}
+
+\subsection{What exists for 2017 (downloaded)}
+\begin{center}\footnotesize
+\begin{tabular}{p{4.2cm}p{6.2cm}p{4.6cm}}
+\toprule
+Source & Content & Local file \\
+\midrule
+EIA Table 8.3 (FERC Form~1) & Major IOUs 2014--2024: fuel, purchased power, other production, transmission, distribution, customer, A\&G, maintenance, depreciation, taxes & \texttt{eia\_2017/epa\_08\_03.xlsx} \\
+EIA Table 8.4 & O\&M and fuel per kWh by plant type (nuclear, fossil steam, hydro, gas turbine) & \texttt{eia\_2017/epa\_08\_04.xlsx} \\
+EIA SEDS & Electric-power-sector fuel expenditures by fuel, 1970--2024 & \texttt{eia\_2017/ex\_all.csv} \\
+EIA-923 (2017) & Plant generation, fuel use, fuel receipts and cost & \texttt{eia\_2017/f923\_2017.zip} \\
+EIA-860 (2017) & Generator capacity, technology, owner & \texttt{eia\_2017/eia8602017.zip} \\
+Census EC1722BASIC & Receipts, payroll, employment at 221111--221122 & \texttt{census\_2017\_sector22/} \\
+Census EC1722PURELEC/PURGAS/EXPNRG & Purchased electricity and gas for resale (4-digit only) & same \\
+Census SAS 2017, table 5 & Detailed expenses, all of NAICS 22 (fuel, purchased electricity, depreciation, ...) & \texttt{census\_2017\_sector22/sas-17.xlsx} \\
+IMPLAN bridges & 528 list, NAICS 2022 bridge, construction types & \texttt{implan/}, \texttt{Implan528 ...xlsx} \\
+BEA 2017 detail Use/Make & Already local (\texttt{bea\_2024/extracted/AllTablesIO\_sep2024}) & \\
+\bottomrule
+\end{tabular}
+\end{center}
+Not downloaded: EIA-861 (retail sales and revenue by utility, \url{https://www.eia.gov/electricity/data/eia861/zip/f8612017.zip}), EIA Tables 1.1 and 2.3, FERC Form~1 via PUDL (\url{https://docs.catalyst.coop/pudl/}).
+
+2017 figures, \bn. EIA 8.3 IOUs: electric revenue 263.3; fuel 32.2; purchased power 49.0; other production 17.7; transmission 10.8; distribution 4.4; A\&G 17.0; maintenance 18.0; depreciation 30.3. Census 2211 receipts 461.9, of which fossil 75.5, nuclear 29.0, wind 7.8, hydro 3.3, solar 1.8, transmission 13.8, distribution 328.9. Purchased electricity for resale 100.7.
+
+\subsection{Bridges}
+Few crosswalks are needed, and they are simple:
+\begin{itemize}
+  \item NAICS 2211xx $\to$ BEA 221100 is one-to-one for private establishments.
+  \item EIA plants $\to$ technology: use energy source and prime mover. Drop industrial and commercial CHP; SEDS and 221100 both exclude it.
+  \item Fuels $\to$ BEA commodities: gas 211000 plus pipeline 486000 margin; coal 212100 plus rail, truck and water margins; oil 324110 plus wholesale margin. Compare EIA delivered costs with the purchasers'-price table.
+\end{itemize}
+The pitfalls are not in the crosswalks:
+\begin{enumerate}
+  \item \textbf{Public power sits outside 221100.} BEA puts federal (S00101, \bn15.9 output) and state and local (S00202, \bn63.4) electric utilities in government enterprises. Electricity in total is about \bn469, not \bn389. Rural cooperatives are private and are in 221100.
+  \item \textbf{Census codes are not technologies.} Vertically integrated utilities are classified as 221122 distribution, so most generation cost sits in ``distribution''. Receipts by 6-digit code cannot be read as output by technology. Use EIA MWh times price.
+  \item \textbf{IPP fuel costs are withheld} in public EIA-923. Use SEDS totals and state or sector averages.
+  \item \textbf{Purchased power.} Wholesale trade within the industry is \bn9.5 in BEA's own-use cell, against \bn100.7 for Census purchases for resale and \bn49.0 for IOU purchased power alone. BEA nets most of it. Our nested structure (generation sells to T\&D) will gross it up, so output of the split sectors will exceed BEA 221100 unless we net it.
+\end{enumerate}
+
+\subsection{The fuel gap}\label{sec:gap}
+This is the main reason the split is more than bookkeeping.
+\begin{center}\small
+\begin{threeparttable}
+\begin{tabular}{lcccc}
+\toprule
+2017, \bn & EIA SEDS & BEA 221100 & BEA 221100 + S00101 + S00202 & BEA 221100, 2012 \\
+ & (delivered) & (purchasers') & (purchasers') & (producers') \\
+\midrule
+Natural gas (211000) & 32.5 & 7.0 & 29.0 & 11.1 \\
+Coal (212100) & 26.2 & 4.0 & 11.0 & 10.3 \\
+Petroleum (324110) & 1.6 & 15.2 & 17.3 & 22.9 \\
+Total fossil & 60.3 & 26.2 & 57.3 & \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item SEDS series NGEIV, CLEIV, PAEIV (\$m); total primary energy 69.7 includes nuclear fuel and biomass. SEDS 2012: gas 32.4, coal 37.8, petroleum 3.1. At producers' prices, 221100 has gas 5.0, coal 2.8, refineries 9.4, plus pipeline 2.1, rail 1.5, truck 1.5, petroleum wholesale 2.7. S00202 at producers' prices: gas 14.4, coal 5.0, pipeline 5.7.
+\end{tablenotes}
+\end{threeparttable}
+\end{center}
+Including public power, BEA gets total fossil fuel roughly right (57 vs 60), but the composition is off:
+\begin{itemize}
+  \item Coal is 58\% short.
+  \item Refined petroleum is about ten times EIA's figure (possibly vehicle fuel, which SEDS excludes; not verified).
+  \item Public power gets two thirds of the gas.
+  \item Private utilities' fuel (26) is below the IOU fuel cost alone (32, Table 8.3).
+\end{itemize}
+Value added is 66\% of 221100 output, against about 50\% implied by FERC data. A plausible cause, which we have not verified: BEA's 2017 inputs for utilities lean on the SAS expense schedule, and the Economic Census for sector 22 collects no fuel costs [C1]. Consequence: any gas shock, or any exercise in which data-center load raises gas burn, runs through a 221100 column that understates the gas and coal link by a factor of 2--4 for private utilities. An EIA-based split fixes this directly. \emph{We should decide whether to merge S00202 and S00101 into electricity before splitting}; we recommend doing so.
+
+\subsection{Verdict}
+Feasible, and cheap at the level of detail IMPLAN uses. A minimal version needs:
+\begin{itemize}
+  \item EIA 8.3 cost blocks;
+  \item SEDS fuel by type;
+  \item EIA-923 MWh by technology;
+  \item QCEW or Census payroll by 6-digit code;
+  \item a capital block per technology (GTAP-Power style, from EIA/NREL levelised-cost components, or FERC plant in service via PUDL);
+  \item a RAS to BEA row and column totals (including S00101 and S00202).
+\end{itemize}
+Effort is roughly one chapter of the Stage 1 size. It is harder only if we want plant-level fuel or FERC plant schedules, which the question does not require.
+
+\section{Level of detail}\label{sec:detail}
+
+\subsection{Where data-center spending lands in the 2017 detail}
+\paragraph{Operations.} Electricity (221100), water (221300), nonresidential repairs (230301), services to buildings, security, telecom. In 2017, hosting (518200) bought \bn1.4 of electricity on \bn176 of output (0.8\%), consistent with the note that 518200 is mostly not data centers. The node's electricity comes from our own cost build-up (\texttt{dc\_cost\_buildup.tex}), not from 518200.
+
+\paragraph{Construction.} Census C30 classifies data centers under private office, so in BEA they fall in 2332A0 (office and commercial structures). The C30 value includes the mechanical and electrical plant. In the 2025 Turner \& Townsend index a US build is 14\% shell, 22\% mechanical, 54\% electrical and 10\% general conditions (\texttt{dc\_structures\_sizing.tex}). BEA's 2332A0 column does not look like that: it buys only \bn0.004 of transformers (335311), \bn0.25 of switchgear (335313), \bn0.09 of generators (335312), \bn0.6 of cable (335920) and \bn2.4 of HVAC (333415), on \bn160 of output. In BEA, transformers (\bn5.7), switchgear (\bn5.9), generators (\bn2.7) and HVAC (\bn9.6) reach buyers as \emph{equipment} investment (F02E00), not through construction.
+
+So the office-construction column is a poor proxy for a data-center build, and the detail is what lets us route an engineering cost vector to the right suppliers. The suppliers are exactly the current bottlenecks: 335311 transformers, 335313 switchgear, 335312 and 333618 generators and engines, 335911 batteries (UPS), 335920 cable, 333415 chillers, 332310 structural steel, 327320 ready-mix concrete. At the summary level (71 industries) all of 335 is one line and 333 another.
+
+\paragraph{Second round: power-related construction.} 233240 (power and communication structures, \bn102 output; private fixed investment \bn113) is where generation and grid build-out land. Its column is steel, engineering and machinery rental. Turbines (333611) and transformers enter utilities as equipment investment. The DC boom therefore reaches 233240 and 333611 through \emph{electricity's} investment, not the data centers' own. That is a genuine network (investment-network) channel, and it is visible only if electricity has its own investment vector. BEA fixed assets give that vector for 2211 (EI60 T\&D equipment, SU30 electric structures, SU60 wind and solar, EI21 steam turbines; \texttt{data\_notes.tex}).
+
+\subsection{Recommendation on detail}
+\begin{enumerate}
+  \item \textbf{Use the 2017 detail as the accounting layer, not as the model.} The Dynare model cannot carry 400 sectors. Build the data-center cost vector (capex and opex) at 6-digit detail from engineering shares. Map it to detail commodities. Compute detail-level upstream requirements, i.e.\ Leontief multipliers, as descriptive results for the paper. Then aggregate to the model.
+  \item \textbf{Model aggregation: the 37 VLW sectors plus a few carve-outs chosen from the detail results.} Candidates: electricity split out of VLW \texttt{Utilities}, which also holds gas distribution and water; power and communication construction (233240) split out of \texttt{Construction}; grid equipment (335311, 335313, 335312) split out of \texttt{Electrical}, only if the detail multipliers show it matters. \texttt{Electrical} and \texttt{Machinery} are already separate VLW sectors. Keep the carve-outs few and justify each one by its share of the upstream multiplier.
+  \item \textbf{Electricity: four sectors, not nine.} Fossil generation, nuclear, renewables (wind, solar, hydro and other) and T\&D, with generation selling a single good to T\&D as in IMPLAN.
+  \begin{itemize}
+    \item \emph{Why:} the question needs (a) the wires vs.\ generation split, since grid capex is the binding constraint for DC load, (b) gas-fired vs.\ non-fuel generation, since the upstream link runs to 211000 and 486000, and (c) capital intensity by technology.
+    \item \emph{Why not nine:} in 2017 solar, geothermal, biomass and other each had receipts under \bn2. IMPLAN's nine sectors share BEA's input pattern and a MWh-proportional value added, so the extra five add columns but little content. Solar has grown a lot since 2017, so if it matters, re-weight 2024 generation shares with EIA rather than adding sectors.
+  \end{itemize}
+  \item \textbf{2017 as a pre-boom structure, re-weighted for later years.} Use the 2017 coefficients for input composition. Update sector sizes with EIA MWh and revenue, SEDS fuel and the annual BEA summary totals, as in the Stage 1 series logic.
+\end{enumerate}
+
+\section{Proposed steps}
+\begin{enumerate}
+  \item Merge S00101 and S00202 into electricity; reconcile the 2017 fuel rows with SEDS; document the gap.
+  \item Split electricity four ways for 2017: EIA 8.3 blocks for generation vs.\ T\&D; SEDS and EIA-923 fuel by technology; payroll from Census/QCEW; capital share by technology from EIA/NREL levelised-cost components (GTAP-Power) or FERC plant in service; RAS to BEA totals. Cross-check against bedrock's generation/T\&D split and, if licensed, IMPLAN 34--42.
+  \item Investment vectors for the new electricity sectors from BEA fixed assets (2211 by asset), with the asset-to-producer bridge used in VLW.
+  \item Data-center cost vector at 6-digit detail: capex from Turner \& Townsend shares (shell $\to$ 2332A0 inputs; electrical $\to$ 335311, 335313, 335312, 335911, 335920 and installation; mechanical $\to$ 333415 and installation); opex from \texttt{dc\_cost\_buildup.tex}.
+  \item Upstream multipliers at detail level; choose the model carve-outs; aggregate.
+  \item Decide with Vasco whether this replaces or complements the DC node. The node's columns can reuse steps 4--5 directly.
+\end{enumerate}
+
+\section*{Sources}
+\begin{itemize}\footnotesize
+  \item[A1] IMPLAN, Intermediate Input Data (electric split, RAS update): \url{https://support.implan.com/hc/en-us/articles/21019462495899-Intermediate-Input-Data}
+  \item[A2] IMPLAN, U.S.\ 528 Industries, Conversions, Bridges: \url{https://support.implan.com/hc/en-us/articles/30545246649115-U-S-528-Industries-Conversions-Bridges}
+  \item[A3] IMPLAN, 2023 U.S.\ Data Release Notes: \url{https://support.implan.com/hc/en-us/articles/31304600127899-2023-U-S-Data-Release-Notes}
+  \item[A4] IMPLAN, Industry Scheme: \url{https://support.implan.com/hc/en-us/articles/360034895094-Industry-Scheme}
+  \item[A5] IMPLAN, Industry Schemes: \url{https://support.implan.com/hc/en-us/articles/115009674428-IMPLAN-Industry-Schemes}
+  \item[A6] IMPLAN, Industry Output Data: \url{https://support.implan.com/hc/en-us/articles/115009505807-Industry-Output-Data}; Data Sources: \url{https://support.implan.com/hc/en-us/articles/115009674448-IMPLAN-Data-Sources}
+  \item[A7] IMPLAN, The RAS Method: \url{https://support.implan.com/hc/en-us/articles/11646312866075-The-RAS-Method}
+  \item[A8] IMPLAN 546/536 release notes: \url{https://support.implan.com/hc/en-us/articles/20747773412379}, \url{https://support.implan.com/hc/en-us/articles/360011728033}
+  \item[A9] IMPLAN, construction and government enterprises: \url{https://support.implan.com/hc/en-us/articles/115009505787}
+  \item[A10] IMPLAN, Special Industry Definitions: \url{https://support.implan.com/hc/en-us/articles/115009505667-Special-Industry-Definitions}; Construction: \url{https://support.implan.com/hc/en-us/articles/360038792834-Construction-Building-the-Analysis}
+  \item[A11] IMPLAN, The Rise of Data Centers: \url{https://support.implan.com/hc/en-us/articles/36262006944155-The-Rise-of-Data-Centers}
+  \item[A14--15] IMPLAN, Region Details; Exporting the SAM: \url{https://support.implan.com/hc/en-us/articles/4414683605531}, \url{https://support.implan.com/hc/en-us/articles/4407853270427-Exporting-the-SAM}
+  \item[B1] PwC for the Data Center Coalition (2026): \url{https://static1.squarespace.com/static/63a4849eab1c756a1d3e97b1/t/6a04986aac382850dcd9d637/1778686058456/Data+Center+Economic+Contribution+Study+2026_Final.pdf} (saved in \texttt{References/})
+  \item[B2] PwC (2025): \url{https://static1.squarespace.com/static/63a4849eab1c756a1d3e97b1/t/67b38f78e9cf125daf756112/1739820925392/Data+Center+Economic+Contribution+Study+2025_Final.pdf} (saved)
+  \item[B3--4] IMPLAN pricing and academic licences: \url{https://implan.com/implan-pricing-and-packages/}, \url{http://implan.com/solutions/industries/academic/}
+  \item[C1] Cornerstone bedrock (USEEIO successor): \url{https://github.com/cornerstone-data/bedrock/issues/879}, \url{https://github.com/cornerstone-data/bedrock/issues/1009}, \url{https://github.com/cornerstone-data/bedrock/issues/1012}; \url{https://zenodo.org/records/19079798}
+  \item[C3] Peters (2016), GTAP-Power, JGEA 1(1): \url{https://jgea.org/ojs/index.php/jgea/article/download/15/5/94}
+  \item[C4] EXIOBASE electricity: \url{https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.13563}
+  \item[C5] NREL JEDI: \url{https://windexchange.energy.gov/projects/jedi}, \url{https://docs.nlr.gov/docs/fy15osti/64129.pdf}
+  \item[D] EIA: Table 8.3 \url{https://www.eia.gov/electricity/annual/xls/epa_08_03.xlsx}; Table 8.4 \url{https://www.eia.gov/electricity/annual/xls/epa_08_04.xlsx}; SEDS \url{https://www.eia.gov/state/seds/sep_prices/total/csv/ex_all.csv}; EIA-923 \url{https://www.eia.gov/electricity/data/eia923/archive/xls/f923_2017.zip}; EIA-860 \url{https://www.eia.gov/electricity/data/eia860/archive/xls/eia8602017.zip}; EIA-923 pitfalls \url{https://docs.catalyst.coop/pudl/en/stable/data_sources/eia923.html}; FERC Form~1 in PUDL \url{https://docs.catalyst.coop/pudl/en/stable/data_sources/ferc1.html}
+  \item[E] Census: sector 22 tables \url{https://census.gov/data/tables/2017/econ/economic-census/naics-sector-22.html}; files \url{https://www2.census.gov/programs-surveys/economic-census/data/2017/sector22/}; SAS \url{https://www2.census.gov/programs-surveys/sas/tables/time-series/sas-latest/sas-17.xlsx}; C30 definitions \url{https://www.census.gov/construction/c30/definitions.html}
+  \item[F] LBNL (2024) data center energy report: \url{https://eta-publications.lbl.gov/sites/default/files/2024-12/lbnl-2024-united-states-data-center-energy-usage-report_1.pdf}; Fed (2025) data-center investment: \url{https://www.federalreserve.gov/econres/feds/files/2025109pap.pdf}
+\end{itemize}
+
+\end{document}

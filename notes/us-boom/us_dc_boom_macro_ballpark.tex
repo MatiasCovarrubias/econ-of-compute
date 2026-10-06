@@ -1,0 +1,436 @@
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\geometry{margin=1in}
+
+\title{How large is the US data-centre boom?\\
+\large Macro and macro-financial ballparks}
+\author{}
+\date{September 2026}
+
+\begin{document}
+\maketitle
+
+\noindent
+Three questions for the Moody's roundtable, with a first pass at the arithmetic.
+Investment through 2027 is Brandsaas, Garcia, Kurtzman, Nichols and Zytek
+(FEDS 2025-109), Dodge vintage September 2025. Census structures through July
+2026 are the live check. Electricity is LBNL's 2025 Update. Financing numbers
+are BIS, BoE, FSB and the 2025 IG calendar. Anything after 2027, and the 2035
+electricity share, is a mechanical hold of a 2026--27 rate.
+
+\section{Questions}
+
+$I_t^{DC}$ is US data-centre GFCF (structures plus installed IT). $I_t$ is a US
+investment aggregate. $E_t^{DC}$ is data-centre electricity consumption; $E_t$
+is US end-use electricity. $F_t$ is the funds this investment absorbs: retained
+earnings spent out of cash and bills, plus bonds, private credit, bank loans
+and ABS/CMBS.
+
+\begin{enumerate}
+\item Share of investment. What is $s_t^I \equiv I_t^{DC}/I_t$ in 2030 and
+2035, against 2023? Report both gross private domestic investment (GPDI) and
+private non-residential fixed investment (PNFI).
+
+\item Share of electricity, and the price. What is
+$s_t^E \equiv E_t^{DC}/E_t$ in 2030 and 2035, against 2023? Holding other
+demand fixed,
+\begin{equation}
+\frac{\Delta P}{P}
+\simeq
+\frac{1}{\varepsilon_S}\,
+\frac{E_T^{DC}-E_{2023}^{DC}}{E_{2023}}.
+\label{eq:price}
+\end{equation}
+Section~\ref{sec:elas} puts a range on $\varepsilon_S$ instead of setting it
+to 1.
+
+\item Funds-market absorption. How large is $F_t$ next to IG credit, private
+credit and bank C\&I, and next to the saving pool that prices $r^*$? Can that
+move interest rates, and in which market?
+\end{enumerate}
+
+\section{Assumptions}
+
+\begin{table}[H]
+\centering
+\caption{Working assumptions}
+\label{tab:assumptions}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.42\textwidth}
+>{\raggedright\arraybackslash}p{0.50\textwidth}}
+\toprule
+Object & Assumption \\
+\midrule
+$I^{DC}$ through 2027 & Fed Table~2, Q4 annual rate, Dodge vintage
+September 2025. 30\% structures, 70\% equipment; 80\% of equipment imported,
+so 44\% of $I^{DC}$ is domestic. \\
+Live structures check & Census C30, July 2026: \$75.2\,bn SAAR
+(+57\% y/y). \\
+US investment, 2025 & GPDI \$5.46\,tn (BEA Table 5.2.5). PNFI \$4.25\,tn
+(FRED PNFIA). Grown at 2\% real. \\
+2030 and 2035 $I^{DC}$ & Hold a 2026--27 Fed rate. Low: 2027 0.25$\times$
+inflow (\$357\,bn). Central: 2026 1$\times$ (\$464\,bn). High: 2027
+1$\times$ (\$612\,bn). \\
+Electricity, 2023--24 & 176\,TWh (4.4\% of 4{,}011\,TWh) and 192\,TWh
+(4.7\% of 4{,}110). \\
+Electricity, 2030 & LBNL 2025 Update: 649\,TWh, 11.8\% of the NERC 2025
+LTRA total (range 9.5--15.3\%; 521--843\,TWh). Data centres are 33\% of
+2024--30 load growth. \\
+Electricity, 2035 & Hold the 2030 share, or keep the 2023--30 drift to
+about 17\%. \\
+$\varepsilon_S$ & 0.3 short-run / local peak; 1.0 medium-run national
+generation; 2.5 long-run renewables. \\
+External-finance share & 30--50\% of $I^{DC}$. \\
+Funds-supply elasticity & $\eta=1$; 0.5 if saving is less elastic. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{The Fed nowcast is a year old}
+
+FEDS 2025-109 has three objects, and only the first two are pinned by data.
+
+\begin{itemize}
+\item History, matched to a NIPA imputation (Table~2, Q4 annual rate):
+\$10\,bn in 2023, \$58\,bn in 2024, \$179\,bn in 2025.
+\item Nowcast from the existing Dodge plans, no assumed future inflows:
+mean \$370\,bn by 2026Q2, 5th--95th \$240--450\,bn. Most of the width is
+which mega-projects get abandoned (historical $\lambda=0.33$).
+\item Forecast through 2027, which needs an inflow assumption: \$357\,bn
+if new plans run at one-quarter of the 2024--25 pace, \$612\,bn if they
+continue, \$921\,bn if they double. After about a year the current planning
+stock no longer sets the level.
+\end{itemize}
+
+The Dodge extract is September 2025. We are now in the year where the nowcast
+runs out and the inflow assumption takes over. Census structures kept rising:
+\$50.7\,bn SAAR in April 2026, \$70.8\,bn in June, \$75.2\,bn in July
+(+57\% y/y). At the paper's 30/70 split, \$75\,bn of structures is about
+\$250\,bn all-in, under the \$370\,bn 2026Q2 mean. Equipment is more
+backloaded than the shell, so the gap can still close; the September 2025
+mean can also just have been high. Dodge Momentum Index commercial planning
+fell in June 2026 on a dip in data-centre filings, and Wood Mackenzie pipeline
+additions have fallen for three quarters from a 2025Q3 peak. Use
+\$370--460\,bn as a 2026 working range.
+
+The 2$\times$ path to \$921\,bn is dropped below. By 2027 the paper is
+simulating new plans, not reading the current stock.
+
+\section{Investment intensity}
+
+From the 2025 BEA levels, at 2\% real,
+\begin{equation}
+\begin{aligned}
+I_{2030}^{GPDI} &= 5.46\times 1.02^{5}=\$6.03\,\text{tn}, &
+I_{2035}^{GPDI} &= \$6.65\,\text{tn},\\
+I_{2030}^{PNFI} &= 4.25\times 1.02^{5}=\$4.69\,\text{tn}, &
+I_{2035}^{PNFI} &= \$5.18\,\text{tn}.
+\end{aligned}
+\end{equation}
+
+\begin{table}[H]
+\centering
+\small
+\caption{Data-centre share of US investment}
+\label{tab:inv}
+\begin{tabular}{lrrrr}
+\toprule
+ & $I^{DC}$ (\$bn) & \% GPDI & \% PNFI 2030 & \% PNFI 2035 \\
+\midrule
+2023 Q4 (Fed) & 10 & 0.2 & --- & --- \\
+2025 Q4 (Fed) & 179 & 3.3 & 4.2 (2025) & --- \\
+2026, 1$\times$ inflow & 464 & 8.5 of 2025 & --- & --- \\
+Census $\times$ 10/3, Jul 2026 & $\approx$ 250 & 4.6 & 5.9 & --- \\
+\addlinespace
+Low (hold 2027 0.25$\times$) & 357 & 5.9 / 5.4 & 7.6 & 6.9 \\
+Central (hold 2026 1$\times$) & 464 & 7.7 / 7.0 & 9.9 & 9.0 \\
+High (hold 2027 1$\times$) & 612 & 10.2 / 9.2 & 13.0 & 11.8 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The 2023 and 2025 GPDI shares use \$5.46\,tn. In the low / central / high
+rows the GPDI pair is 2030 then 2035.
+
+The central hold is about 8\% of GPDI and 10\% of PNFI in 2030, from 0.2\%
+of GPDI in 2023. Pre-boom is 2023, not the 2024Q4 Fed print of \$60\,bn.
+Spain is 2.5--3.5\% of GFCF in the companion note, so the US intensity is
+three to four times larger.
+
+Eight percent of GPDI is about 1.4\% of GDP if $I/Y\approx 0.18$. Only 44\%
+of $I^{DC}$ is domestic, so the GDP impulse is closer to 0.6\% of GDP. The
+Fed's own 2026 contribution, import-adjusted, is 0.33--0.49 percentage points
+of nominal GDP growth (Table~2). Equipment depreciates fast, so a 10\% PNFI
+flow share is not a 10\% capital-stock share.
+
+\section{Electricity intensity}
+\label{sec:elec}
+
+LBNL 2025 Update: 649\,TWh in 2030 is 11.8\% of the NERC 2025 LTRA forecast,
+not of 2023 EIA end use. That implies a 2030 total of about 5{,}500\,TWh.
+Non-data-centre load rises 926\,TWh (24\%) from 2024 to 2030. Data centres
+are 33\% of load growth over those six years.
+
+\begin{table}[H]
+\centering
+\caption{Electricity share}
+\label{tab:elecshare}
+\begin{tabular}{lrrr}
+\toprule
+ & $E^{DC}$ (TWh) & Share of $E$ & $\Delta E^{DC}/E_{2023}$ \\
+\midrule
+2023 & 176 & 4.4\% & --- \\
+2024 & 192 & 4.7\% & $+$0.4\% \\
+2030, LBNL low & 521 & 9.5\% & $+$8.6\% \\
+2030, LBNL central & 649 & 11.8\% & $+$11.8\% \\
+2030, LBNL high & 843 & 15.3\% & $+$16.6\% \\
+2035, hold 2030 share & $\approx$ 680 & 11.8\% & $\approx$ $+$12\% \\
+2035, share-drift high & $\approx$ 980 & $\approx$ 17\% & $\approx$ $+$20\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+In the central 2030 case the data-centre share goes from 4.4\% to 11.8\%.
+That ratio does not need an elasticity.
+
+\section{Supply elasticity}
+\label{sec:elas}
+
+Electricity supply is layered, and the layers differ.
+
+With $\varepsilon_S=1$, equation~\eqref{eq:price} maps a 12\% demand shift
+into a 12\% national price. That describes a medium-run, national, annual
+energy market: other demand frozen, new generation available at rising cost.
+
+There is no clean US estimate of the elasticity of delivered kWh at
+data-centre nodes. By layer:
+
+\begin{itemize}
+\item Short-run operating and peak. Wholesale demand elasticities sit near
+0--0.35. Existing wind's operating elasticity is about 0.1. At the peak the
+supply curve is the merit order plus a vertical capacity constraint; PJM
+capacity prices going from \$29/MW-day to the cap are that market. Use
+$\varepsilon_S\approx 0.3$ or below.
+
+\item Medium-run generation, by fuel. BOEM MarketSim elasticities, from EIA
+AEO price cases: 1.50 (gas), 0.27 (coal), 0.53 (nuclear), 2.03 (solar),
+0.65 (onshore wind), 0.68 (other non-hydro renewables). Weighted by the 2024
+US mix (gas 43\%, nuclear 18\%, coal 15\%, wind 10.5\%, utility solar 5\%),
+that is about 0.9--1.1. Unit-elastic is a fair medium-run national guess.
+
+\item Long-run renewable capacity. A Georgia Tech IV using state RPS
+schedules puts the price elasticity of renewable capacity near 2.7. That is
+capacity entry, not kWh at a congested node. It is the right order of
+magnitude once generation can adjust and transmission is not the bind.
+
+\item This shock, in existing models. IMF WP/25/81 (April 2025) has US
+electricity prices $+$0.9\% under current policies and $+$8.6\% when
+renewable expansion and transmission are constrained. If the quantity shock
+is LBNL-central 12\%, the implied elasticities are about 13 and 1.4.
+CMU/NC~State's $+$8\% on US generation cost by 2030 is the constrained case
+again.
+\end{itemize}
+
+The bind for data centres is interconnection, transformers (two to three
+years) and substations (four to six years), not US generating-fuel supply.
+The IMF constrained case is the national benchmark; local peak markets can
+print a multiple of that.
+
+\begin{table}[H]
+\centering
+\caption{National price map, LBNL-central 12\% quantity shift}
+\label{tab:elas}
+\begin{tabular}{lrrr}
+\toprule
+Layer & $\varepsilon_S$ & $\Delta P/P$ & Reading \\
+\midrule
+Short-run / local peak & 0.3 & $+$39\% & Merit order plus capacity; PJM-like \\
+Medium-run national generation & 1.0 & $+$12\% & AEO-weighted fuel mix \\
+IMF constrained T\&D & $\approx$ 1.4 & $+$8.6\% & Model output \\
+Long-run renewables & 2.5 & $+$5\% & Capacity entry if the wires exist \\
+IMF current policies & $\approx$ 13 & $+$0.9\% & Generation and T\&D keep up \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+For a national number, use about 10\% by 2030 when wires and renewables lag:
+the IMF constrained case is $+$8.6\%, the unit-elastic map is $+$12\%. If
+generation and wires keep up, about $+$1\%. In the local peak markets the
+energy session will discuss, several times the national figure. Keep
+$\varepsilon_S=1$ for the national annual market; use 0.3 or below for PJM.
+
+\section{Funds-market absorption}
+
+Split the \$460\,bn of investment into retained earnings spent and funds raised.
+\begin{equation}
+I_t^{DC}
+=
+\underbrace{RE_t}_{\text{retained earnings, cash and bills run down}}
++
+\underbrace{F_t}_{\text{bonds, private credit, bank loans, ABS/CMBS}}.
+\end{equation}
+$r^*$ and crowding-out respond to $\Delta I^{DC}$. Credit spreads respond to
+$F$. From Fed 2023Q4 (\$10\,bn) to the central 2026 hold (\$464\,bn),
+\begin{equation}
+\Delta I^{DC}\approx \$450\,\text{bn per year}.
+\end{equation}
+The BoE FSR has private credit at 34\% of AI-investment financing in 2025,
+from 9\% in 2024. Hyperscalers issued about \$121\,bn of US bonds in 2025
+(four times the 2020--24 average). Data-centre debt issuance was about
+\$182\,bn. At a 30--50\% external share,
+\begin{equation}
+F \approx \$140\text{--}230\,\text{bn per year}
+\end{equation}
+at the central rate. Vontobel's \$300\,bn of AI and data-centre bonds over
+the next year, and \$1.5\,tn over five years, is the bond slice only.
+Barclays forecasts \$945\,bn of net US corporate issuance in 2026, so
+\$300\,bn is again about a third of the net calendar.
+
+\begin{table}[H]
+\centering
+\caption{Absorbed funds against the markets that price them}
+\label{tab:funds}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.30\textwidth}
+>{\raggedright\arraybackslash}p{0.28\textwidth}
+>{\raggedright\arraybackslash}p{0.32\textwidth}}
+\toprule
+Market $M_j$ & Comparison & Size \\
+\midrule
+US GPDI / saving, \$5.46\,tn & $\Delta I^{DC}=\$450$\,bn & 8\% of the US
+saving flow \\
+Global saving, order of \$25\,tn & $\Delta I^{DC}=\$450$\,bn & about 2\%
+of global saving \\
+Net USD IG issuance & AI-related share, 2025 & about 30\% of the net
+calendar; about \$300\,bn expected next year \\
+Hyperscaler + DC debt & \$121\,bn and \$182\,bn in 2025 & large
+single-sector bid \\
+Private credit stock & $>$\$200\,bn AI-related of about \$2.5\,tn
+(BIS) & about 8\% of the stock; more than a third of 2025 deals (FSB).
+BIS projects \$300--600\,bn by 2030 \\
+Bank C\&I to data centres & \$14.9\,bn through 2025Q3 (MSCI) & negligible \\
+AI-adjacent bank C\&I & \$450\,bn commitments, \$150\,bn drawn & 0.8\% of
+bank assets (Chicago Fed) \\
+Broader AI-company debt & about \$1.2\,tn (JPM); \$243\,bn of AI-firm
+bonds in 2025 vs \$3.0\,tn NFC issuance (BIS/OECD) & large for a sector;
+small against all corporate debt \\
+DC ABS/CMBS outstanding & about \$50--60\,bn & well measured; small \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+On the FSB's \$1.5--2.0\,tn denominator this would be 10--13\% of private
+credit. BIS later puts outstanding private credit near \$2.5\,tn, and
+AI-related loans at 8\% of that stock. More than a third of 2025
+originations is the tighter comparison.
+
+\begin{equation}
+\frac{\Delta r}{r}
+\simeq
+\frac{1}{\eta}\,\frac{\Delta I^{DC}}{S}.
+\label{eq:rstar}
+\end{equation}
+At $\eta=1$ and $S=\$5.46$\,tn, \$450\,bn of extra investment demand raises
+$r$ by 8\% of itself. At a 4\% real rate, about 30 basis points. At
+$\eta=0.5$, about 65 basis points. Against global saving of order \$25\,tn,
+about 7 basis points at $\eta=1$.
+
+Those are $r^*$ increments, inside the usual $r^*$ standard error. Put
+10--30\,bp in a natural-rate discussion. Treasury yields have a much larger
+denominator.
+
+Thirty percent of net dollar IG issuance is already a thick calendar.
+Private credit already prices this (8\% of the stock, a third of 2025
+deals). Banks barely hold it.
+
+Spending retained earnings still uses national saving: cash spent on GPUs
+is cash not held in bills. What changes is who holds the risk. BIS
+Bulletin 120 documents capex outgrowing free cash flow. Circular
+lab--hyperscaler--chipmaker financing inflates gross issuance relative to
+net absorption, so do not add the \$1.2\,tn, \$200\,bn and \$182\,bn
+headlines.
+
+\section{Working answers}
+
+\begin{table}[H]
+\centering
+\caption{Ballparks}
+\label{tab:answers}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.34\textwidth}
+>{\raggedright\arraybackslash}p{0.58\textwidth}}
+\toprule
+Question & Number \\
+\midrule
+Share of US investment, 2030 / 2035 & Central: about 8\% / 7\% of
+GPDI, 10\% / 9\% of PNFI. 2023: 0.2\% of GPDI. \\
+Share of US electricity vs 2023 & 4.4\% to 11.8\% in 2030
+(9.5--15.3). One-third of 2024--30 load growth. 2035: about 12\% or
+about 17\%. \\
+National electricity price & $+$9 to $+$12\% by 2030 if wires and
+renewables lag. About $+$1\% if they keep up. Local peak: a multiple. \\
+Funds taken out & $\Delta I^{DC}\approx\$450$\,bn/yr;
+external $F\approx\$140$--230\,bn/yr. \\
+$r^*$? & About 7--30\,bp against global / US saving at $\eta=1$. \\
+Credit rates? & About 30\% of net USD IG; about 8\% of the
+private-credit stock, more than a third of 2025 deals. Banks: no. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+An adverse scenario that matches these magnitudes is constrained electricity
+plus private-credit and SPV refinancing.
+
+\section{Limitations}
+
+The 2030 and 2035 investment numerators hold a 2026--27 Fed rate; they are
+not in FEDS 2025-109. Wood Mackenzie's 195\,GW of signed construction or
+supply agreements (26\% of 2025 US peak load) is a capacity upper bound,
+not GFCF or TWh. A 30--50\% haircut still belongs on utility-stated demand;
+LBNL is already a haircut relative to those queues.
+
+The price map is partial equilibrium. It leaves out demand destruction,
+large-load tariffs, behind-the-meter gas (about 2\,GW online against 50\,GW
+of IT load), and the split between energy and capacity prices. The
+generation-weighted elasticity of 0.9--1.1 averages fuels. It is not the
+elasticity of power at a congested Dominion or ERCOT node.
+
+The funds comparison freezes 2025 financing shares. If hyperscaler free
+cash flow recovers, $F$ shrinks and the credit-market pressure eases; the
+$r^*$ arithmetic does not.
+
+\section*{Sources}
+
+Brandsaas, Garcia, Kurtzman, Nichols and Zytek, ``Estimating Aggregate Data
+Center Investment with Project-level Data,'' FEDS 2025-109 (Dodge vintage
+September 2025; Table~2).
+
+Census C30, July 2026 release (1 September 2026): private data-centre VIP
+\$75.166\,bn SAAR.
+
+BEA / FRED: GPDI \$5.459\,tn in 2025 (Table 5.2.5); PNFIA \$4.251\,tn.
+
+Smith, Hubbard, Newkirk, Ganeshalingam, Holecek, Sartor, Mills and Shehabi,
+\emph{United States Data Center Energy Usage Report: 2025 Update}, LBNL,
+June 2026. Denominator: NERC 2025 LTRA.
+
+Bogmans, Gomez-Gonzalez, Ganpurev, Melina, Pescatori and Thube, ``Power Hungry:
+How AI Will Drive Energy Demand,'' IMF WP/25/81.
+
+BOEM MarketSim own-price supply elasticities (AEO-derived, September 2021
+update). Georgia Tech IV estimate of the long-run renewable-capacity elasticity
+(about 2.7).
+
+BIS Bulletin 120; BIS Bulletin 130; BIS ``Financing the digital economy''
+(2026); BoE FSR (July 2026); FSB private-credit report (May 2026); Vontobel and
+Barclays on the 2025--26 IG calendar; Chicago Fed (February 2026).
+
+\end{document}

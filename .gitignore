@@ -1,0 +1,21 @@
+# Private companion repository (econ-of-compute-private), cloned here by collaborators
+private/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# LaTeX build files
+*.aux
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.toc
+*.bbl
+*.blg
+
+# OS
+.DS_Store
